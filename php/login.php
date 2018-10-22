@@ -6,7 +6,7 @@ include '../config/database.php';
 
 
 	$email = $_POST['email'];
-	$passw = $_POST['password'];
+	$passw = $_POST['psw'];
 
 	if(isset($_POST["submit"]))
 	{	
@@ -16,15 +16,10 @@ include '../config/database.php';
 		$conn->exec($sql);
 
 		$stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-		$stmt->execute([$email]); 
+		$stmt->exec($email);  //execute([$email])
 		$newstuff = $stmt->fetch();
 		//var_dump($newstuff);
 	}
-
-		
-
-
-
 
 	/*if ($_POST['login'] && $_POST['password'] && $_POST['submit'] && $_POST['submit'] === "OK") 
 	{
@@ -48,9 +43,4 @@ include '../config/database.php';
 			echo $e->getMessage();
 		}
 	}*/
-
-
-
-
-
 ?>

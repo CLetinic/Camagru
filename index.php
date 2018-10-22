@@ -62,6 +62,8 @@ include 'config/database.php';
 					<span style="float:right;" onclick="document.getElementById('login').style.display='none'" class="close" title="Close Modal">&times;</span>
 				</div>					
 				<div class="container">
+					<label for="username"><b>User-Name</b></label>
+					<input type="username" placeholder="Enter User-Name" name="username" required>
 					<label for="email"><b>Email</b></label>
 					<input type="email" placeholder="Enter Email" name="email" required>
 					<label for="password"><b>Password</b></label>
@@ -79,17 +81,19 @@ include 'config/database.php';
 		</div>
 		<!-- Sign Up -->
 		<div id="signup" class="modal_signup">
-			<form action="/action_page.php">
+			<form action="php/signup.php" method="POST">
 				<div class="signup_container">
 					<h1>Register</h1>
 					<p>Please fill in this form to create an account.</p>
 					<hr>
+						<label for="username"><b>User-Name</b></label>
+						<input type="username" placeholder="Enter User-Name" name="username" required>
 						<label for="email"><b>Email</b></label>
 						<input type="text" placeholder="Enter Email" name="email" required>
 						<label for="psw"><b>Password</b></label>
 						<input type="password" placeholder="Enter Password" name="psw" required>
-						<label for="psw-repeat"><b>Repeat Password</b></label>
-						<input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+						<label for="psw_repeat"><b>Repeat Password</b></label>
+						<input type="password" placeholder="Repeat Password" name="psw_repeat" required>
 					<hr> 
 					<button type="submit" class="registerbtn">Register</button>
 				</div>

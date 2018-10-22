@@ -13,20 +13,23 @@ include 'database.php';
 		$conn->exec($sql);
 
 		// lets create tables for users, images, likes and comments
-		$sql = "CREATE TABLE users 
+		$sql = "CREATE TABLE IF NOT EXISTS users 
 		(
-			id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-			email varchar(255) NOT NULL,
-			password text,
-			reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+			user_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+			user_name varchar(255) UNIQUE NOT NULL ,
+			email varchar(255) UNIQUE NOT NULL ,
+			password text NOT NULL
+			
 		)";
+		//reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		$conn->exec($sql);
-		echo "Table MyGuests created successfully";
+		echo "Table users created successfully";
 
-
+/*
 	$sql = "CREATE TABLE `camagru`.`images` ( `img_id` INT(255) NOT NULL AUTO_INCREMENT , `img_name` VARCHAR(255) NOT NULL , `user_id` INT(255) NOT NULL , `img_path` VARCHAR(255) NOT NULL , PRIMARY KEY (`img_id`), INDEX (`user_id`)) ENGINE = InnoDB";
 		$conn->exec($sql);
 			echo "Table images created successfully";
+			*/
 
 	}
 	catch(PDOException $e)
