@@ -62,8 +62,6 @@ include 'config/database.php';
 					<span style="float:right;" onclick="document.getElementById('login').style.display='none'" class="close" title="Close Modal">&times;</span>
 				</div>					
 				<div class="container">
-					<label for="username"><b>User-Name</b></label>
-					<input type="username" placeholder="Enter User-Name" name="username" required>
 					<label for="email"><b>Email</b></label>
 					<input type="email" placeholder="Enter Email" name="email" required>
 					<label for="psw"><b>Password</b></label>

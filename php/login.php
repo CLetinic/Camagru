@@ -5,7 +5,6 @@ session_start();
 //	http://thisinterestsme.com/php-user-registration-form/
 include '../config/database.php';
 
-	
 	$email = $_POST['email'];
 	$passw = $_POST['psw'];
 
@@ -13,14 +12,34 @@ include '../config/database.php';
 	{	
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		$sql = "USE ".$DB_NAME;
-		
+		$sql = "USE ".$DB_NAME;		
 		$conn->exec($sql);
+		$stmt = $conn->prepare("SELECT * FROM users WHERE email=:email");
+		$stmt->bindValue(':email', $email);
+		$stmt->execute();
+		$user = $stmt->fetch();
+		if (!$user)
+		{
+			die('Incorrect username / password combination!');
+		}
+		else
+		{
+			$validpassword = password_verify($passw, $user['password']);
 
-		$stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
-		$stmt->exec($email);  //execute([$email])
-		$newstuff = $stmt->fetch();
-		//var_dump($newstuff);
+			if ($validpassword)
+			{
+				$_SESSION['user_id'] = $user['id'];
+				$_SESSION['logged_in'] = time();
+				header('Location: ../index.php');
+				exit;
+
+			} 
+			else
+			{
+				die('Incorrect username / password combination!');
+			}
+		}
+				//var_dump($newstuff);
 	}
 
 	/*if ($_POST['login'] && $_POST['password'] && $_POST['submit'] && $_POST['submit'] === "OK") 
