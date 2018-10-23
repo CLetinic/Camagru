@@ -66,8 +66,8 @@ include 'config/database.php';
 					<input type="username" placeholder="Enter User-Name" name="username" required>
 					<label for="email"><b>Email</b></label>
 					<input type="email" placeholder="Enter Email" name="email" required>
-					<label for="password"><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="password" required>
+					<label for="psw"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="psw" required>
 					<button id="loginbtn" type="submit" name="submit">Login</button>
 					<label>
 						<input type="checkbox" checked="checked" name="remember"> Remember me

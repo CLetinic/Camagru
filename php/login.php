@@ -1,18 +1,20 @@
 <?php
 
 session_start();
-// https://www.formget.com/php-data-object/
+//	https://www.formget.com/php-data-object/
+//	http://thisinterestsme.com/php-user-registration-form/
 include '../config/database.php';
 
-
+	
 	$email = $_POST['email'];
 	$passw = $_POST['psw'];
 
 	if(isset($_POST["submit"]))
 	{	
-		$sql = "USE ".$DB_NAME;
-		$conn = new PDO($DB_DNS, $DB_USER, $DB_PASSWORD);
+		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$sql = "USE ".$DB_NAME;
+		
 		$conn->exec($sql);
 
 		$stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
