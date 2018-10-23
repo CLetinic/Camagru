@@ -11,6 +11,7 @@ include '../config/database.php';
     $email = $_POST['email'];
 	$passw = $_POST['psw'];
 	$passw_repeat = $_POST['psw_repeat'];
+	$active = false;
 
 	////if ($email && $passw && (filter_var($email, FILTER_VALIDATE_EMAIL)) && ($passw === $passw_repeat))
 	if ((isset($user_name) && !empty($user_name)) 
@@ -24,12 +25,14 @@ include '../config/database.php';
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 			$sql = "USE ".$DB_NAME;
-			$sql = "INSERT INTO users (user_name, email, password)
-			VALUES (:user_name, :email, :passw)";
+			$sql = "INSERT INTO users (user_name, email, password, activated)
+			VALUES (:user_name, :email, :passw, :activated)";
 			$stmt = $conn->prepare($sql);
 			$stmt->bindParam(':user_name', $user_name);
 			$stmt->bindParam(':email', $email);
 			$stmt->bindParam(':passw', $enc_passw);
+			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
+			//$stmt->bindParam(':activated', 0, PDO::PARAM_INT);
 			$stmt->execute();
 			echo "New record created successfully";
 		}

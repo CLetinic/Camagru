@@ -16,10 +16,10 @@ include 'database.php';
 		$sql = "CREATE TABLE IF NOT EXISTS users 
 		(
 			user_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-			user_name varchar(255) UNIQUE NOT NULL ,
-			email varchar(255) UNIQUE NOT NULL ,
-			password text NOT NULL
-			
+			user_name VARCHAR(255) UNIQUE NOT NULL ,
+			email VARCHAR(255) UNIQUE NOT NULL ,
+			password TEXT NOT NULL,
+			activated BOOLEAN			
 		)";
 		//reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		$conn->exec($sql);
