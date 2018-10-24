@@ -19,6 +19,7 @@ include 'database.php';
 			user_name VARCHAR(255) UNIQUE NOT NULL ,
 			email VARCHAR(255) UNIQUE NOT NULL ,
 			password TEXT NOT NULL,
+			token VARCHAR(32) NOT NULL,
 			activated BOOLEAN			
 		)";
 		//reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
