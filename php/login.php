@@ -1,14 +1,19 @@
 <?php
-
+			//echo "<script language='javascript' type='text/javascript'> document.getElementById('login').style.display='block'; </script>";
 session_start();
 //	https://www.formget.com/php-data-object/
 //	http://thisinterestsme.com/php-user-registration-form/
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include '../config/database.php';
 
 	$email = $_POST['email'];
 	$passw = $_POST['psw'];
 
-	if(isset($_POST["submit"]))
+	if (isset($_POST["submit"]) 
+		&& (isset($email) && !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL)))
+		&& (isset($passw) && !empty($passw)))
 	{	
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -18,50 +23,28 @@ include '../config/database.php';
 		$stmt->bindValue(':email', $email);
 		$stmt->execute();
 		$user = $stmt->fetch();
+		//var_dump($user);
 		if (!$user)
-		{
 			die('Incorrect username / password combination!');
-		}
 		else
 		{
-			$validpassword = password_verify($passw, $user['password']);
-
-			if ($validpassword)
+			if ($user['activated'] == true)
 			{
-				$_SESSION['user_id'] = $user['id'];
-				$_SESSION['logged_in'] = time();
-				header('Location: ../index.php');
-				exit;
+				$validpassword = password_verify($passw, $user['password']);
 
-			} 
-			else
-			{
-				die('Incorrect username / password combination!');
+				if ($validpassword)
+				{
+					$_SESSION['user_id'] = $user['id'];
+					$_SESSION['logged_in'] = time();
+					header('Location: ../index.php');
+					exit;
+
+				} 
+				else
+					die('Incorrect username / password combination!');
 			}
-		}
-				//var_dump($newstuff);
-	}
-
-	/*if ($_POST['login'] && $_POST['password'] && $_POST['submit'] && $_POST['submit'] === "OK") 
-	{
-		//$Password = hash('whirlpool', $_POST['passwd']);
-		$Password = password_hash($passw, PASSWORD_BCRYPT);
-
-		try 
-		{
-			$conn = new PDO($DB_DNS, $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			$sql = "INSERT INTO users (email, password, reg_date)
-			VALUES ('".$_POST['login']."','".$Password."','".now()."')";
-			if ($conn->query($sql))
-				echo "<script type= 'text/javascript'>alert('New Record Inserted Successfully');</script>";
 			else
-				echo "<script type= 'text/javascript'>alert('Data not successfully Inserted.');</script>";
-			$conn = null;
+				die('You have not verified your account, check your email!');
 		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}
-	}*/
+	}
 ?>

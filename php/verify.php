@@ -14,8 +14,6 @@ include '../config/database.php';
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sql = "USE ".$DB_NAME;		
-		//$stmt = $conn->prepare("SELECT FROM users WHERE email = :email AND token = :token");
-		//$stmt = $conn->prepare("SELECT COUNT(*) AS getuser FROM users WHERE email = :email AND token = :token");
 		$stmt = $conn->prepare("SELECT email = :email AND token = :token FROM users");
 		$stmt->bindParam(':email', $email);
 		$stmt->bindParam(':token', $token);
@@ -32,19 +30,16 @@ include '../config/database.php';
 			$sql = "USE ".$DB_NAME;
 			$sql = "UPDATE users SET activated = $active WHERE email=$email";
 			$stmt = $conn->prepare($sql);
-			//$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
-			//$stmt->bindValue(':email', $email);
 			$stmt->execute();
-			echo "User is now activated";
+	
+			//header('Location: login.php');
+			//echo "<script language='javascript' type='text/javascript'> document.getElementById('login').style.display='block'; </script>";
+			//echo "<script>document.</script>";
 
-			/*
-			$sql = $conn->prepare("UPDATE users SET activated = :activate where email = :email");
-			//$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
-			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
-			$stmt->bindValue(':email', $email);
-			$stmt->execute();
-			echo "User is now activated";
-			*/
+			//echo "<script>document.getElementById('login').style.display='block';</script>";
+			header('Location: ../index.php?t=true');
+			//exit;
+			//echo "User is now activated";
 		}
 		else
 		{

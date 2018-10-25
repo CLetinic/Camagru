@@ -3,33 +3,10 @@
 session_start();
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
+//echo "<script>alert('Hello! I am an alert box!!');</script>";
+//echo "<script> document.getElementById('login').style.display='block'; </script>";
 
-/*	//if(isset($_POST["submit"]))
-	//{
-	if ($_POST['login'] && $_POST['password'] && $_POST['submit'] && $_POST['submit'] === "OK") 
-	{
-		//$Password = hash('whirlpool', $_POST['passwd']);
-		$Password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-
-		try 
-		{
-			$conn = new PDO($DB_DNS, $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			$sql = "INSERT INTO users (email, password, reg_date)
-			VALUES ('".$_POST['login']."','".$Password."','".now()."')";
-			if ($conn->query($sql))
-				echo "<script type= 'text/javascript'>alert('New Record Inserted Successfully');</script>";
-			else
-				echo "<script type= 'text/javascript'>alert('Data not successfully Inserted.');</script>";
-			$conn = null;
-		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}
-	}*/
 ?>
-
 
 <!DOCTYPE html>
 <HTML>
@@ -116,3 +93,8 @@ include 'config/database.php';
 			</footer>
 	</BODY>
 </HTML>
+<?php
+	if ($_GET['t'] == 'true')
+		echo "<script> document.getElementById('login').style.display='block'; </script>";
+
+?>

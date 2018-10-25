@@ -31,7 +31,7 @@ include '../config/database.php';
 			$stmt = $conn->prepare($sql);
 			$stmt->bindParam(':user_name', $user_name);
 			$stmt->bindParam(':email', $email);
-			$stmt->bindParam(':passw', $passw);
+			$stmt->bindParam(':passw', $enc_passw);
 			$stmt->bindParam(':token', $token);
 			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
 			//$stmt->bindParam(':activated', 0, PDO::PARAM_INT);
@@ -79,8 +79,8 @@ http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
 		catch(PDOException $e)
 		{
-		//echo $e->getMessage();
-		echo $sql . "<br>" . $e->getMessage();
+			//echo $e->getMessage();
+			echo $sql . "<br>" . $e->getMessage();
 		}
 	}
 		$conn = null;
