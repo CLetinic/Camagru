@@ -36,22 +36,25 @@ include '../config/database.php';
 			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
 			//$stmt->bindParam(':activated', 0, PDO::PARAM_INT);
 			$stmt->execute();
-			$msg = "Are you awesome or not?";
-			mail("chanelletinic@gmail.com", "My subject", $msg);
-			echo "New record created successfully";
+			//$msg = "Are you awesome or not?";
+			//mail("chanelletinic@gmail.com", "My subject", $msg);
+			echo "New record created successfully\n";
 
 			$to			= $email; 
 			$subject	= 'Signup | Verification';
-			$message	= "
+			$message	= 
+			"
+Thanks for signing up!
+Your account has been created, you can login with your credentials
+after you have activated your account by pressing the url below.
 
-			Thanks for signing up!
-			Your account has been created, you can login with the following credentials
-			after you have activated your account by pressing the url below.
 
-			Please click this link to activate your account:
-			
+Please click this link to activate your account:
+
+http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
 			";
+
 			/*
 			<html> 
 				<body >
@@ -59,18 +62,18 @@ include '../config/database.php';
 				</body> 
 			</html>
 			*/
-//http://127.0.0.1:8080/camagru/verify.php?email='.$email.'&token='.$token.'
 			// $from = "From: chanelletinic@gmail.com" . "\r\n";
-			var_dump($to, $subject, $message);
+			//var_dump($to, $subject, $message);
 			
 			//if (mail("chanelletinic@gmail.com", "hi", "ho", "chanelletinic@gmail.com"));
+
 			if (mail($to, $subject, $message))
 			{
-				echo "email sent";
+				echo "email sent\n";
 			}
 			else
 			{
-				echo "email failed to send";
+				echo "email failed to send\n";
 			}
 		}
 
