@@ -23,7 +23,6 @@ include '../config/database.php';
 		$stmt->bindValue(':email', $email);
 		$stmt->execute();
 		$user = $stmt->fetch();
-		//var_dump($user);
 		if (!$user)
 			die('Incorrect username / password combination!');
 		else
@@ -35,6 +34,8 @@ include '../config/database.php';
 				if ($validpassword)
 				{
 					$_SESSION['user_id'] = $user['id'];
+    				$_SESSION['username'] = $username;
+    				$_SESSION['loggedin'] = true;
 					$_SESSION['logged_in'] = time();
 					header('Location: ../index.php');
 					exit;

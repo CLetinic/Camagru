@@ -70,6 +70,7 @@ http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 			if (mail($to, $subject, $message))
 			{
 				echo "email sent\n";
+				header('Location: ../index.php');
 			}
 			else
 			{

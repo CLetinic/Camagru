@@ -3,9 +3,6 @@
 session_start();
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
-//echo "<script>alert('Hello! I am an alert box!!');</script>";
-//echo "<script> document.getElementById('login').style.display='block'; </script>";
-
 ?>
 
 <!DOCTYPE html>
@@ -25,11 +22,16 @@ include 'config/database.php';
 			</a>				
 		</div>
 		<nav>
-			<a class="active" href="index.html">Home</a>
+			<a class="active" href="index.php">Home</a>
 			<a href="">Photo Booth</a>
 			<a href="">Gallery</a>
+			<?php if($_SESSION['loggedin'] !== true):?>
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
+			<?php else:?>
+			<a class="right"">preferences</a>
+			<a class="right"">logout</a>
+			<?php endif;?>
 		</nav>
 		<!-- LOGIN -->
 		<div id="login" class="modal">
@@ -94,7 +96,11 @@ include 'config/database.php';
 	</BODY>
 </HTML>
 <?php
-	if ($_GET['t'] == 'true')
+	//if ($_GET['t'] == 'true')
+		//echo "<script> document.getElementById('login').style.display='block'; </script>";
+	if ($_SESSION['pop_up_login'] === true)
+	{
 		echo "<script> document.getElementById('login').style.display='block'; </script>";
-
+		$_SESSION['pop_up_login'] = false;
+	}
 ?>

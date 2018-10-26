@@ -31,15 +31,9 @@ include '../config/database.php';
 			$sql = "UPDATE users SET activated = $active WHERE email=$email";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
-	
-			//header('Location: login.php');
-			//echo "<script language='javascript' type='text/javascript'> document.getElementById('login').style.display='block'; </script>";
-			//echo "<script>document.</script>";
-
-			//echo "<script>document.getElementById('login').style.display='block';</script>";
+			$_SESSION['pop_up_login'] = true;
 			header('Location: ../index.php?t=true');
-			//exit;
-			//echo "User is now activated";
+
 		}
 		else
 		{
@@ -47,37 +41,5 @@ include '../config/database.php';
 		}
 	}
 
-/*
-	if(isset($_GET['token']) && isset($_GET['email']))
-	{
-		$token = trim($_GET['token']);
-		$email = trim($_GET['email']);
-		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		$sql = "USE ".$DB_NAME;			
-		//$sql = "SELECT COUNT(*) AS num FROM users WHERE email = :email AND token = :token";
-		$sql = "SELECT email, token FROM users WHERE email = :email AND token = :token";
-		$stmt = $pdo->prepare($sql);
-		$stmt->bindParam(':email', $email);
-		$stmt->bindParam(':token', $token);
-		$stmt->execute();
-
-		$result = $stmt->fetch(); //PDO::FETCH_ASSOC
-		if ($user)
-		{
-			echo "token is valid";
-			$active	= true;
-
-			$sql = "UPDATE users SET activated = $active where email = $email";
-			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
-			$stmt->execute();
-			echo "User is now activated";
-		}
-		else
-		{
-			echo "token is invalid";
-		}
-	}
-	*/
 	$conn = null;
 ?>
