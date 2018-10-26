@@ -29,8 +29,8 @@ include 'config/database.php';
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
-			<a class="right"">preferences</a>
-			<a class="right"">logout</a>
+			<a class="right" >preferences</a>
+			<a class="right" href="php/logout.php">logout</a>
 			<?php endif;?>
 		</nav>
 		<!-- LOGIN -->
@@ -96,6 +96,7 @@ include 'config/database.php';
 	</BODY>
 </HTML>
 <?php
+	print_r($_SESSION);
 	//if ($_GET['t'] == 'true')
 		//echo "<script> document.getElementById('login').style.display='block'; </script>";
 	if ($_SESSION['pop_up_login'] === true)

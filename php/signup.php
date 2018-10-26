@@ -54,23 +54,11 @@ Please click this link to activate your account:
 http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
 			";
-
-			/*
-			<html> 
-				<body >
-					<input align="center" style="background-color: rgb(249, 35, 112); color: white; text-align: center; " type=\"button\" value=\"Download Report\" onclick=\"location.href='http://127.0.0.1:8080/camagru/verify.php?email='.$email.'&token='.$token.'';\">
-				</body> 
-			</html>
-			*/
-			// $from = "From: chanelletinic@gmail.com" . "\r\n";
-			//var_dump($to, $subject, $message);
-			
-			//if (mail("chanelletinic@gmail.com", "hi", "ho", "chanelletinic@gmail.com"));
-
 			if (mail($to, $subject, $message))
 			{
 				echo "email sent\n";
-				header('Location: ../index.php');
+				header('Location: ../index.php?');
+				exit;
 			}
 			else
 			{

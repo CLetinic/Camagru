@@ -33,6 +33,7 @@ include '../config/database.php';
 			$stmt->execute();
 			$_SESSION['pop_up_login'] = true;
 			header('Location: ../index.php?t=true');
+			exit;
 
 		}
 		else

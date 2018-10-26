@@ -37,7 +37,7 @@ include '../config/database.php';
     				$_SESSION['username'] = $username;
     				$_SESSION['loggedin'] = true;
 					$_SESSION['logged_in'] = time();
-					header('Location: ../index.php');
+					header('Location: ../index.php?');
 					exit;
 
 				} 
