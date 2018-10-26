@@ -29,7 +29,7 @@ include 'config/database.php';
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
-			<a class="right" >preferences</a>
+			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >preferences</a>
 			<a class="right" href="php/logout.php">logout</a>
 			<?php endif;?>
 		</nav>
@@ -79,6 +79,18 @@ include 'config/database.php';
 				</div>
 			</form>
 		</div>
+		<!-- Preferences -->
+		<div id="prefs" class="modal_pref">
+			<h1>Modify / Change</h1>
+				<hr>
+					<div class="pref_buttons">
+						<button>Username</button>
+						<button>Email</button>
+						<button>Password</button>
+						<button>Notifications</button>
+					</div>
+				<hr>
+			</div>
 			<script>
 			var modal = document.getElementById('login');
 			var signup_modal = document.getElementById('signup');
