@@ -1,5 +1,18 @@
 
 <?php
+
+/*
+
+I want to add - 
+- esc key to exit out of pop up pages - ie login, sign up
+- add alert boxes when something fails, otherwise just redirect 
+- add pop ups if user tries to use logged in features without being logged in. 
+- if account is not verfied, propt ask to resend verfication email
+
+
+*/
+
+
 session_start();
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
@@ -34,7 +47,8 @@ include 'config/database.php';
 			<?php endif;?>
 		</nav>
 		<!-- LOGIN -->
-		<div id="login" class="modal">
+		<div id="login" class="modal page_popup">
+			<!--
 			<form class="login_content" action="php/login.php" method="POST">
 				<div id="login_header"> 
 					<h1 style="float:left;">Camagru</h1>
@@ -46,25 +60,42 @@ include 'config/database.php';
 					<label for="psw"><b>Password</b></label>
 					<input type="password" placeholder="Enter Password" name="psw" required>
 					<button id="loginbtn" type="submit" name="submit">Login</button>
-					<label>
-						<input type="checkbox" checked="checked" name="remember"> Remember me
-					</label>
 				</div>
 				<div class="container" id="login_bottom">
 					<button type="button" onclick="document.getElementById('login').style.display='none'" class="cancelbtn">Cancel</button>
 					<span class="psw">Forgot <a href="#">password?</a></span>
 				</div>
 			</form>
+		-->
+			<form class="login_content" action="php/login.php" method="POST">
+				<div class="modal_container">
+					<h1>Login</h1>
+					<hr>
+						<label for="email"><b>Email</b></label>
+						<input type="email" placeholder="Enter Email" name="email" required>
+						<label for="psw"><b>Password</b></label>
+						<input type="password" placeholder="Enter Password" name="psw" required>
+						<button id="loginbtn" type="submit" name="submit">Login</button>
+					<hr>
+					</div>
+					<div class="container modal_container base" id="login_bottom">
+				<!-- <button type="button" onclick="document.getElementById('login').style.display='none'" class="cancelbtn">Cancel</button>
+					<span class="psw">Forgot <a href="#">password?</a></span>-->
+				<p>Forgot<a href="#"> password</a>?</p>
+			</div>
+			</form>
+		</div>
+
 		</div>
 		<!-- Sign Up -->
-		<div id="signup" class="modal_signup">
+		<div id="signup" class="modal_signup page_popup">
 			<form action="php/signup.php" method="POST">
-				<div class="signup_container">
+				<div class="signup_container modal_container">
 					<h1>Register</h1>
 					<p>Please fill in this form to create an account.</p>
 					<hr>
-						<label for="username"><b>User-Name</b></label>
-						<input type="username" placeholder="Enter User-Name" name="username" required>
+						<label for="username"><b>Username</b></label>
+						<input type="username" placeholder="Enter Username" name="username" required>
 						<label for="email"><b>Email</b></label>
 						<input type="text" placeholder="Enter Email" name="email" required>
 						<label for="psw"><b>Password</b></label>
@@ -74,14 +105,16 @@ include 'config/database.php';
 					<hr> 
 					<button type="submit" class="registerbtn">Register</button>
 				</div>
-				<div class="signup_container signin">
+				<div class="signup_container modal_container base">
 					<p>Already have an account? <a href="#">Sign in</a>.</p>
 				</div>
 			</form>
 		</div>
 		<!-- Preferences -->
-		<div id="prefs" class="modal_pref">
-			<h1>Modify / Change</h1>
+		<div id="prefs" class="modal_pref page_popup">
+			<div class="modal_container">
+				<h1>Modify Account</h1>
+				<p>Make changes to your account</p>
 				<hr>
 					<div class="pref_buttons">
 						<button>Username</button>
@@ -90,8 +123,74 @@ include 'config/database.php';
 						<button>Notifications</button>
 					</div>
 				<hr>
+				</div>
 			</div>
+				<!-- Modify user -->
+				<div id="users_mod" class="page_popup">
+					<h1>Modify Username</h1>
+					<p>Please fill in this form to modify your username.</p>
+						<hr>
+							<label for="username"><b>Username</b></label>
+							<input type="username" placeholder="Enter User-Name" name="username" required>
+						<hr>
+						<button type="submit" class="reset_usernmse">Reset Username</button>
+				</div>
+				<!-- Modify email-->
+				<div id="email_mod" class="page_popup">
+					<h1>Modify Email</h1>
+					<p>Please fill in this form to modify your email.</p>
+						<hr>
+							<div class="pref_buttons">
+								<label for="email"><b>New Email</b></label>
+								<input type="text" placeholder="Enter New Email" name="email" required>
+								<label for="email"><b>Confirm Email</b></label>
+								<input type="text" placeholder="Confirm New Email" name="email" required>
+							</div>
+							<button type="submit" class="reset_email">Reset Email</button>
+						<hr>
+				</div>
+				<!-- Modify password -->
+				<div id="psw_mod" class="page_popup">
+					<h1>Modify Password</h1>
+					<p>Please fill in this form to modify your password.</p>
+					<hr>
+						<label for="old psw"><b>Current Password</b></label>
+						<input type="password" placeholder="Enter Password" name="psw" required>
+						<label for="new psw"><b>New Password</b></label>
+						<input type="password" placeholder="New Password" name="new_psw" required>
+						<label for="psw_repeat"><b>Confirm Password</b></label>
+						<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+					<hr> 
+					<button type="submit" class="reset_password">Reset Password</button>
+				</div>
+				<!-- Modify notifications -->
+				<div id="mod_not" class="modal_pref page_popup">
+					<h1>Modify / Change</h1>
+						<hr>
+							<div class="pref_buttons">
+								<button>Username</button>
+								<button>Email</button>
+								<button>Password</button>
+								<button>Notifications</button>
+							</div>
+						<hr>
+				</div>
+
 			<script>
+				var modal_pop = document.getElementsByClassName('page_popup');
+				console.log(modal_pop);
+				console.log(modal_pop.length);
+
+				window.onclick = function(event)  // close popup if clcik outside
+				{
+					for(var i = 0; i < modal_pop.length; i++)
+					{
+						if (event.target == modal_pop[i]) 
+							modal_pop[i].style.display = "none";
+					}
+				}
+		
+				/*
 			var modal = document.getElementById('login');
 			var signup_modal = document.getElementById('signup');
 			window.onclick = function(event)  // close popup if clcik outside
@@ -101,6 +200,7 @@ include 'config/database.php';
 				if (event.target == signup_modal) 
 					signup_modal.style.display = "none";
 			}
+			*/
 			</script>
 			<footer>
 				<i align="right" style="font-family:'Courier New'"> &copy cletinic 2018</i>
