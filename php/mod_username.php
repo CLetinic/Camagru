@@ -21,16 +21,5 @@ include '../config/database.php';
 		header('Location: ../index.php?t=true');
 		exit;
 	}
-/*
-
-$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			$sql = "USE ".$DB_NAME;
-			$sql = "UPDATE users SET activated = $active WHERE email=$email";
-			$stmt = $conn->prepare($sql);
-			$stmt->execute();
-			header('Location: ../index.php?t=true');
-			exit;
-			*/
-			$conn = null;
+	$conn = null;
 ?>

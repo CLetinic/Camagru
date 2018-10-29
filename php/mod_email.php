@@ -23,5 +23,5 @@ error_reporting(E_ALL);
 		exit;
 	}
 
-$conn = null;
+	$conn = null;
 ?>

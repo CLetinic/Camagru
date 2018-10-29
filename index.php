@@ -176,7 +176,7 @@ include 'config/database.php';
 							<label for="old psw"><b>Current Password</b></label>
 							<input type="password" placeholder="Enter Password" name="psw" required>
 							<label for="new psw"><b>New Password</b></label>
-							<input type="password" placeholder="New Password" name="new_psw" required>
+							<input type="password" placeholder="New Password" name="psw_new" required>
 							<label for="psw_repeat"><b>Confirm Password</b></label>
 							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
 						<hr> 
@@ -211,18 +211,6 @@ include 'config/database.php';
 							modal_pop[i].style.display = "none";
 					}
 				}
-		
-				/*
-			var modal = document.getElementById('login');
-			var signup_modal = document.getElementById('signup');
-			window.onclick = function(event)  // close popup if clcik outside
-			{
-				if (event.target == modal) 
-					modal.style.display = "none";
-				if (event.target == signup_modal) 
-					signup_modal.style.display = "none";
-			}
-			*/
 			</script>
 			<footer>
 				<i align="right" style="font-family:'Courier New'"> &copy cletinic 2018</i>
