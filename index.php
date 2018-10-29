@@ -42,8 +42,8 @@ include 'config/database.php';
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
-			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >preferences</a>
-			<a class="right" href="php/logout.php">logout</a>
+			<a class="right" href="php/logout.php">Logout</a>
+			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
 		</nav>
 		<!-- LOGIN -->
@@ -117,65 +117,81 @@ include 'config/database.php';
 				<p>Make changes to your account</p>
 				<hr>
 					<div class="pref_buttons">
-						<button>Username</button>
-						<button>Email</button>
-						<button>Password</button>
-						<button>Notifications</button>
+						<!-- <a class="right" onclick="document.getElementById('prefs').style.display='block'" >preferences</a> -->
+						<a onclick="document.getElementById('users_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+							<button>Username</button>
+						</a>
+						<a onclick="document.getElementById('email_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+							<button>Email</button>
+						</a>
+						<a onclick="document.getElementById('psw_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+							<button>Password</button>
+						</a>
+						<a onclick="document.getElementById('not_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+							<button>Notifications</button>
+						</a>
 					</div>
 				<hr>
 				</div>
 			</div>
 				<!-- Modify user -->
 				<div id="users_mod" class="page_popup">
-					<h1>Modify Username</h1>
-					<p>Please fill in this form to modify your username.</p>
-						<hr>
-							<label for="username"><b>Username</b></label>
-							<input type="username" placeholder="Enter User-Name" name="username" required>
-						<hr>
-						<button type="submit" class="reset_usernmse">Reset Username</button>
+					<div class="modal_container">
+						<h1>Modify Username</h1>
+						<p>Please fill in this form to modify your username.</p>
+							<hr>
+								<label for="username"><b>Username</b></label>
+								<input type="username" placeholder="Enter User-Name" name="username" required>
+							<hr>
+							<button type="submit" class="reset_usernmse">Reset Username</button>
+					</div>
 				</div>
 				<!-- Modify email-->
 				<div id="email_mod" class="page_popup">
-					<h1>Modify Email</h1>
-					<p>Please fill in this form to modify your email.</p>
-						<hr>
-							<div class="pref_buttons">
-								<label for="email"><b>New Email</b></label>
-								<input type="text" placeholder="Enter New Email" name="email" required>
-								<label for="email"><b>Confirm Email</b></label>
-								<input type="text" placeholder="Confirm New Email" name="email" required>
-							</div>
-							<button type="submit" class="reset_email">Reset Email</button>
-						<hr>
+					<div class="modal_container">
+						<h1>Modify Email</h1>
+						<p>Please fill in this form to modify your email.</p>
+							<hr>
+								<div class="pref_buttons">
+									<label for="email"><b>New Email</b></label>
+									<input type="text" placeholder="Enter New Email" name="email" required>
+									<label for="email"><b>Confirm Email</b></label>
+									<input type="text" placeholder="Confirm New Email" name="email" required>
+								</div>
+								<button type="submit" class="reset_email">Reset Email</button>
+							<hr>
+					</div>
 				</div>
 				<!-- Modify password -->
 				<div id="psw_mod" class="page_popup">
-					<h1>Modify Password</h1>
-					<p>Please fill in this form to modify your password.</p>
-					<hr>
-						<label for="old psw"><b>Current Password</b></label>
-						<input type="password" placeholder="Enter Password" name="psw" required>
-						<label for="new psw"><b>New Password</b></label>
-						<input type="password" placeholder="New Password" name="new_psw" required>
-						<label for="psw_repeat"><b>Confirm Password</b></label>
-						<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
-					<hr> 
-					<button type="submit" class="reset_password">Reset Password</button>
+					<div class="modal_container">
+						<h1>Modify Password</h1>
+						<p>Please fill in this form to modify your password.</p>
+						<hr>
+							<label for="old psw"><b>Current Password</b></label>
+							<input type="password" placeholder="Enter Password" name="psw" required>
+							<label for="new psw"><b>New Password</b></label>
+							<input type="password" placeholder="New Password" name="new_psw" required>
+							<label for="psw_repeat"><b>Confirm Password</b></label>
+							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+						<hr> 
+						<button type="submit" class="reset_password">Reset Password</button>
+					</div>
 				</div>
 				<!-- Modify notifications -->
-				<div id="mod_not" class="modal_pref page_popup">
-					<h1>Modify / Change</h1>
-						<hr>
-							<div class="pref_buttons">
-								<button>Username</button>
-								<button>Email</button>
-								<button>Password</button>
-								<button>Notifications</button>
-							</div>
-						<hr>
+				<div id="not_mod" class="modal_pref page_popup">
+					<div class="modal_container">
+						<h1>Modify / Change</h1>
+							<hr>
+								<div class="pref_buttons">
+									<button>Username</button>
+									<button>Email</button>
+									<button>Password</button>
+									<button>Notifications</button>
+								</div>
+							<hr>
+						</div>
 				</div>
-
 			<script>
 				var modal_pop = document.getElementsByClassName('page_popup');
 				console.log(modal_pop);
