@@ -136,18 +136,21 @@ include 'config/database.php';
 			</div>
 				<!-- Modify user -->
 				<div id="users_mod" class="page_popup">
-					<div class="modal_container">
-						<h1>Modify Username</h1>
-						<p>Please fill in this form to modify your username.</p>
-							<hr>
-								<label for="username"><b>Username</b></label>
-								<input type="username" placeholder="Enter User-Name" name="username" required>
-							<hr>
-							<button type="submit" class="reset_usernmse">Reset Username</button>
-					</div>
+					<form action="php/mod_username.php" method="POST">
+						<div class="modal_container">
+							<h1>Modify Username</h1>
+							<p>Please fill in this form to modify your username.</p>
+								<hr>
+									<label for="username"><b>Username</b></label>
+									<input type="username" placeholder="Enter Username" name="username" required>
+								<hr>
+								<button type="submit" class="reset_usernmse">Reset Username</button>
+						</div>
+					</form>
 				</div>
 				<!-- Modify email-->
 				<div id="email_mod" class="page_popup">
+					<form action="php/mod_email.php" method="POST">
 					<div class="modal_container">
 						<h1>Modify Email</h1>
 						<p>Please fill in this form to modify your email.</p>
@@ -156,14 +159,16 @@ include 'config/database.php';
 									<label for="email"><b>New Email</b></label>
 									<input type="text" placeholder="Enter New Email" name="email" required>
 									<label for="email"><b>Confirm Email</b></label>
-									<input type="text" placeholder="Confirm New Email" name="email" required>
+									<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
 								</div>
 								<button type="submit" class="reset_email">Reset Email</button>
 							<hr>
 					</div>
+					</form>
 				</div>
 				<!-- Modify password -->
 				<div id="psw_mod" class="page_popup">
+					<form action="php/mod_password.php" method="POST">
 					<div class="modal_container">
 						<h1>Modify Password</h1>
 						<p>Please fill in this form to modify your password.</p>
@@ -177,6 +182,7 @@ include 'config/database.php';
 						<hr> 
 						<button type="submit" class="reset_password">Reset Password</button>
 					</div>
+					</form>
 				</div>
 				<!-- Modify notifications -->
 				<div id="not_mod" class="modal_pref page_popup">

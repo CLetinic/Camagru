@@ -7,8 +7,8 @@ error_reporting(E_ALL);
 // https://www.formget.com/php-data-object/
 include '../config/database.php';
   
-  	$user_name 		= $_POST['username'];
-    $email 			= $_POST['email'];
+	$user_name 		= $_POST['username'];
+	$email 			= $_POST['email'];
 	$passw 			= $_POST['psw'];
 	$passw_repeat	= $_POST['psw_repeat'];
 	$active 		= false;
