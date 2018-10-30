@@ -14,7 +14,6 @@ include '../config/database.php';
 	$active 		= false;
 	$token			= bin2hex(openssl_random_pseudo_bytes(16));
 
-	////if ($email && $passw && (filter_var($email, FILTER_VALIDATE_EMAIL)) && ($passw === $passw_repeat))
 	if ((isset($user_name) && !empty($user_name)) 
 		&& (isset($email) && !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL))) 
 		&& (isset($passw) && !empty($passw) && ($passw === $passw_repeat)))

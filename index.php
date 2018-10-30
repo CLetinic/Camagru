@@ -35,9 +35,9 @@ include 'config/database.php';
 			</a>				
 		</div>
 		<nav>
-			<a class="active" href="index.php">Home</a>
-			<a href="">Photo Booth</a>
-			<a href="">Gallery</a>
+			<a class="active">Home</a>
+			<a >Photo Booth</a>
+			<a >Gallery</a>
 			<?php if($_SESSION['loggedin'] !== true):?>
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
@@ -46,27 +46,46 @@ include 'config/database.php';
 			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
 		</nav>
+		<div id="home_page" class="active_page">			
+		</div>
+		<div id="photo_booth">			
+		</div>
+		<div id="gallery">			
+		</div>
 		<!-- LOGIN -->
 		<div id="login" class="modal page_popup">
 			<form class="login_content" action="php/login.php" method="POST">
 				<div class="modal_container">
 					<h1>Login</h1>
+					<p>Please fill in this form to log into your account.</p>
 					<hr>
 						<label for="email"><b>Email</b></label>
 						<input type="email" placeholder="Enter Email" name="email" required>
 						<label for="psw"><b>Password</b></label>
 						<input type="password" placeholder="Enter Password" name="psw" required>
+						<hr>
 						<button id="loginbtn" type="submit" name="submit">Login</button>
-					<hr>
 					</div>
 					<div class="container modal_container base" id="login_bottom">
-				<p>Forgot<a href="#"> password</a>?</p>
+				<p>Forgot <a href="#" onclick="document.getElementById('forgot_pass').style.display='block'; document.getElementById('login').style.display='none'">password</a>?</p>
 			</div>
 			</form>
 		</div>
-
+		<!-- FORGOT PASSWORD -->
+		<div id="forgot_pass" class="modal page_popup">
+			<form class="forgot_content" action="php/login.php" method="POST">
+				<div class="modal_container">
+				<h1>Login</h1>
+				<p>Please fill in your email to reset your password.</p>
+				<hr>
+					<label for="email"><b>Email</b></label>
+					<input type="email" placeholder="Enter Email" name="email" required>
+					<hr>
+					<button id="loginbtn" type="submit" name="submit">Send Email</button>
+				</div>
+			</form>
 		</div>
-		<!-- Sign Up -->
+		<!-- SIGN UP -->
 		<div id="signup" class="modal_signup page_popup">
 			<form action="php/signup.php" method="POST">
 				<div class="signup_container modal_container">
@@ -85,11 +104,11 @@ include 'config/database.php';
 					<button type="submit" class="registerbtn">Register</button>
 				</div>
 				<div class="signup_container modal_container base">
-					<p>Already have an account? <a href="#">Sign in</a>.</p>
+					<p>Already have an account? <a href="#" onclick="document.getElementById('login').style.display='block'; document.getElementById('signup').style.display='none'">Sign in</a>.</p>
 				</div>
 			</form>
 		</div>
-		<!-- Preferences -->
+		<!-- PREFEREVCES -->
 		<div id="prefs" class="modal_pref page_popup">
 			<div class="modal_container">
 				<h1>Modify Account</h1>
@@ -140,8 +159,9 @@ include 'config/database.php';
 									<label for="email"><b>Confirm Email</b></label>
 									<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
 								</div>
+								<hr>
 								<button type="submit" class="reset_email">Reset Email</button>
-							<hr>
+							
 					</div>
 					</form>
 				</div>
