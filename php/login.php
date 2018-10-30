@@ -33,8 +33,8 @@ include '../config/database.php';
 
 				if ($validpassword)
 				{
-					$_SESSION['user_id'] = $user['id'];
-    				$_SESSION['username'] = $username;
+					$_SESSION['user_id'] = $user['user_id'];
+    				$_SESSION['username'] = $user['user_name'];
     				$_SESSION['loggedin'] = true;
 					$_SESSION['logged_in'] = time();
 					header('Location: ../index.php?');

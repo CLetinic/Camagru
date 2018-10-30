@@ -48,25 +48,6 @@ include 'config/database.php';
 		</nav>
 		<!-- LOGIN -->
 		<div id="login" class="modal page_popup">
-			<!--
-			<form class="login_content" action="php/login.php" method="POST">
-				<div id="login_header"> 
-					<h1 style="float:left;">Camagru</h1>
-					<span style="float:right;" onclick="document.getElementById('login').style.display='none'" class="close" title="Close Modal">&times;</span>
-				</div>					
-				<div class="container">
-					<label for="email"><b>Email</b></label>
-					<input type="email" placeholder="Enter Email" name="email" required>
-					<label for="psw"><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="psw" required>
-					<button id="loginbtn" type="submit" name="submit">Login</button>
-				</div>
-				<div class="container" id="login_bottom">
-					<button type="button" onclick="document.getElementById('login').style.display='none'" class="cancelbtn">Cancel</button>
-					<span class="psw">Forgot <a href="#">password?</a></span>
-				</div>
-			</form>
-		-->
 			<form class="login_content" action="php/login.php" method="POST">
 				<div class="modal_container">
 					<h1>Login</h1>
@@ -79,8 +60,6 @@ include 'config/database.php';
 					<hr>
 					</div>
 					<div class="container modal_container base" id="login_bottom">
-				<!-- <button type="button" onclick="document.getElementById('login').style.display='none'" class="cancelbtn">Cancel</button>
-					<span class="psw">Forgot <a href="#">password?</a></span>-->
 				<p>Forgot<a href="#"> password</a>?</p>
 			</div>
 			</form>
