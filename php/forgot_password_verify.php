@@ -26,7 +26,6 @@ include '../config/database.php';
 			$_SESSION['pop_up_psw_reset'] = true;
 			$_SESSION['token'] = $token;
 			$_SESSION['email'] = $email;
-			//$_SESSION['email'] = 'chanelletinic@gmail.com';
 			header('Location: ../index.php?');
 			exit;
 

@@ -34,10 +34,10 @@ include 'config/database.php';
 				<img id= "logo" src="img/logo.svg">
 			</a>				
 		</div>
-		<nav>
-			<a class="active">Home</a>
-			<a >Photo Booth</a>
-			<a >Gallery</a>
+		<nav id="nav">
+			<a class="nav_button active" id="home">Home</a>
+			<a class="nav_button" id="photo_booth">Photo Booth</a>
+			<a class="nav_button" id="gallery">Gallery</a>
 			<?php if($_SESSION['loggedin'] !== true):?>
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
@@ -46,11 +46,13 @@ include 'config/database.php';
 			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
 		</nav>
-		<div id="home_page" class="active_page">			
-		</div>
-		<div id="photo_booth">			
-		</div>
-		<div id="gallery">			
+		<div id="pages">
+			<div id="home_page" class="page active_page">			
+			</div>
+			<div id="photo_booth_page" class="page">			
+			</div>
+			<div id="gallery_page" class="page">			
+			</div>
 		</div>
 		<!-- LOGIN -->
 		<div id="login" class="modal page_popup">
@@ -81,7 +83,7 @@ include 'config/database.php';
 					<label for="email"><b>Email</b></label>
 					<input type="email" placeholder="Enter Email" name="email" required>
 					<hr>
-					<button id="loginbtn" type="submit" name="submit">Send Email</button>
+					<button type="submit" name="submit">Send Email</button>
 				</div>
 			</form>
 		</div>
@@ -225,6 +227,33 @@ include 'config/database.php';
 						if (event.target == modal_pop[i]) 
 							modal_pop[i].style.display = "none";
 					}
+				}
+
+				var nav_button = document.getElementsByClassName("nav_button");
+				console.log(nav_button);
+
+				for (var i = 0; i < nav_button.length; i++) 
+				{
+					nav_button[i].addEventListener("click", function() 
+					{
+						var current = document.getElementsByClassName("active");
+						current[0].className = current[0].className.replace(" active", "");
+						this.className += " active";
+						var pages = document.getElementsByClassName("page");
+						console.log(pages);
+
+						for (var j = 0; j < pages.length; j++) 
+						{
+							pages[j].classList.remove("active_page");
+						}
+
+						if (this == document.getElementById("photo_booth"))
+							document.getElementById("photo_booth_page").classList.add("active_page");
+						else if (this == document.getElementById("home"))
+							document.getElementById("home_page").classList.add("active_page");
+						else if (this == document.getElementById("gallery"))
+							document.getElementById("gallery_page").classList.add("active_page");
+					});
 				}
 			</script>
 			<footer>

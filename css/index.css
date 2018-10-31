@@ -17,6 +17,24 @@
 	width: 100%;
 	opacity: 0.9;
 }
+
+/*
+#pages.page
+{
+	display: none;
+	background-color: black;
+	width: 15px;
+	height: 15px;
+}
+#pages.page.active_page
+{
+	display: block;
+	background-color: blue;
+	width: 15px;
+	height: 15px;
+}
+*/
+
 .intro
 {
 	width: 100%;
@@ -50,100 +68,6 @@
 	margin-left: 1.5%;
 }
 
-	/* LOGIN */
-/*
-#login_header 
-{
-	display: inline-block;
-	width: 100%;
-	background-color: rgb(40, 41, 35);
-	color: white;
-}
-
-
-
-#loginbtn 
-{
-	margin: auto;
-	border: none;
-	cursor: pointer;
-	color: white;
-	background-color: rgb(40, 41, 35);
-	outline: none;
-	padding: 8px 12px;
-}
-
-#loginbtn:hover 
-{
-	background-color: rgb(249, 35, 112);
-}
-
-.cancelbtn 
-{
-	width: auto;
-	padding: 10px 18px;
-	margin: auto;
-	border: none;
-	cursor: pointer;
-	background-color: rgb(40, 41, 35);
-	color: white;
-	outline: none;
-	
-}
-
-.container 
-{
-	padding: 16px;
-}
-
-
-
-.modal 
-{
-	display: none; 
-	position: fixed;
-	z-index: 1; 
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(40, 41, 35, 0.5);
-	padding-top: 20%;
-}
-
-.login_content  
-{
-	background-color: white;
-	margin: 5% auto 15% auto; 
-	border: 1px solid #888;
-	width: 80%;
-}
-
-.close 
-{
-
-	float: right;
-	margin-right: 2%;
-	top: 0;
-	color: white;
-	font-size: 200%;
-	font-weight: bold;
-}
-
-.close:hover,
-.close:focus 
-{
-	color: rgb(249, 35, 112);
-	cursor: pointer;
-}
-
-#login_bottom 
-{
-	background-color: #f1f1f1;
-}
-*/
-
 /* Sign up */
 .page_popup /*.modal_signup */
 {
@@ -165,25 +89,6 @@
 	background-color: white;
 }
 
-/*
-.registerbtn 
-{
-	background-color: rgb(40, 41, 35);
-	color: white;
-	padding: 16px 20px;
-	margin: 8px 0;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-	opacity: 0.9;
-}
-
-.registerbtn:hover 
-{
-	opacity: 1;
-}
-*/
-
 .modal_container a /*signup_container a */
 {
 	color: dodgerblue;
@@ -193,23 +98,6 @@
 	background-color: #f1f1f1;
 	text-align: center;
 }
-
-/* preferences */
-/*
-.modal_pref 
-{
-	display: none; 
-	position: fixed; 
-	z-index: 1; 
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgba(40, 41, 35, 0.5);
-	padding-top: 20%;
-}
-*/
 
 .page_popup hr 
 {
@@ -340,3 +228,6 @@ input:-webkit-autofill
 {
 	opacity: 1;
 }
+
+
+

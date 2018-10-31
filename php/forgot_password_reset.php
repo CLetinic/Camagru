@@ -38,7 +38,9 @@ include '../config/database.php';
 			$stmt->execute();
 			
 			session_unset($_SESSION['token']);
-			session_unset($_SESSION['email']);		
+			session_unset($_SESSION['email']);
+			header('Location: ../index.php?');
+			exit;		
 		}
 	 }
 
