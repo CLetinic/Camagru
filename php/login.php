@@ -48,4 +48,5 @@ include '../config/database.php';
 				die('You have not verified your account, check your email!');
 		}
 	}
+	$conn = null;
 ?>

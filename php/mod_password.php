@@ -12,8 +12,6 @@ include '../config/database.php';
 	$passw_repeat	= $_POST['psw_repeat'];
 	$username		= $_SESSION['username'];
 
-	
-
 	if ((isset($passw) && !empty($passw))
 	&& (isset($passw_new) && !empty($passw_new))
 	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))
@@ -44,10 +42,5 @@ include '../config/database.php';
 				}
 			}
 	}
-
-		
-			
-
 	$conn = null;
-
 ?>

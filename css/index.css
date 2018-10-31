@@ -18,22 +18,29 @@
 	opacity: 0.9;
 }
 
-/*
-#pages.page
+.page
 {
 	display: none;
-	background-color: black;
-	width: 15px;
-	height: 15px;
 }
-#pages.page.active_page
+.page.active_page
 {
 	display: block;
-	background-color: blue;
-	width: 15px;
-	height: 15px;
 }
-*/
+
+#home_page
+{
+	width: 200px; height: 200px; background-color: blue;
+}
+
+#photo_booth_page
+{
+	width: 200px; height: 200px; background-color: green;
+}
+
+#gallery_page
+{
+	width: 200px; height: 200px; background-color: yellow;
+}
 
 .intro
 {

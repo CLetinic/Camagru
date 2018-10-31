@@ -37,10 +37,7 @@ include '../config/database.php';
 
 		}
 		else
-		{
 			echo "token is invalid";
-		}
 	}
-
 	$conn = null;
 ?>

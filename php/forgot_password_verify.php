@@ -28,13 +28,9 @@ include '../config/database.php';
 			$_SESSION['email'] = $email;
 			header('Location: ../index.php?');
 			exit;
-
 		}
 		else
-		{
 			echo "token is invalid";
-		}
 	}
-
 	$conn = null;
 ?>

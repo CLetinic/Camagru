@@ -53,14 +53,11 @@ http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email='$email'&toke
 			if (mail($to, $subject, $message))
 			{
 				echo "email sent\n";
-				//header('Location: ../index.php?');
-				//exit;
+				header('Location: ../index.php?');
+				exit;
 			}
 			else
-			{
 				echo "email failed to send\n";
-			}
-			
 		}			
 	}
 	$conn = null;

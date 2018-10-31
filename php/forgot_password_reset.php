@@ -43,7 +43,5 @@ include '../config/database.php';
 			exit;		
 		}
 	 }
-
 	$conn = null;
-
 ?>

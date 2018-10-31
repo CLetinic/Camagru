@@ -24,6 +24,5 @@ error_reporting(E_ALL);
 		header('Location: ../index.php?t=true');
 		exit;
 	}
-
 	$conn = null;
 ?>

@@ -47,7 +47,8 @@ include 'config/database.php';
 			<?php endif;?>
 		</nav>
 		<div id="pages">
-			<div id="home_page" class="page active_page">			
+			<div id="home_page" class="page active_page" >		
+			<!-- style="width: 200px; height: 200px; background-color: blue;"-->	
 			</div>
 			<div id="photo_booth_page" class="page">			
 			</div>
