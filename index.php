@@ -71,9 +71,9 @@ include 'config/database.php';
 			</div>
 			</form>
 		</div>
-		<!-- FORGOT PASSWORD -->
+		<!-- FORGOT PASSWORD Send email-->
 		<div id="forgot_pass" class="modal page_popup">
-			<form class="forgot_content" action="php/login.php" method="POST">
+			<form class="forgot_content" action="php/forgot_password_email.php" method="POST">
 				<div class="modal_container">
 				<h1>Login</h1>
 				<p>Please fill in your email to reset your password.</p>
@@ -82,6 +82,22 @@ include 'config/database.php';
 					<input type="email" placeholder="Enter Email" name="email" required>
 					<hr>
 					<button id="loginbtn" type="submit" name="submit">Send Email</button>
+				</div>
+			</form>
+		</div>
+		<!-- FORGOT PASSWORD verify-->
+		<div id="forgot_pass_set" class="modal page_popup">
+			<form class="forgot_content" action="php/forgot_password_reset.php" method="POST">
+				<div class="modal_container">
+				<h1>Reset Password</h1>
+						<p>Please fill in this form to reset your password.</p>
+						<hr>
+							<label for="new psw"><b>New Password</b></label>
+							<input type="password" placeholder="New Password" name="psw_new" required>
+							<label for="psw_repeat"><b>Confirm Password</b></label>
+							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+						<hr> 
+						<button type="submit" class="reset_password">Reset Password</button>
 				</div>
 			</form>
 		</div>
@@ -224,5 +240,10 @@ include 'config/database.php';
 	{
 		echo "<script> document.getElementById('login').style.display='block'; </script>";
 		$_SESSION['pop_up_login'] = false;
+	}
+	if ($_SESSION['pop_up_psw_reset'] === true)
+	{
+		echo "<script> document.getElementById('forgot_pass_set').style.display='block'; </script>";
+		$_SESSION['pop_up_psw_reset'] = false;
 	}
 ?>

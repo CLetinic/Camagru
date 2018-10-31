@@ -10,7 +10,9 @@ error_reporting(E_ALL);
 	$email	= $_POST['email'];
 	$email_repeat = $_POST['email_repeat'];
 
-	if (isset($email) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && ($email === $email_repeat))
+	if (isset($email) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) 
+		&& isset($email_repeat) && !empty($email_repeat) && filter_var($email_repeat, FILTER_VALIDATE_EMAIL)
+		&& ($email === $email_repeat))
 	{
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
