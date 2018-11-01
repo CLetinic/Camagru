@@ -48,11 +48,18 @@ include 'config/database.php';
 		</nav>
 		<div id="pages">
 			<div id="home_page" class="page active_page" >		
-			<!-- style="width: 200px; height: 200px; background-color: blue;"-->	
+				
 			</div>
-			<div id="photo_booth_page" class="page">			
+			<div id="photo_booth_page" class="page">
+				<video id="cam" width="600" height="550"></video>
+				<script type="text/javascript">
+					
+				</script>
 			</div>
-			<div id="gallery_page" class="page">			
+			<div id="gallery_page" class="page">
+				<script type="text/javascript">
+					
+				</script>
 			</div>
 		</div>
 		<!-- LOGIN -->
