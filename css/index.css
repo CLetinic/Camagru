@@ -27,18 +27,35 @@
 	display: block;
 }
 
+#picture
+{
+	position: relative;
+}
+
 #cam
 {
 	background-color: rgb(40, 41, 35);
 	display: flex;
 	margin: auto;
-	margin-top: 20%;
-	margin-bottom: 20%;
+	/*margin-top: 20%;
+	margin-bottom: 20%; */
 	border-style: solid;
 	border-color: white;
 	border-width: 20px;
 	border-bottom-width: 120px;
 	box-shadow: 8px 8px 30px rgb(40, 41, 35);
+}
+
+.overlay
+{
+	position: absolute;
+	top: 0%;
+	bottom: 0%;
+	right: 0%;
+	left: 0%;
+	display: flex;
+	align-items: center;
+	justify-content: center;;
 }
 
 /*

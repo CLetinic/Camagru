@@ -51,9 +51,62 @@ include 'config/database.php';
 				
 			</div>
 			<div id="photo_booth_page" class="page">
-				<video id="cam" width="600" height="550"></video>
-				<script type="text/javascript">
+				<a href="#" id="capture">Take photo</a>
+				<div id="picture">
+					<video id="cam" width="600" height="450" autoplay="true"></video>
+					<div class="overlay">
+						<img src="heart.svg">
+					</div>
 					
+				</div>
+				
+				<canvas id="canvas" width="600" height="450"></canvas>
+
+				<script type="text/javascript">
+					//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+					var video = document.getElementById('cam');
+ 
+					if (navigator.mediaDevices.getUserMedia) 
+					{
+						navigator.mediaDevices.getUserMedia
+						(
+							{
+								video: true
+							}
+						)
+						.then(function(stream) 
+						{
+							video.src = window.URL.createObjectURL(stream);
+
+							// Play the video element to start the stream.
+							video.play();
+							video.onplay = function() 
+							{
+								showVideo();
+							}
+						})
+					}
+					context = document.getElementById('canvas').getContext("2d");
+
+					video.addEventListener('play', function()
+					{
+						draw(this, context, 600, 450);
+					}, false);
+
+					function draw (video, context, width, height)
+					{
+						context.drawImage(video, 0, 0, 600, 450);
+						setTimeout(draw, 10, video, context, width);
+					}
+
+					/*
+					document.getElementById('capture').addEventListener('click', function()
+					{
+						context = document.getElementById('canvas').getContext("2d");
+						context.drawImage(video, 0, 0, 600, 450);
+					});
+					*/
+
 				</script>
 			</div>
 			<div id="gallery_page" class="page">
