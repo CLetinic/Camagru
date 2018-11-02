@@ -55,16 +55,15 @@ include 'config/database.php';
 				<div id="picture">
 					<video id="cam" width="600" height="450" autoplay="true"></video>
 					<div class="overlay">
-						<img src="heart.svg">
-					</div>
-					
+						<img id="sticker" src="heart.png">
+					</div>					
 				</div>
 				
 				<canvas id="canvas" width="600" height="450"></canvas>
-
 				<script type="text/javascript">
 					//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
 					var video = document.getElementById('cam');
+					const mediaSource = new MediaSource(); //https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/srcObject
  
 					if (navigator.mediaDevices.getUserMedia) 
 					{
@@ -74,20 +73,33 @@ include 'config/database.php';
 								video: true
 							}
 						)
-						.then(function(stream) 
+						.then(function(mediaSource) 
 						{
-							video.src = window.URL.createObjectURL(stream);
+							
+							try 
+							{
+								video.srcObject = mediaSource;
+							} catch (error) 
+							{
+								video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
+							}
+							
 
+							/*
 							// Play the video element to start the stream.
 							video.play();
 							video.onplay = function() 
 							{
 								showVideo();
 							}
+							*/
 						})
 					}
 					context = document.getElementById('canvas').getContext("2d");
+					//var img = document.creaElement("image");
+					//img.src = 'heart.svg';
 
+					/*
 					video.addEventListener('play', function()
 					{
 						draw(this, context, 600, 450);
@@ -98,14 +110,23 @@ include 'config/database.php';
 						context.drawImage(video, 0, 0, 600, 450);
 						setTimeout(draw, 10, video, context, width);
 					}
+					*/
 
-					/*
+					
 					document.getElementById('capture').addEventListener('click', function()
 					{
-						context = document.getElementById('canvas').getContext("2d");
+						///context = document.getElementById('canvas').getContext("2d");
 						context.drawImage(video, 0, 0, 600, 450);
+						const imgUrl = canvas.toDataURL('image/png');
+						console.log(encodeURIComponent(imgUrl));
+
+						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+						xhttp.open('POST', 'php/saveimg.php', true);
+						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+						xhttp.send('key='+encodeURIComponent(imgUrl));
+
 					});
-					*/
+					
 
 				</script>
 			</div>
