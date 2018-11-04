@@ -16,15 +16,57 @@ include 'database.php';
 		$sql = "CREATE TABLE IF NOT EXISTS users 
 		(
 			user_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-			user_name VARCHAR(255) UNIQUE NOT NULL ,
-			email VARCHAR(255) UNIQUE NOT NULL ,
+			user_name VARCHAR(255) UNIQUE NOT NULL,
+			email VARCHAR(255) UNIQUE NOT NULL,
 			password TEXT NOT NULL,
 			token VARCHAR(32) NOT NULL,
-			activated BOOLEAN			
+			activated BOOLEAN NOT NULL,
+			notifications BOOLEAN NOT NULL	
 		)";
-		//reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 		$conn->exec($sql);
-		echo "Table users created successfully";
+		echo "Table 'users' created successfully";
+
+		// create table images that references user with a foreign key
+		//https://www.w3schools.com/sql/sql_foreignkey.asp
+		$sql = "CREATE TABLE IF NOT EXISTS images 
+		(
+			image_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+			user_name VARCHAR(255) UNIQUE NOT NULL,
+			FOREIGN KEY (user_name) REFERENCES users(user_name), 
+			content TEXT NOT NULL,
+			date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL	
+		)";
+		$conn->exec($sql);
+		echo "Table 'images' created successfully";
+
+// create table comments that references user and images with a foreign key. if the image is deleted, so are the comments.
+//http://www.mysqltutorial.org/mysql-on-delete-cascade/
+		$sql = "CREATE TABLE IF NOT EXISTS comments 
+		(
+			comment_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+			user_name VARCHAR(255) UNIQUE NOT NULL,
+			FOREIGN KEY (user_name) REFERENCES users(user_name),
+			comment TEXT NOT NULL,
+			image_id INT(255) NOT NULL,
+			FOREIGN KEY (image_id) REFERENCES images(image_id) ON DELETE CASCADE,
+			date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL	
+		)";
+		$conn->exec($sql);
+		echo "Table 'comments' created successfully";
+
+		$sql = "CREATE TABLE IF NOT EXISTS likes 
+		(
+			like_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+			user_name VARCHAR(255) UNIQUE NOT NULL,
+			FOREIGN KEY (user_name) REFERENCES users(user_name),
+			image_id INT(255) NOT NULL,
+			FOREIGN KEY (image_id) REFERENCES images(image_id) ON DELETE CASCADE,
+			like_amount INT NOT NULL
+		)";
+		$conn->exec($sql);
+		echo "Table 'likes' created successfully";
+
+
 
 /*
 	$sql = "CREATE TABLE `camagru`.`images` ( `img_id` INT(255) NOT NULL AUTO_INCREMENT , `img_name` VARCHAR(255) NOT NULL , `user_id` INT(255) NOT NULL , `img_path` VARCHAR(255) NOT NULL , PRIMARY KEY (`img_id`), INDEX (`user_id`)) ENGINE = InnoDB";
@@ -40,20 +82,5 @@ include 'database.php';
 
 	$conn = null;
 
-
-
-
-/*
-http://php.net/manual/en/pdo.setattribute.php
-
-<?php
-// Create a new database connection.
-$dbConnection = new PDO($dsn, $user, $pass);
-
-// Set the case in which to return column_names.
-$dbConnection->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
-?>
-
-*/
 ?>
 
