@@ -286,14 +286,14 @@ include 'config/database.php';
 				<!-- Modify notifications -->
 				<div id="not_mod" class="modal_pref page_popup">
 					<div class="modal_container">
-						<h1>Modify / Change</h1>
+						<h1>Notifications</h1>
+						<p>Please toggle switch to be emailed notifications.</p>
 							<hr>
-								<div class="pref_buttons">
-									<button>Username</button>
-									<button>Email</button>
-									<button>Password</button>
-									<button>Notifications</button>
-								</div>
+								<label><b>Receive Email Notifications?</b><br/></label>
+								<label class="switch">
+									<input type="checkbox" checked>
+									<span class="slider"></span>
+								</label>
 							<hr>
 						</div>
 				</div>
