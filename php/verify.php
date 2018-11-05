@@ -31,8 +31,9 @@ include '../config/database.php';
 			$sql = "UPDATE users SET activated = $active WHERE email = $email";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute();
-			$_SESSION['pop_up_login'] = true;
-			header('Location: ../index.php?t=true');
+			//$_SESSION['pop_up_login'] = true;
+			//header('Location: ../index.php?t=true');
+			header('Location: ../index.php?pop_up_login=true');
 			exit;
 		}
 		else

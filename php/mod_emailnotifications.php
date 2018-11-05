@@ -9,21 +9,8 @@ include '../config/database.php';
 
 	$notify		= $_POST['notifi'];
 	$username	= $_SESSION['username'];
-	$_SESSION['email_notify'] = $notify;
+	$_SESSION['not_email'] = $notify;
 
-	//file_put_contents("test.txt","Hello World. Testing!\n");
-	
-	//if ($notify === "true")
-	//{
-	//	file_put_contents("test.txt","notify is true\n");					
-	//	$notifications 		= true;
-	//}
-	//else if ($notify === "false")
-	//{
-	//	file_put_contents("test.txt","notify is false\n");
-	//	$notifications 		= false;
-	//}
-	// echo $_POST['notifi'];
 	if ($notify === "true" || $notify === "false")
 	{
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
@@ -38,8 +25,6 @@ include '../config/database.php';
 				die('email notifications change failed.');
 			else
 			{
-				//$stmt = $conn->prepare("UPDATE users SET notifications  = :notifications  WHERE user_name = :username");
-
 				if ($notify === "true")
 				{
 					file_put_contents("test.txt","notify is true\n");					
@@ -62,10 +47,6 @@ include '../config/database.php';
 				}
 				else
 					die('email notifications change failed.');
-				//$stmt->bindParam(':notifications', $notifications);
-				//$stmt->bindParam(':username', $username);
-				//$stmt->execute();
-				//echo "notifications changed\n";
 			}		
 	}
 	$conn = null;

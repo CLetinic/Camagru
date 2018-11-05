@@ -39,7 +39,7 @@ include 'config/database.php';
 			<a class="nav_button active" id="home">Home</a>
 			<a class="nav_button" id="photo_booth">Photo Booth</a>
 			<a class="nav_button" id="gallery">Gallery</a>
-			<?php if($_SESSION['loggedin'] !== true):?>
+			<?php if(isset($_SESSION['loggedin']) !== true):?>
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
@@ -291,46 +291,33 @@ include 'config/database.php';
 								<hr>
 									<label><b>Receive Email Notifications?</b><br/></label>
 									<label class="switch">
-										<input type="checkbox" checked id="notify_mod" onclick="checkBox(this)">
+										<!-- this toggle is not working -->
+										<?php if(isset($_SESSION['not_email']) === true):?>
+											<input type="checkbox" checked id="notify_mod" onclick="checkBox(this)">
+										<?php else:?>
+											<input type="checkbox" id="notify_mod" onclick="checkBox(this)">
+										<?php endif;?>
 										<span class="slider"></span>
 									</label>
 								<hr>
 								<script>
-						// var checkBox = document.getElementById("notify_mod");
-						function checkBox(d)
-						{
-							console.log(d.checked);
-							// if (checkBox.checked == true)
-							// {
-							// 	document.getElementById('not_mod_form').action="php/mod_emailnotifications.php?notifi=true";
-								
-							// }
-							// else if (checkBox.checked == false)
-							// {
-							// 	document.getElementById('not_mod_form').action="php/mod_emailnotifications.php?notifi=false";
-							// }
-							
-							// console.log("listening");
-							var xml = new XMLHttpRequest();
-							xml.open("POST", "php/mod_emailnotifications.php", true);
-							var toggle_true = "true";
-							var toggle_false = "false";
-							xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-							if (d.checked == true)
-							{
-								xml.send("notifi=true");
-								// console.log("true");
-							} 
-							else if (d.checked == false)
-							{
-								xml.send("notifi=false");
-								// console.log("false");
-							}
-						};
-					</script>
-								<button type="submit" class="reset_email_not">Set Email Notifications</button>
-							</div>
+									function checkBox(d)
+									{
+										var xml = new XMLHttpRequest();
+										xml.open("POST", "php/mod_emailnotifications.php", true);
+										var toggle_true = "true";
+										var toggle_false = "false";
+										xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+										if (d.checked == true)
+											xml.send("notifi=true");
+										else if (d.checked == false)
+											xml.send("notifi=false");
+									};
+
+								</script>
+						</div>
 					</form>
 				</div>
 			<script>
@@ -381,7 +368,17 @@ include 'config/database.php';
 </HTML>
 <?php
 	//print_r($_SESSION);
-
+	if (isset($_GET['pop_up_login']))
+	{
+		echo "<script> document.getElementById('login').style.display='block'; </script>";
+		header('Location: ../index.php?');
+	}
+	if (isset($_GET['pop_up_login']))
+	{
+		echo "<script> document.getElementById('login').style.display='block'; </script>";
+		header('Location: ../index.php?');
+	}
+/*
 	if ($_SESSION['pop_up_login'] === true)
 	{
 		echo "<script> document.getElementById('login').style.display='block'; </script>";
@@ -392,4 +389,5 @@ include 'config/database.php';
 		echo "<script> document.getElementById('forgot_pass_set').style.display='block'; </script>";
 		$_SESSION['pop_up_psw_reset'] = false;
 	}
+	*/
 ?>

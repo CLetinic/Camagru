@@ -37,6 +37,7 @@ include '../config/database.php';
 					$_SESSION['username'] = $user['user_name'];
 					$_SESSION['loggedin'] = true;
 					$_SESSION['logged_in'] = time();
+					$_SESSION['email_notify'] = $user['notifications'];
 					header('Location: ../index.php?');
 					exit;
 

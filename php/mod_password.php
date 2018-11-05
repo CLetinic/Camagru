@@ -40,7 +40,7 @@ include '../config/database.php';
 					$stmt->execute();
 					
 					echo "password changed\n";
-					header('Location: ../index.php?t=true');
+					header('Location: ../index.php?');
 					exit;
 				}
 		}

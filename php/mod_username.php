@@ -31,7 +31,7 @@ include '../config/database.php';
 			
 			echo "password changed\n";
 			$_SESSION['username'] = $new_username;
-			header('Location: ../index.php?t=true');
+			header('Location: ../index.php?');
 			exit;
 		}
 	}

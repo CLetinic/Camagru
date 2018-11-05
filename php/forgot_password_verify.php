@@ -23,10 +23,10 @@ include '../config/database.php';
 		{
 			echo "token is valid";
 
-			$_SESSION['pop_up_psw_reset'] = true;
+			//$_SESSION['pop_up_psw_reset'] = true;
 			$_SESSION['token'] = $token;
 			$_SESSION['email'] = $email;
-			header('Location: ../index.php?');
+			header('Location: ../index.php?pop_up_psw_reset=true');
 			exit;
 		}
 		else
