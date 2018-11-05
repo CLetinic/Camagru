@@ -14,7 +14,8 @@ include '../config/database.php';
 
 	if ((isset($passw) && !empty($passw))
 	&& (isset($passw_new) && !empty($passw_new))
-	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))
+	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat))
+	&& ($passw != $passw_new))
 	{
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -25,7 +26,7 @@ include '../config/database.php';
 		$stmt->execute();
 		$user = $stmt->fetch();
 		if (!$user)
-			die('Incorrect password combination!');
+			die('password change failed');
 		else
 		{
 			$validpassword = password_verify($passw, $user['password']);
