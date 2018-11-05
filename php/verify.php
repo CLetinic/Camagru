@@ -34,7 +34,6 @@ include '../config/database.php';
 			$_SESSION['pop_up_login'] = true;
 			header('Location: ../index.php?t=true');
 			exit;
-
 		}
 		else
 			echo "token is invalid";

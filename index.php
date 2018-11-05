@@ -1,4 +1,3 @@
-
 <?php
 
 /*
@@ -11,9 +10,11 @@ I want to add -
 
 
 */
-
-
 session_start();
+print_r($_SESSION);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
 ?>
@@ -124,7 +125,6 @@ include 'config/database.php';
 						xhttp.open('POST', 'php/saveimg.php', true);
 						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
 						xhttp.send('key='+encodeURIComponent(imgUrl));
-
 					});
 					
 
@@ -260,102 +260,78 @@ include 'config/database.php';
 									<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
 								</div>
 							<hr>
-								<button type="submit" class="reset_email">Reset Email</button>							
+								<button type="submit" class="reset_email">Reset Email</button>
 					</div>
 					</form>
 				</div>
 				<!-- Modify password -->
 				<div id="psw_mod" class="page_popup">
 					<form action="php/mod_password.php" method="POST">
-					<div class="modal_container">
-						<h1>Modify Password</h1>
-						<p>Please fill in this form to modify your password.</p>
-						<hr>
-							<label for="old psw"><b>Current Password</b></label>
-							<input type="password" placeholder="Enter Password" name="psw" required>
-							<label for="new psw"><b>New Password</b></label>
-							<input type="password" placeholder="New Password" name="psw_new" required>
-							<label for="psw_repeat"><b>Confirm Password</b></label>
-							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
-						<hr> 
-						<button type="submit" class="reset_password">Reset Password</button>
-					</div>
+						<div class="modal_container">
+							<h1>Modify Password</h1>
+							<p>Please fill in this form to modify your password.</p>
+							<hr>
+								<label for="old psw"><b>Current Password</b></label>
+								<input type="password" placeholder="Enter Password" name="psw" required>
+								<label for="new psw"><b>New Password</b></label>
+								<input type="password" placeholder="New Password" name="psw_new" required>
+								<label for="psw_repeat"><b>Confirm Password</b></label>
+								<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+							<hr> 
+							<button type="submit" class="reset_password">Reset Password</button>
+						</div>
 					</form>
 				</div>
 				<!-- Modify notifications -->
 				<div id="not_mod" class="modal_pref page_popup">
-					<div class="modal_container">
-						<h1>Notifications</h1>
-						<p>Please toggle switch to be emailed notifications.</p>
-							<hr>
-								<label><b>Receive Email Notifications?</b><br/></label>
-								<label class="switch">
-									<input type="checkbox" checked id="notify_mod">
-									<span class="slider"></span>
-								</label>
-							<hr>
-						</div>
-						<script>
-						var checkBox = document.getElementById("notify_mod");
-						checkBox.addEventListener('click', function()
+					<form id="not_mod_form" method="POST">
+						<div class="modal_container">
+							<h1>Notifications</h1>
+							<p>Please toggle switch to be emailed notifications.</p>
+								<hr>
+									<label><b>Receive Email Notifications?</b><br/></label>
+									<label class="switch">
+										<input type="checkbox" checked id="notify_mod" onclick="checkBox(this)">
+										<span class="slider"></span>
+									</label>
+								<hr>
+								<script>
+						// var checkBox = document.getElementById("notify_mod");
+						function checkBox(d)
 						{
-							console.log("listening");
+							console.log(d.checked);
+							// if (checkBox.checked == true)
+							// {
+							// 	document.getElementById('not_mod_form').action="php/mod_emailnotifications.php?notifi=true";
+								
+							// }
+							// else if (checkBox.checked == false)
+							// {
+							// 	document.getElementById('not_mod_form').action="php/mod_emailnotifications.php?notifi=false";
+							// }
+							
+							// console.log("listening");
 							var xml = new XMLHttpRequest();
 							xml.open("POST", "php/mod_emailnotifications.php", true);
 							var toggle_true = "true";
 							var toggle_false = "false";
-							
-							if (checkBox.checked == true)
+							xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+							if (d.checked == true)
 							{
-								
-								
-								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 								xml.send("notifi=true");
-								
-
-								/*
-								xml.open("GET", "php/mod_emailnotifications.php?notifi=" + toggle_true, true);
-								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    							xml.send();
-    							*/
-								console.log("true");
-								
+								// console.log("true");
 							} 
-							else if (checkBox.checked == false)
+							else if (d.checked == false)
 							{
-								
-								//xml.open("POST", "php/mod_emailnotifications.php", true);
-								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 								xml.send("notifi=false");
-								
-
-								/*
-								xml.open("GET", "php/mod_emailnotifications.php?notifi=" + toggle_false, true);
-								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-								xml.send();
-								*/
-								console.log("false");
-								
+								// console.log("false");
 							}
-						});
-
-						/*
-
-						document.getElementById('capture').addEventListener('click', function()
-					{
-						///context = document.getElementById('canvas').getContext("2d");
-						context.drawImage(video, 0, 0, 600, 450);
-						const imgUrl = canvas.toDataURL('image/png');
-						console.log(encodeURIComponent(imgUrl));
-
-						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-						xhttp.open('POST', 'php/saveimg.php', true);
-						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-						xhttp.send('key='+encodeURIComponent(imgUrl));
-
-					});
-						*/
-						</script>
+						};
+					</script>
+								<button type="submit" class="reset_email_not">Set Email Notifications</button>
+							</div>
+					</form>
 				</div>
 			<script>
 				var modal_pop = document.getElementsByClassName('page_popup');
@@ -404,9 +380,8 @@ include 'config/database.php';
 	</BODY>
 </HTML>
 <?php
-	print_r($_SESSION);
-	//if ($_GET['t'] == 'true')
-		//echo "<script> document.getElementById('login').style.display='block'; </script>";
+	//print_r($_SESSION);
+
 	if ($_SESSION['pop_up_login'] === true)
 	{
 		echo "<script> document.getElementById('login').style.display='block'; </script>";

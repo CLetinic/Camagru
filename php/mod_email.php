@@ -34,31 +34,33 @@ error_reporting(E_ALL);
 			$stmt->bindParam(':token', $token);
 			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
 			$stmt->bindParam(':username', $username);
-			$stmt->execute();					
-			echo "email changed\n";
+			if ($stmt->execute())
+			{					
+				echo "email changed\n";
 
-			$to			= $email; 
-			$subject	= 'Email Change';
-			$message	= 
-			"
+				$to			= $email; 
+				$subject	= 'Email Change';
+				$message	= 
+"
 Seems You have modified your email address, to log in with your new credentials
 Please click this link to activate your account:
 
 http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
-			";
-			if (mail($to, $subject, $message))
-			{
-				echo "email sent\n";
-				header('Location: ../index.php?');
-				session_unset();   
-				session_destroy(); 
-				header('Location: ../index.php?');
-				exit; 
-			}
-			else
-			{
-				echo "email failed to send\n";
+";
+				if (mail($to, $subject, $message))
+				{
+					echo "email sent\n";
+					header('Location: ../index.php?');
+					session_unset();   
+					session_destroy(); 
+					header('Location: ../index.php?');
+					exit; 
+				}
+				else
+				{
+					echo "email failed to send\n";
+				}
 			}
 		}
 	}

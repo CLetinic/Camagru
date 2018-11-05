@@ -7,53 +7,67 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	//$notifications	= true;
-	$notify = $_POST['notifi'];
+	$notify		= $_POST['notifi'];
+	$username	= $_SESSION['username'];
+	$_SESSION['email_notify'] = $notify;
 
-	file_put_contents("test.txt","Hello World. Testing!\n");
-
-	if ($notify === "true")
+	//file_put_contents("test.txt","Hello World. Testing!\n");
+	
+	//if ($notify === "true")
+	//{
+	//	file_put_contents("test.txt","notify is true\n");					
+	//	$notifications 		= true;
+	//}
+	//else if ($notify === "false")
+	//{
+	//	file_put_contents("test.txt","notify is false\n");
+	//	$notifications 		= false;
+	//}
+	// echo $_POST['notifi'];
+	if ($notify === "true" || $notify === "false")
 	{
-		file_put_contents("test.txt","notify is true\n");
-		
-		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-		$sql = "USE ".$DB_NAME;		
-		//$conn->exec($sql);
-		$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
-		$stmt->bindValue(':username', $username);
-		$stmt->execute();
-		$user = $stmt->fetch();
-		if (!$user)
-			die('Incorrect password combination!');
-		{
-			$validpassword = password_verify($passw, $user['password']);
+			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			$sql = "USE ".$DB_NAME;		
+			$conn->exec($sql);
+			$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
+			$stmt->bindValue(':username', $username);
+			$stmt->execute();
+			$user = $stmt->fetch();
+			if (!$user)
+				die('email notifications change failed.');
+			else
+			{
+				//$stmt = $conn->prepare("UPDATE users SET notifications  = :notifications  WHERE user_name = :username");
 
-				if ($validpassword)
+				if ($notify === "true")
 				{
-					$stmt = $conn->prepare("UPDATE users SET password = :password_new");
-					$passw_new = password_hash($passw_new, PASSWORD_BCRYPT);
-					$stmt->bindParam(':password_new', $passw_new);
+					file_put_contents("test.txt","notify is true\n");					
+					$notifications 		= 1;
+
+					$stmt = $conn->prepare("UPDATE users SET notifications  = :notifications  WHERE user_name = :username");
+					$stmt->bindParam(':notifications', $notifications);
+					$stmt->bindParam(':username', $username);
 					$stmt->execute();
-					
-					echo "password changed\n";
-					header('Location: ../index.php?t=true');
-					exit;
 				}
-		}
-		
-	}
-	else if ($notify === "false")
-	{
-		//file_put_contents("test.txt","notify is false\n");
+				else if ($notify === "false")
+				{
+					file_put_contents("test.txt","notify is false\n");
+					$notifications 		= 0;
+
+					$stmt = $conn->prepare("UPDATE users SET notifications  = :notifications  WHERE user_name = :username");
+					$stmt->bindParam(':notifications', $notifications);
+					$stmt->bindParam(':username', $username);
+					$stmt->execute();
+				}
+				else
+					die('email notifications change failed.');
+				//$stmt->bindParam(':notifications', $notifications);
+				//$stmt->bindParam(':username', $username);
+				//$stmt->execute();
+				//echo "notifications changed\n";
+			}		
 	}
 	$conn = null;
-
-/*
-$imageurl = $_POST['key'];
-// echo $imageurl;
-file_put_contents('test3.png', base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$imageurl)));
-echo $_POST['overlay'];
-*/
-
+	exit;
 ?>
