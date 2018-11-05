@@ -8,7 +8,7 @@ include 'database.php';
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME";
 		$conn->exec($sql);
-		echo "Database created successfully<br>";
+		echo "Database created successfully<br/>";
 		$sql = "USE $DB_NAME;";
 		$conn->exec($sql);
 
@@ -24,7 +24,7 @@ include 'database.php';
 			notifications BOOLEAN NOT NULL	
 		)";
 		$conn->exec($sql);
-		echo "Table 'users' created successfully";
+		echo "Table 'users' created successfully<br/>";
 
 		// create table images that references user with a foreign key
 		//https://www.w3schools.com/sql/sql_foreignkey.asp
@@ -37,7 +37,7 @@ include 'database.php';
 			date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL	
 		)";
 		$conn->exec($sql);
-		echo "Table 'images' created successfully";
+		echo "Table 'images' created successfully<br/>";
 
 // create table comments that references user and images with a foreign key. if the image is deleted, so are the comments.
 //http://www.mysqltutorial.org/mysql-on-delete-cascade/
@@ -52,7 +52,7 @@ include 'database.php';
 			date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL	
 		)";
 		$conn->exec($sql);
-		echo "Table 'comments' created successfully";
+		echo "Table 'comments' created successfully<br/>";
 
 		$sql = "CREATE TABLE IF NOT EXISTS likes 
 		(
@@ -64,9 +64,7 @@ include 'database.php';
 			like_amount INT NOT NULL
 		)";
 		$conn->exec($sql);
-		echo "Table 'likes' created successfully";
-
-
+		echo "Table 'likes' created successfully<br/>";
 
 /*
 	$sql = "CREATE TABLE `camagru`.`images` ( `img_id` INT(255) NOT NULL AUTO_INCREMENT , `img_name` VARCHAR(255) NOT NULL , `user_id` INT(255) NOT NULL , `img_path` VARCHAR(255) NOT NULL , PRIMARY KEY (`img_id`), INDEX (`user_id`)) ENGINE = InnoDB";

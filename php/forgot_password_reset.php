@@ -9,8 +9,8 @@ include '../config/database.php';
 
 	$token 			= $_SESSION['token'];
 	$email 			= $_SESSION['email'];
-	$passw_new		= $_POST['psw_new'];
-	$passw_repeat	= $_POST['psw_repeat'];
+	$passw_new		= trim($_POST['psw_new']);
+	$passw_repeat	= trim($_POST['psw_repeat']);
 
 	if ((isset($passw_new) && !empty($passw_new))
 	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))

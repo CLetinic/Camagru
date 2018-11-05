@@ -259,9 +259,8 @@ include 'config/database.php';
 									<label for="email"><b>Confirm Email</b></label>
 									<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
 								</div>
-								<hr>
-								<button type="submit" class="reset_email">Reset Email</button>
-							
+							<hr>
+								<button type="submit" class="reset_email">Reset Email</button>							
 					</div>
 					</form>
 				</div>
@@ -291,11 +290,72 @@ include 'config/database.php';
 							<hr>
 								<label><b>Receive Email Notifications?</b><br/></label>
 								<label class="switch">
-									<input type="checkbox" checked>
+									<input type="checkbox" checked id="notify_mod">
 									<span class="slider"></span>
 								</label>
 							<hr>
 						</div>
+						<script>
+						var checkBox = document.getElementById("notify_mod");
+						checkBox.addEventListener('click', function()
+						{
+							console.log("listening");
+							var xml = new XMLHttpRequest();
+							xml.open("POST", "php/mod_emailnotifications.php", true);
+							var toggle_true = "true";
+							var toggle_false = "false";
+							
+							if (checkBox.checked == true)
+							{
+								
+								
+								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+								xml.send("notifi=true");
+								
+
+								/*
+								xml.open("GET", "php/mod_emailnotifications.php?notifi=" + toggle_true, true);
+								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    							xml.send();
+    							*/
+								console.log("true");
+								
+							} 
+							else if (checkBox.checked == false)
+							{
+								
+								//xml.open("POST", "php/mod_emailnotifications.php", true);
+								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+								xml.send("notifi=false");
+								
+
+								/*
+								xml.open("GET", "php/mod_emailnotifications.php?notifi=" + toggle_false, true);
+								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+								xml.send();
+								*/
+								console.log("false");
+								
+							}
+						});
+
+						/*
+
+						document.getElementById('capture').addEventListener('click', function()
+					{
+						///context = document.getElementById('canvas').getContext("2d");
+						context.drawImage(video, 0, 0, 600, 450);
+						const imgUrl = canvas.toDataURL('image/png');
+						console.log(encodeURIComponent(imgUrl));
+
+						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+						xhttp.open('POST', 'php/saveimg.php', true);
+						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+						xhttp.send('key='+encodeURIComponent(imgUrl));
+
+					});
+						*/
+						</script>
 				</div>
 			<script>
 				var modal_pop = document.getElementsByClassName('page_popup');

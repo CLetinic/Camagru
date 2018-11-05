@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 	include '../config/database.php';
 
-	$email	= $_POST['email'];
+	$email	= trim($_POST['email']);
 	$token	= bin2hex(openssl_random_pseudo_bytes(16));
 	var_dump($email);
 

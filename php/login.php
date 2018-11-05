@@ -8,8 +8,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include '../config/database.php';
 
-	$email = $_POST['email'];
-	$passw = $_POST['psw'];
+	$email = trim($_POST['email']);
+	$passw = trim($_POST['psw']);
 
 	if (isset($_POST["submit"]) 
 		&& (isset($email) && !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL)))

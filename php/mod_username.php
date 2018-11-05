@@ -6,8 +6,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include '../config/database.php';
-  
-	$user_name	= $_POST['username'];
+
+	$username			= trim($_POST['username']);
+	$original_unsername = $_SESSION['username'];
 
 	if (isset($user_name) && !empty($user_name))
 	{

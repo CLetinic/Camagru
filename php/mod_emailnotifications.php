@@ -7,35 +7,33 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	$passw 			= trim($_POST['psw']);
-	$passw_new		= trim($_POST['psw_new']);
-	$passw_repeat	= trim($_POST['psw_repeat']);
-	$username		= $_SESSION['username'];
+	//$notifications	= true;
+	$notify = $_POST['notifi'];
 
-	if ((isset($passw) && !empty($passw))
-	&& (isset($passw_new) && !empty($passw_new))
-	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))
+	file_put_contents("test.txt","Hello World. Testing!\n");
+
+	if ($notify === "true")
 	{
+		file_put_contents("test.txt","notify is true\n");
+		
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sql = "USE ".$DB_NAME;		
-		$conn->exec($sql);
+		//$conn->exec($sql);
 		$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
 		$stmt->bindValue(':username', $username);
 		$stmt->execute();
 		$user = $stmt->fetch();
 		if (!$user)
 			die('Incorrect password combination!');
-		else
 		{
 			$validpassword = password_verify($passw, $user['password']);
 
 				if ($validpassword)
 				{
-					$stmt = $conn->prepare("UPDATE users SET password = :password_new WHERE user_name=:username");
+					$stmt = $conn->prepare("UPDATE users SET password = :password_new");
 					$passw_new = password_hash($passw_new, PASSWORD_BCRYPT);
 					$stmt->bindParam(':password_new', $passw_new);
-					$stmt->bindParam(':username', $username);
 					$stmt->execute();
 					
 					echo "password changed\n";
@@ -43,6 +41,19 @@ include '../config/database.php';
 					exit;
 				}
 		}
+		
+	}
+	else if ($notify === "false")
+	{
+		//file_put_contents("test.txt","notify is false\n");
 	}
 	$conn = null;
+
+/*
+$imageurl = $_POST['key'];
+// echo $imageurl;
+file_put_contents('test3.png', base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$imageurl)));
+echo $_POST['overlay'];
+*/
+
 ?>
