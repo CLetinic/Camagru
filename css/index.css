@@ -1,13 +1,56 @@
 .pref_buttons button /*prefs*/
 { 
 	background-color: rgb(40, 41, 35);
-	color: white;
+	color: #f1f1f1;
 	padding: 16px 20px;
 	margin: 8px 0;
 	border: none;
 	cursor: pointer;
 	width: 100%;
 	opacity: 0.9;
+}
+
+a.booth_options 
+{
+	width: 80px;
+	height: 60px;
+
+	color: #f1f1f1;
+	text-align: center;
+	text-decoration: none;
+	background-color: rgb(40, 41, 35);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+a.booth_options:hover 
+{
+    background-color: rgb(249, 35, 112);
+	color: #f1f1f1;
+}
+
+.photo_option
+{
+	width: 640px;
+	background-color: rgb(40, 41, 35);
+	position: relative;
+	/* position: absolute; */
+	/* top: 0%; */
+	/* bottom: 0%; */
+	/* right: 0%; */
+	/* left: 0%; */
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto;
+}
+
+
+
+.option_svg
+{
+	fill: #f1f1f1;
 }
 
 .page
@@ -228,7 +271,7 @@ nav a
 	text-align: center;
 	text-decoration: none;
 	font-size: 2vh;
-    padding: 0.5%;
+	padding: 0.5%;
 }
 
 nav a:hover 
