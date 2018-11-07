@@ -8,10 +8,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include '../config/database.php';
 
-	$email = trim($_POST['email']);
-	$passw = $_POST['psw'];
+	$email = trim(htmlspecialchars($_POST['email']));
+	$passw = htmlspecialchars($_POST['psw']);
 
-	
+	try
+	{
 		// Check for errors
 		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
 		{
@@ -58,7 +59,6 @@ include '../config/database.php';
 						$_SESSION['email_notify'] = $user['notifications'];
 						header('Location: ../index.php?');
 						exit;
-
 					} 
 					else
 						die('Incorrect username / password combination!');
@@ -69,5 +69,10 @@ include '../config/database.php';
 		}
 		else 
 			die('Something went wrong...');
+	}
+	catch(PDOException $e)
+	{
+		echo $stmt . "<br>" . $e->getMessage();
+	}
 	$conn = null;
 ?>

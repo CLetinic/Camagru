@@ -9,8 +9,8 @@ include '../config/database.php';
 
 	if(isset($_GET['token']) && isset($_GET['email']))
 	{
-		$token = $_GET['token'];
-		$email = $_GET['email'];
+		$token = htmlspecialchars($_GET['token']);
+		$email = htmlspecialchars($_GET['email']);
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 		$sql = "USE ".$DB_NAME;		
