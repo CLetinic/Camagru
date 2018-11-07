@@ -11,7 +11,11 @@ error_reporting(E_ALL);
 	$token	= bin2hex(openssl_random_pseudo_bytes(16));
 	var_dump($email);
 
-	if (isset($email) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL))
+	if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
+	{
+		echo "! Email input is invalid<br>";
+	}
+	else if ((isset($_POST["submit"])) && (isset($email)) && (!empty($email)) && (filter_var($email, FILTER_VALIDATE_EMAIL)))
 	{
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -60,5 +64,7 @@ http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email='$email'&toke
 				echo "email failed to send\n";
 		}			
 	}
+	else 
+			die('Something went wrong...');
 	$conn = null;
 ?>

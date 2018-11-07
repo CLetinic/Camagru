@@ -12,7 +12,11 @@ error_reporting(E_ALL);
 	$username		= $_SESSION['username'];
 
 
-	if (isset($email) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) 
+	if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)) || !isset($email_repeat) || empty($email_repeat) || !($email === $email_repeat))
+	{
+		echo "! Email input is invalid<br>";
+	}
+	else if (isset($email) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) 
 		&& isset($email_repeat) && !empty($email_repeat) && filter_var($email_repeat, FILTER_VALIDATE_EMAIL)
 		&& ($email === $email_repeat))
 	{
@@ -64,5 +68,7 @@ http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 			}
 		}
 	}
+	else 
+			die('Something went wrong...');
 	$conn = null;
 ?>

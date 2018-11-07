@@ -9,13 +9,25 @@ include '../config/database.php';
 
 	$token 			= $_SESSION['token'];
 	$email 			= $_SESSION['email'];
-	$passw_new		= trim($_POST['psw_new']);
-	$passw_repeat	= trim($_POST['psw_repeat']);
+	$passw_new		= $_POST['psw_new'];
+	$passw_repeat	= $_POST['psw_repeat'];
 
-	if ((isset($passw_new) && !empty($passw_new))
-	&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))
+	if (!isset($passw_new) || empty($passw_new) || !(strlen($passw_new) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new)) 
+		|| (!isset($passw_repeat) || empty($passw_repeat) && !($passw_new === $passw_repeat)))
+		{
+			echo "! Password input is invalid<br>";
+			if (!(strlen($passw_new) > 6))
+			{
+				echo "! Password length is too short, must be atleast 6 characters long<br>";
+			}
+			if (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new))
+			{
+				echo "! Passowrd must contain letters and digits<br>";
+			}
+		}
+	else if ((isset($passw_new) && !empty($passw_new) && (strlen($passw_new) > 6) && (preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new))) 
+		&& (isset($passw_repeat) && !empty($passw_repeat) && ($passw_new === $passw_repeat)))
 	{
-		//echo "$token $email $passw_new $passw_repeat";
 		echo $email;
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -27,11 +39,10 @@ include '../config/database.php';
 		$stmt->execute();
 		$user = $stmt->fetch();
 		if (!$user)
-			echo "not work";/*die('password reset fail');*/
+			die('Could not access credentials through database!');
 		else
 		{
-			echo "working";
-			
+		
 			$stmt = $conn->prepare("UPDATE users SET password = :password_new");
 			$passw_new = password_hash($passw_new, PASSWORD_BCRYPT);
 			$stmt->bindParam(':password_new', $passw_new);
@@ -43,5 +54,7 @@ include '../config/database.php';
 			exit;		
 		}
 	 }
+	else 
+		die('Something went wrong...');
 	$conn = null;
 ?>

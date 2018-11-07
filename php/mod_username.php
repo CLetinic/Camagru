@@ -1,5 +1,6 @@
 <?php
 
+// remember to remove this
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -10,10 +11,14 @@ include '../config/database.php';
 	$new_username	= trim($_POST['username']);
 	$username		= $_SESSION['username'];
 
-	if (isset($new_username) && !empty($new_username))
+	if (!isset($new_username) || empty($new_username) || strlen($new_username) < 4)
+	{
+		echo "! Username input is invalid - *also check to see if username is more than 4 characters long<br>";
+	}
+	else if (isset($new_username) && !empty($new_username) && !(strlen($new_username) < 4))
 	{
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // remember to replace to PDO::ERRMODE_EXCEPTION
 		$sql = "USE ".$DB_NAME;		
 		$conn->exec($sql);
 		$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
@@ -35,5 +40,7 @@ include '../config/database.php';
 			exit;
 		}
 	}
+	else
+		die ('Something went wrong...');
 	$conn = null;
 ?>

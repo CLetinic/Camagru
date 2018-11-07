@@ -106,7 +106,7 @@ include 'config/database.php';
 								</svg>								
 							</a>
 							<!-- Webcam Take Picture -->
-							<a class="booth_options" id="capture" onclick="optionHandler(this)" style="display: none;">
+							<a class="booth_options" id="capture" style="display: none;">
 								<svg version="1.1" id="option_take_svg" class="option_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="58px" height="58px" height="351.552px" viewBox="0 0 351.553 351.552" style="enable-background:new 0 0 351.553 351.552;"
 								xml:space="preserve">
@@ -358,7 +358,7 @@ include 'config/database.php';
 								</svg>
 							</a>
 							<!-- File -->
-							<a class="booth_options" id="option_file" onclick="optionHandler(this)" style="display: none;">
+							<a class="booth_options" id="option_file" style="display: none;">
 								<svg version="1.1" id="option_file_svg" class="option_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px" height="48px"
 								viewBox="0 0 512.001 512.001" style="margin-top: 5px; enable-background:new 0 0 512.001 512.001; " xml:space="preserve">
 								<path d="M406.969,318.311c0.155-25.673-1.444-51.157-2.643-76.811c-0.567-12.138-1.297-24.282-1.466-36.424
@@ -854,21 +854,8 @@ include 'config/database.php';
 	</BODY>
 </HTML>
 <?php
-	//print_r($_SESSION);
-	if (isset($_GET['pop_up_login']))
+	if (isset($_GET['pop_up_login']) == true)
 		echo "<script> document.getElementById('login').style.display='block'; </script>";
-	if (isset($_GET['pop_up_login']))
-		echo "<script> document.getElementById('login').style.display='block'; </script>";
-/*
-	if ($_SESSION['pop_up_login'] === true)
-	{
-		echo "<script> document.getElementById('login').style.display='block'; </script>";
-		$_SESSION['pop_up_login'] = false;
-	}
-	if ($_SESSION['pop_up_psw_reset'] === true)
-	{
+	if (isset($_GET['pop_up_psw_reset']) == true)
 		echo "<script> document.getElementById('forgot_pass_set').style.display='block'; </script>";
-		$_SESSION['pop_up_psw_reset'] = false;
-	}
-	*/
 ?>
