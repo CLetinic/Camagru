@@ -17,27 +17,35 @@ include '../config/database.php';
 	}
 	else if (isset($new_username) && !empty($new_username) && !(strlen($new_username) < 4))
 	{
+
 		$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // remember to replace to PDO::ERRMODE_EXCEPTION
-		$sql = "USE ".$DB_NAME;		
-		$conn->exec($sql);
-		$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
-		$stmt->bindValue(':username', $username);
-		$stmt->execute();
-		$user = $stmt->fetch();
-		if (!$user)
-			die('username change failed.');
-		else
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$exist = checkExist($new_username, NULL, $conn);
+
+		if (!$exist)
 		{
-			$stmt = $conn->prepare("UPDATE users SET user_name = :new_username WHERE user_name = :username");
-			$stmt->bindParam(':new_username', $new_username);
-			$stmt->bindParam(':username', $username);
+			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // remember to replace to PDO::ERRMODE_EXCEPTION
+			$sql = "USE ".$DB_NAME;		
+			$conn->exec($sql);
+			$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
+			$stmt->bindValue(':username', $username);
 			$stmt->execute();
-			
-			echo "password changed\n";
-			$_SESSION['username'] = $new_username;
-			header('Location: ../index.php?');
-			exit;
+			$user = $stmt->fetch();
+			if (!$user)
+				die('username change failed.');
+			else
+			{
+				$stmt = $conn->prepare("UPDATE users SET user_name = :new_username WHERE user_name = :username");
+				$stmt->bindParam(':new_username', $new_username);
+				$stmt->bindParam(':username', $username);
+				$stmt->execute();
+				
+				echo "password changed\n";
+				$_SESSION['username'] = $new_username;
+				header('Location: ../index.php?');
+				exit;
+			}
 		}
 	}
 	else

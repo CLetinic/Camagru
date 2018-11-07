@@ -15,9 +15,15 @@ error_reporting(E_ALL);
 		$user = $stmt->fetch();
 
 		if ($user)
+		{
+			$conn = null;
 			return true;
+		}
 		else if (!$user)
+		{
+			$conn = null;
 			return false;
+		}
 	}
 
 ?>
