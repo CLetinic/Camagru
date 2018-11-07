@@ -46,29 +46,43 @@ include '../config/database.php';
 	{
 		// Now for the actual sign up
 		try
-		{
-			$enc_passw = password_hash($passw, PASSWORD_BCRYPT);
-
+		{	
+			// firstly check if the username or email already exists in this database
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-			$sql = "USE ".$DB_NAME;
-			$sql = "INSERT INTO users (user_name, email, password, token, activated, notifications)
-			VALUES (:user_name, :email, :passw, :token, :activated, :notifications)";
-			$stmt = $conn->prepare($sql);
-			$stmt->bindParam(':user_name', $user_name);
-			$stmt->bindParam(':email', $email);
-			$stmt->bindParam(':passw', $enc_passw);
-			$stmt->bindParam(':token', $token);
-			$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
-			$stmt->bindParam(':notifications', $notifications, PDO::PARAM_BOOL);
+			$sql = "USE ".$DB_NAME;		
+			$stmt = $conn->prepare("SELECT * FROM users WHERE email=:email OR user_name=:user_name");
+			$stmt->bindValue(':email', $email);
+			$stmt->bindValue(':user_name', $user_name);
 			$stmt->execute();
-			echo "New record created successfully<br>";
+			$user = $stmt->fetch();
+			if (!$user)
+			{
+				// Username and passowrd do not exist, 
+				// so let's make an account
+				$enc_passw = password_hash($passw, PASSWORD_BCRYPT);
 
-			// Send out a verification email
+				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$sql = "USE ".$DB_NAME;
+				$sql = "INSERT INTO users (user_name, email, password, token, activated, notifications)
+				VALUES (:user_name, :email, :passw, :token, :activated, :notifications)";
+				$stmt = $conn->prepare($sql);
+				$stmt->bindParam(':user_name', $user_name);
+				$stmt->bindParam(':email', $email);
+				$stmt->bindParam(':passw', $enc_passw);
+				$stmt->bindParam(':token', $token);
+				$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
+				$stmt->bindParam(':notifications', $notifications, PDO::PARAM_BOOL);
+				$stmt->execute();
 
-			$to			= $email; 
-			$subject	= 'Signup | Verification';
-			$message	= 
+				echo "New record created successfully<br>";
+
+				// Send out a verification email
+
+				$to			= $email; 
+				$subject	= 'Signup | Verification';
+				$message	= 
 			"
 Thanks for signing up!
 Your account has been created, you can login with your credentials
@@ -80,18 +94,26 @@ Please click this link to activate your account:
 http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
 			";
-			if (mail($to, $subject, $message))
-			{
-				echo "email sent\n";
-				header('Location: ../index.php?');
-				exit;
+				if (mail($to, $subject, $message))
+				{
+					echo "email sent\n";
+					header('Location: ../index.php?');
+					exit;
+				}
+				else
+					die ('email failed to send.');
 			}
 			else
 			{
-				die ('email failed to send.');
-			}
+				// the username/email already exist in the database
+				
+				if ($user['user_name'] == $user_name)
+					echo ('! Username alread exists<br>');
+				if ($user['email'] === $email)
+					echo ('! Email already in use<br>');
+				die();
+			}			
 		}
-
 		catch(PDOException $e)
 		{
 			echo $sql . "<br>" . $e->getMessage(); // doubt this is being used
