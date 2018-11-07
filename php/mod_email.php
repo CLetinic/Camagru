@@ -48,7 +48,8 @@ error_reporting(E_ALL);
 					$stmt->bindParam(':activated', $active, PDO::PARAM_BOOL);
 					$stmt->bindParam(':username', $username);
 					if ($stmt->execute())
-					{					
+					{		
+					/*			
 						echo "email changed\n";
 
 						$to			= $email; 
@@ -61,7 +62,63 @@ Please click this link to activate your account:
 http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 
 ";
-						if (mail($to, $subject, $message))
+						if (mail($to, $subject, $message))*/
+						$to			= $email; 
+				$subject	= 'Email Change';
+				$headers 	= "MIME-Version: 1.0\r\n";
+				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+				$message 	= 
+"
+<html>
+  <head>
+    <style>
+		button
+		{
+			background-color: rgb(40, 41, 35);
+			color: white;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			width: 100%;
+			display: inline-block;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 16px 31px;
+			text-decoration: none;
+		}
+
+		button:hover 
+		{
+			background-color: rgb(249, 35, 112);
+		}
+		p
+		{
+			color: black;
+		}
+		h1
+		{
+			color: black;
+		}
+	</style>
+	</head>
+	<body>
+		<h2>Seems You have modified your email address!</h2><br>
+		<p>
+		to log in with your new credentials<p>
+		<p>
+			Please click this button to activate your account:
+			<br>
+		<p>
+
+		<a href="."http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'".">
+			<button>
+				Reset Password
+			</button>
+		</a>		
+	</body>
+</html>
+";
+						if (mail($to, $subject, $message, $headers))
 						{
 							echo "email sent\n";
 							header('Location: ../index.php?');
