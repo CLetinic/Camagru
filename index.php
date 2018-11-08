@@ -61,7 +61,7 @@ include 'config/database.php';
 					<div id="picture">
 						<div class="cam">
 							<div style="height: 35px;"></div>
-							<video id="cam" width="600" height="450"></video>					
+							<video id="cam" width="600" height="450" autoplay="false"></video>					
 							<div class="overlay"><img id="sticker" src="heart.png"></div>
 						</div>
 						<div style="height: 35px;"></div>
@@ -484,6 +484,15 @@ include 'config/database.php';
 				<canvas id="canvas" width="600" height="450"></canvas>
 				<script type="text/javascript">
 
+				/* For Camera */
+				//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+				var video = document.getElementById('cam');
+				const mediaSource = new MediaSource(); //https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/srcObject
+				// var track;
+				// var vidOff = true;
+				//var mediaStream = new MediaSource();
+				video.srcObject = NULL;
+				
 				/* BUTTON HANDLER */
 				function optionHandler(d)
 				{
@@ -507,6 +516,8 @@ include 'config/database.php';
 					{
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
+
+						video.srcObject.stop();
 					}
 					if (d.id == 'option_cam')
 					{
@@ -514,6 +525,103 @@ include 'config/database.php';
 						document.getElementById('capture').style.display='block';
 						document.getElementById('option_save').style.display='block';
 						document.getElementById('option_trash').style.display='block';
+
+/*
+						navigator.mediaDevices.getUserMedia
+						(
+						{
+							audio: false,
+							video: true
+						},
+						function (mediaSource) 
+						{
+							try
+							{
+								video.srcObject = mediaSource;
+								//mediaStream = stream;
+								//mediaStream.stop = function ()
+								
+								// video.srcObject.stop = function ()
+								// {
+								// 	this.getVideoTracks().forEach(function (track) 
+								// 	{ 
+								// 		track.stop();
+								// 	});
+								// };
+							}
+							catch (error) 
+							{
+								video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
+							}
+						});
+						*/
+
+				if (navigator.mediaDevices.getUserMedia) 
+				{
+					navigator.mediaDevices.getUserMedia
+					(
+						{
+							video: true, 
+							audio: false
+						}
+					)
+					.then(function(mediaSource) 
+					{
+						
+						try 
+						{
+							video.srcObject = mediaSource;
+
+							//mediaStream = stream;
+							//mediaStream.stop = function ()
+							
+							video.srcObject.stop = function ()
+							{
+								this.getVideoTracks().forEach(function (track) 
+								{ 
+									track.stop();
+								});
+							};
+
+						} 
+						catch (error) 
+						{
+							video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
+						}
+						
+
+						
+						// Play the video element to start the stream.
+						//video.play();
+						//video.onplay = function() 
+						//{
+							//showVideo();
+						//}
+						
+					})
+				}
+				
+/*
+						if (navigator.mediaDevices.getUserMedia !== null) 
+						{
+							var options = 
+							{ 
+								video:true, 
+								audio:false 
+							};  
+							navigator.webkitGetUserMedia(options, function(stream) 
+							{ 
+								video.src = window.URL.createObjectURL(stream);
+								localstream = stream;
+								video.play();
+								console.log("streaming");
+							}, function(e) 
+							{ 
+								console.log("background error : " + e.name);
+							}); 
+						}
+*/
+
 					}
 					else if (d.id == 'option_save')
 					{
@@ -531,9 +639,7 @@ include 'config/database.php';
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
 					}
-
-
-										/*
+				/*
 					if (d.id == document.getElementById('option_file'))
 					{
 
@@ -541,19 +647,14 @@ include 'config/database.php';
 					*/
 
 				};
-
-
-
-				//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
-				var video = document.getElementById('cam');
-				const mediaSource = new MediaSource(); //https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/srcObject
-
+				/*
 				if (navigator.mediaDevices.getUserMedia) 
 				{
 					navigator.mediaDevices.getUserMedia
 					(
 						{
-							video: true
+							video: true, 
+							audio: false
 						}
 					)
 					.then(function(mediaSource) 
@@ -568,16 +669,17 @@ include 'config/database.php';
 						}
 						
 
-						/*
+						
 						// Play the video element to start the stream.
-						video.play();
-						video.onplay = function() 
-						{
-							showVideo();
-						}
-						*/
+						//video.play();
+						//video.onplay = function() 
+						//{
+							//showVideo();
+						//}
+						
 					})
 				}
+				*/
 				context = document.getElementById('canvas').getContext("2d");
 				//var img = document.creaElement("image");
 				//img.src = 'heart.svg';
