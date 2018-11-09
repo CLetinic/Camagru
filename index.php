@@ -481,7 +481,7 @@ include 'config/database.php';
 						</div>								
 					</div>
 				</div>	
-				<canvas id="canvas" width="600" height="450"></canvas>
+				<!-- <canvas id="canvas" width="600" height="450"></canvas> -->
 				<script type="text/javascript">
 
 				/* For Camera */
@@ -491,7 +491,7 @@ include 'config/database.php';
 				// var track;
 				// var vidOff = true;
 				//var mediaStream = new MediaSource();
-				video.srcObject = NULL;
+				video.srcObject;
 				
 				/* BUTTON HANDLER */
 				function optionHandler(d)
@@ -680,7 +680,7 @@ include 'config/database.php';
 					})
 				}
 				*/
-				context = document.getElementById('canvas').getContext("2d");
+				//context = document.getElementById('canvas').getContext("2d");
 				//var img = document.creaElement("image");
 				//img.src = 'heart.svg';
 
@@ -698,25 +698,45 @@ include 'config/database.php';
 				*/
 
 				
-				document.getElementById('capture').addEventListener('click', function()
-				{
-					///context = document.getElementById('canvas').getContext("2d");
-					context.drawImage(video, 0, 0, 600, 450);
-					const imgUrl = canvas.toDataURL('image/png');
-					console.log(encodeURIComponent(imgUrl));
+				// document.getElementById('capture').addEventListener('click', function()
+				// {
+				// 	///context = document.getElementById('canvas').getContext("2d");
+				// 	context.drawImage(video, 0, 0, 600, 450);
+				// 	const imgUrl = canvas.toDataURL('image/png');
+				// 	console.log(encodeURIComponent(imgUrl));
 
-					var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-					xhttp.open('POST', 'php/saveimg.php', true);
-					xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-					xhttp.send('key='+encodeURIComponent(imgUrl));
-				});
+				// 	var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+				// 	xhttp.open('POST', 'php/saveimg.php', true);
+				// 	xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+				// 	xhttp.send('key='+encodeURIComponent(imgUrl));
+				// });
 			</script>
 			</div>
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
-				<script type="text/javascript">
-					
-				</script>
+				<div>
+					<input type="file" id="input"/>
+					<br/>
+					<canvas width="600" height="450" id="canvas"/>
+
+					<script type="text/javascript">
+						function handleFiles(e) {
+    var ctx = document.getElementById('canvas').getContext('2d');
+    var reader = new FileReader;
+    reader.onload = function(event) {
+        var img = new Image;
+        img.src = event.target.result;
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, 600, 450);
+        }
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+var input = document.getElementById('input');
+input.addEventListener('change', handleFiles);
+					</script>
+				</div>
 			</div>
 		</div>
 
