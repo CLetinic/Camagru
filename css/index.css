@@ -10,7 +10,7 @@
 	opacity: 0.9;
 }
 
-a.booth_options 
+.booth_options 
 {
 	width: 80px;
 	height: 60px;
@@ -23,10 +23,9 @@ a.booth_options
 	border: none;
 	cursor: pointer;
 }
-
-a.booth_options:hover 
+.booth_options:hover
 {
-    background-color: rgb(249, 35, 112);
+	background-color: rgb(249, 35, 112);
 	color: #f1f1f1;
 }
 
