@@ -481,7 +481,9 @@ include 'config/database.php';
 						</div>								
 					</div>
 				</div>	
-				<!-- <canvas id="canvas" width="600" height="450"></canvas> -->
+				<input type="file" id="input"/>
+					<br/>
+					<canvas width="600" height="450" id="canvas" style="background-color: blue;" />
 				<script type="text/javascript">
 
 				/* For Camera */
@@ -492,6 +494,25 @@ include 'config/database.php';
 				// var vidOff = true;
 				//var mediaStream = new MediaSource();
 				video.srcObject;
+
+				function handleFiles(e) 
+						{
+							var context = document.getElementById('canvas').getContext('2d');
+							var reader = new FileReader;
+							reader.onload = function(event) 
+							{
+								var img = new Image;
+								img.src = event.target.result;
+								img.onload = function() 
+								{
+									context.drawImage(img, 0, 0, 600, 450);
+								}
+							}
+							reader.readAsDataURL(e.target.files[0]);
+						}
+
+							var input = document.getElementById('input');
+							input.addEventListener('change', handleFiles);
 				
 				/* BUTTON HANDLER */
 				function optionHandler(d)
@@ -526,102 +547,48 @@ include 'config/database.php';
 						document.getElementById('option_save').style.display='block';
 						document.getElementById('option_trash').style.display='block';
 
-/*
-						navigator.mediaDevices.getUserMedia
-						(
+						if (navigator.mediaDevices.getUserMedia) 
 						{
-							audio: false,
-							video: true
-						},
-						function (mediaSource) 
-						{
-							try
+							navigator.mediaDevices.getUserMedia
+							(
+								{
+									video: true, 
+									audio: false
+								}
+							)
+							.then(function(mediaSource) 
 							{
-								video.srcObject = mediaSource;
-								//mediaStream = stream;
-								//mediaStream.stop = function ()
 								
-								// video.srcObject.stop = function ()
-								// {
-								// 	this.getVideoTracks().forEach(function (track) 
-								// 	{ 
-								// 		track.stop();
-								// 	});
-								// };
-							}
-							catch (error) 
-							{
-								video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
-							}
-						});
-						*/
+								try 
+								{
+									video.srcObject = mediaSource;
 
-				if (navigator.mediaDevices.getUserMedia) 
-				{
-					navigator.mediaDevices.getUserMedia
-					(
-						{
-							video: true, 
-							audio: false
+									//mediaStream = stream;
+									//mediaStream.stop = function ()
+									
+									video.srcObject.stop = function ()
+									{
+										this.getVideoTracks().forEach(function (track) 
+										{ 
+											track.stop();
+										});
+									};
+
+								} 
+								catch (error) 
+								{
+									video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
+								}
+													
+								// Play the video element to start the stream.
+								//video.play();
+								//video.onplay = function() 
+								//{
+									//showVideo();
+								//}
+								
+							})
 						}
-					)
-					.then(function(mediaSource) 
-					{
-						
-						try 
-						{
-							video.srcObject = mediaSource;
-
-							//mediaStream = stream;
-							//mediaStream.stop = function ()
-							
-							video.srcObject.stop = function ()
-							{
-								this.getVideoTracks().forEach(function (track) 
-								{ 
-									track.stop();
-								});
-							};
-
-						} 
-						catch (error) 
-						{
-							video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
-						}
-						
-
-						
-						// Play the video element to start the stream.
-						//video.play();
-						//video.onplay = function() 
-						//{
-							//showVideo();
-						//}
-						
-					})
-				}
-				
-/*
-						if (navigator.mediaDevices.getUserMedia !== null) 
-						{
-							var options = 
-							{ 
-								video:true, 
-								audio:false 
-							};  
-							navigator.webkitGetUserMedia(options, function(stream) 
-							{ 
-								video.src = window.URL.createObjectURL(stream);
-								localstream = stream;
-								video.play();
-								console.log("streaming");
-							}, function(e) 
-							{ 
-								console.log("background error : " + e.name);
-							}); 
-						}
-*/
-
 					}
 					else if (d.id == 'option_save')
 					{
@@ -639,13 +606,6 @@ include 'config/database.php';
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
 					}
-				/*
-					if (d.id == document.getElementById('option_file'))
-					{
-
-					}
-					*/
-
 				};
 				/*
 				if (navigator.mediaDevices.getUserMedia) 
@@ -714,29 +674,15 @@ include 'config/database.php';
 			</div>
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
-				<div>
+				<!-- <div>
 					<input type="file" id="input"/>
 					<br/>
-					<canvas width="600" height="450" id="canvas"/>
+					<canvas width="600" height="450" id="canvas" style="background-color: blue;" />
 
 					<script type="text/javascript">
-						function handleFiles(e) {
-    var ctx = document.getElementById('canvas').getContext('2d');
-    var reader = new FileReader;
-    reader.onload = function(event) {
-        var img = new Image;
-        img.src = event.target.result;
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0, 600, 450);
-        }
-    }
-    reader.readAsDataURL(e.target.files[0]);
-}
-
-var input = document.getElementById('input');
-input.addEventListener('change', handleFiles);
+					
 					</script>
-				</div>
+				</div> -->
 			</div>
 		</div>
 
