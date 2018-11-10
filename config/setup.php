@@ -31,9 +31,9 @@ include 'database.php';
 		$sql = "CREATE TABLE IF NOT EXISTS images 
 		(
 			image_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-			user_name VARCHAR(255) UNIQUE NOT NULL,
+			user_name VARCHAR(255) NOT NULL,
 			FOREIGN KEY (user_name) REFERENCES users(user_name), 
-			content TEXT NOT NULL,
+			content LONGTEXT CHARACTER SET utf8 NOT NULL,
 			date_added TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL	
 		)";
 		$conn->exec($sql);
@@ -44,7 +44,7 @@ include 'database.php';
 		$sql = "CREATE TABLE IF NOT EXISTS comments 
 		(
 			comment_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-			user_name VARCHAR(255) UNIQUE NOT NULL,
+			user_name VARCHAR(255) NOT NULL,
 			FOREIGN KEY (user_name) REFERENCES users(user_name),
 			comment TEXT NOT NULL,
 			image_id INT(255) NOT NULL,
@@ -57,7 +57,7 @@ include 'database.php';
 		$sql = "CREATE TABLE IF NOT EXISTS likes 
 		(
 			like_id INT(255) AUTO_INCREMENT PRIMARY KEY NOT NULL,
-			user_name VARCHAR(255) UNIQUE NOT NULL,
+			user_name VARCHAR(255) NOT NULL,
 			FOREIGN KEY (user_name) REFERENCES users(user_name),
 			image_id INT(255) NOT NULL,
 			FOREIGN KEY (image_id) REFERENCES images(image_id) ON DELETE CASCADE,
@@ -80,6 +80,6 @@ include 'database.php';
 
 	$conn = null;
 
-	header('Location: ../index.php?');
+	//header('Location: ../index.php?');
 ?>
 

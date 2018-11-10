@@ -654,14 +654,6 @@ include 'config/database.php';
 					false
 				);
 
-				// document.getElementById('option_cam').addEventListener('click', function()
-				// {
-				// 	draw(this, context, 600, 450);
-				// }, 
-				// 	false
-				// );
-
-
 				function draw (video, context, width, height)
 				{
 					context.drawImage(video, 0, 0, 600, 450);
@@ -682,19 +674,25 @@ include 'config/database.php';
 						video.srcObject.stop();
 					context.clearRect(0, 0, canvas.width, canvas.height);
 				});
+				document.getElementById('option_trash').addEventListener('click', function()
+				{
+				 	 if (document.getElementById("option_back").classList.contains("cam_mode"))
+						video.srcObject.stop();
+					context.clearRect(0, 0, canvas.width, canvas.height);
+				});
 
-				// document.getElementById('capture').addEventListener('click', function()
-				// {
-				// 	///context = document.getElementById('canvas').getContext("2d");
-				// 	context.drawImage(video, 0, 0, 600, 450);
-				// 	const imgUrl = canvas.toDataURL('image/png');
-				// 	console.log(encodeURIComponent(imgUrl));
+				document.getElementById('option_save').addEventListener('click', function()
+				{
+					context = document.getElementById('canvas').getContext("2d");
+					//context.drawImage(video, 0, 0, 600, 450);
+					const imgUrl = canvas.toDataURL('image/png');
+					console.log(encodeURIComponent(imgUrl));
 
-				// 	var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-				// 	xhttp.open('POST', 'php/saveimg.php', true);
-				// 	xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-				// 	xhttp.send('key='+encodeURIComponent(imgUrl));
-				// });
+					var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+					xhttp.open('POST', 'php/saveimg.php', true);
+					xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+					xhttp.send('key='+encodeURIComponent(imgUrl));
+				});
 			</script>
 			</div>
 			<!-- GALLERY -->
