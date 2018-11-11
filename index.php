@@ -697,15 +697,6 @@ include 'config/database.php';
 			</div>
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
-				<!-- <div>
-					<input type="file" id="input"/>
-					<br/>
-					<canvas width="600" height="450" id="canvas" style="background-color: blue;" />
-
-					<script type="text/javascript">
-					
-					</script>
-				</div> -->
 			</div>
 		</div>
 
