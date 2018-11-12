@@ -40,6 +40,12 @@ include '../config/database.php';
 		$img = $image[$i]['content'];
 		$img_id = $image[$i]['image_id'];
 		$img_user = $image[$i]['user_name'];
+
+		$stmt = $conn->prepare("SELECT * FROM comments WHERE image_id=:image_id");
+		$stmt->bindValue(':image_id', $img_id);
+		$stmt->execute();
+		$comments = $stmt->fetchAll();
+
 		echo '
 		<td>
 			<img src="data:image/png;base64,' . $img . '" />';
@@ -57,7 +63,26 @@ include '../config/database.php';
 				<br/>
   				<input type="submit">
 			</form>
-		</td>';
+			<br/>
+			<table>
+			';
+
+			for ($j=0; $j < sizeof($comments); $j++) 
+			{ 
+				$comment = $comments[$j]['comment'];
+				$comment_by = $comments[$j]['user_name'];
+				
+				echo'
+					<tr>
+						<td>'
+							. '<p>' . $comment_by . ' : ' . $comment . '</p>' .
+						'</td>
+					</tr>
+					';
+			}
+		echo '
+			</table>
+			 ';
 	}
 	
 	echo "<br/>";
