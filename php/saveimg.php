@@ -26,5 +26,6 @@ $img = preg_replace('#^data:image/\w+;base64,#i', '',$imageurl);
 				$stmt->bindParam(':content', $img);
 		//		$stmt->bindParam(':date_added', CURRENT_TIMESTAMP);
 				$stmt->execute();
+				
 	$conn = null;
 ?>

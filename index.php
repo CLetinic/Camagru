@@ -37,15 +37,18 @@ include 'config/database.php';
 		</div>
 		<nav id="nav">
 			<a class="nav_button active" id="home">Home</a>
-			<a class="nav_button" id="photo_booth">Photo Booth</a>
-			<a class="nav_button" id="gallery">Gallery</a>
+			
+			
 			<?php if(isset($_SESSION['loggedin']) !== true):?>
+			
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
+			<a class="nav_button" id="photo_booth">Photo Booth</a>
 			<a class="right" href="php/logout.php">Logout</a>
 			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
+			<a class="nav_button" id="gallery">Gallery</a>
 		</nav>
 
 		<!-- PAGES -->
@@ -660,13 +663,11 @@ include 'config/database.php';
 					time = setTimeout(draw, 0, video, context, width);
 				}
 
-
 				document.getElementById('capture').addEventListener('click', function()
 				{
 				 	context.drawImage(video, 0, 0, 600, 450);
 				 	clearTimeout(time);
 				});
-
 
 				document.getElementById('option_back').addEventListener('click', function()
 				{
@@ -931,7 +932,7 @@ include 'config/database.php';
 				}
 			</script>
 			<footer>
-				<i align="right" style="font-family:'Courier New'"> &copy cletinic 2018</i>
+				<i align="right" style="font-family:'Courier New'"> &copy cletinić 2018</i>
 			</footer>
 	</BODY>
 </HTML>
