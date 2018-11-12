@@ -21,11 +21,11 @@ $img = preg_replace('#^data:image/\w+;base64,#i', '',$imageurl);
 	$sql = "USE ".$DB_NAME;
 	$sql = "INSERT INTO images (user_name, content)
 	VALUES (:user_name, :content)";
-				$stmt = $conn->prepare($sql);
-				$stmt->bindParam(':user_name', $user_name);
-				$stmt->bindParam(':content', $img);
-		//		$stmt->bindParam(':date_added', CURRENT_TIMESTAMP);
-				$stmt->execute();
+	$stmt = $conn->prepare($sql);
+	$stmt->bindParam(':user_name', $user_name);
+	$stmt->bindParam(':content', $img);
+//		$stmt->bindParam(':date_added', CURRENT_TIMESTAMP);
+	$stmt->execute();
 				
 	$conn = null;
 ?>

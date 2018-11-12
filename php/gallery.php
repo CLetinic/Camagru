@@ -50,10 +50,10 @@ include '../config/database.php';
 				<a>delete</a>
 			<div>';
 		echo '
-			<form action="comment.php" id="commentform">
-				<input type="hidden" id="image_id" name="image_id" value="' . $img_id . '"> 
-				<input type="hidden" id="image_user" name="image_user" value="' . $img_user . '">
-				<textarea name="comment" form="commentform">Enter text here...</textarea>
+			<form action="comment.php" id="commentform'.$img_id.'" method="POST">
+				<input type="hidden" name="image_id" value="' . $img_id . '"> 
+				<input type="hidden" name="image_user" value="' . $img_user . '">
+				<textarea name="commet_txt" form="commentform'.$img_id.'"></textarea>
 				<br/>
   				<input type="submit">
 			</form>
@@ -70,7 +70,20 @@ include '../config/database.php';
 
 	$conn = null;
 ?>
+<!-- 
+	<script>
+									function checkBox(d)
+									{
+										var xml = new XMLHttpRequest();
+										xml.open("POST", "php/mod_emailnotifications.php", true);
+										var toggle_true = "true";
+										var toggle_false = "false";
+										xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-<script>
-
-</script>
+										if (d.checked == true)
+											xml.send("notifi=true");
+										else if (d.checked == false)
+											xml.send("notifi=false");
+									};
+								</script>
+ -->
