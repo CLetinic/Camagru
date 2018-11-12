@@ -16,11 +16,11 @@ include '../config/database.php';
 	$stmt->execute();
 	$image = $stmt->fetchAll();
 
-	// REF: https://www.youtube.com/watch?v=gdEpUPMh63s Create Pagination in PHP and MySQL
+	//REF: https://www.youtube.com/watch?v=gdEpUPMh63s Create Pagination in PHP and MySQL
 	$results_per_page = 5;
 	$number_of_results = sizeof($image);
 
-	$number_of_pages = ceil($number_of_results/$results_per_page);
+	$number_of_pages = ceil($number_of_results / $results_per_page);
 
 	if (!isset($_GET['page'])) 
 		$page = 1;
@@ -38,16 +38,39 @@ include '../config/database.php';
 	for ($i = 0; $i < sizeof($image) ; $i++) 
 	{ 
 		$img = $image[$i]['content'];
-		echo '<td><img src="data:image/png;base64,' . $img . '" /><td>';
+		$img_id = $image[$i]['image_id'];
+		$img_user = $image[$i]['user_name'];
+		echo '
+		<td>
+			<img src="data:image/png;base64,' . $img . '" />';
+		echo '
+			<div>
+				<a>Likes</a>
+				<a>Comment</a>
+				<a>delete</a>
+			<div>';
+		echo '
+			<form action="comment.php" id="commentform">
+				<input type="hidden" id="image_id" name="image_id" value="' . $img_id . '"> 
+				<input type="hidden" id="image_user" name="image_user" value="' . $img_user . '">
+				<textarea name="comment" form="commentform">Enter text here...</textarea>
+				<br/>
+  				<input type="submit">
+			</form>
+		</td>';
 	}
 	
 	echo "<br/>";
 
 	// Pages Links
-	for ($page=1;$page<=$number_of_pages;$page++) 
+	for ($page = 1; $page <= $number_of_pages; $page++) 
 	{
 		echo '<a href="gallery.php?page=' . $page . '">' . $page . '</a> ';
 	}
 
 	$conn = null;
 ?>
+
+<script>
+
+</script>
