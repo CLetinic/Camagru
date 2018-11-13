@@ -31,24 +31,23 @@ include 'config/database.php';
 			<p id="info"> ! change</p>
 		</header>
 		<div class="banner">
-			<a href="index.html">
+			<a href="index.php?activepage=home">
 				<img id= "logo" src="img/logo.svg">
 			</a>				
 		</div>
 		<nav id="nav">
-			<a class="nav_button active" id="home">Home</a>
-			
-			
+			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
 			<?php if(isset($_SESSION['loggedin']) !== true):?>
 			
 			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
 			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
 			<?php else:?>
-			<a class="nav_button" id="photo_booth">Photo Booth</a>
+			<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
 			<a class="right" href="php/logout.php">Logout</a>
 			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
-			<a class="nav_button" id="gallery">Gallery</a>
+			<a class="nav_button" id="gallery" href="index.php?activepage=gallery&user_name=<?php echo $_SESSION['username']; ?>&page=1">My Gallery</a>
+			<a class="nav_button" id="search" href="index.php?activepage=search">Search</a>
 		</nav>
 
 		<!-- PAGES -->
@@ -698,6 +697,11 @@ include 'config/database.php';
 			</div>
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
+
+			</div>
+			<!-- SEARCH -->
+			<div id="search_page" class="page">
+
 			</div>
 		</div>
 
@@ -905,15 +909,32 @@ include 'config/database.php';
 				}
 
 				var nav_button = document.getElementsByClassName("nav_button");
-				console.log(nav_button);
 
-				for (var i = 0; i < nav_button.length; i++) 
+				if (!window.location.search || ((window.location.search).indexOf("activepage=home") > -1)) // we are at the root 
 				{
-					nav_button[i].addEventListener("click", function() 
+					clear();
+					document.getElementById("home").classList.add("active");
+					document.getElementById("home_page").classList.add("active_page");
+				}
+				if ((window.location.search).indexOf("activepage=photobooth") > -1)
+				{
+					clear();
+					document.getElementById("photo_booth").classList.add("active");
+					document.getElementById("photo_booth_page").classList.add("active_page");
+				}
+				if ((window.location.search).indexOf("activepage=gallery") > -1)
+				{
+					clear();
+					document.getElementById("gallery").classList.add("active");
+					document.getElementById("gallery_page").classList.add("active_page");
+				}
+
+				function clear()
+				{
+					for (var i = 0; i < nav_button.length; i++) 
 					{
-						var current = document.getElementsByClassName("active");
-						current[0].className = current[0].className.replace(" active", "");
-						this.className += " active";
+						nav_button[i].classList.remove("active");
+
 						var pages = document.getElementsByClassName("page");
 						console.log(pages);
 
@@ -921,14 +942,7 @@ include 'config/database.php';
 						{
 							pages[j].classList.remove("active_page");
 						}
-
-						if (this == document.getElementById("photo_booth"))
-							document.getElementById("photo_booth_page").classList.add("active_page");
-						else if (this == document.getElementById("home"))
-							document.getElementById("home_page").classList.add("active_page");
-						else if (this == document.getElementById("gallery"))
-							document.getElementById("gallery_page").classList.add("active_page");
-					});
+					}
 				}
 			</script>
 			<footer>

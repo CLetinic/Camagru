@@ -60,8 +60,7 @@ include 'database.php';
 			user_name VARCHAR(255) NOT NULL,
 			FOREIGN KEY (user_name) REFERENCES users(user_name),
 			image_id INT(255) NOT NULL,
-			FOREIGN KEY (image_id) REFERENCES images(image_id) ON DELETE CASCADE,
-			like_amount INT NOT NULL
+			FOREIGN KEY (image_id) REFERENCES images(image_id) ON DELETE CASCADE
 		)";
 		$conn->exec($sql);
 		echo "Table 'likes' created successfully<br/>";

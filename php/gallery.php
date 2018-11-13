@@ -53,7 +53,7 @@ include '../config/database.php';
 			<div>
 				<a>Likes</a>
 				<a>Comment</a>
-				<a>delete</a>
+				<a>Delete</a>
 			<div>';
 		echo '
 			<form action="comment.php" id="commentform'.$img_id.'" method="POST">
@@ -75,7 +75,10 @@ include '../config/database.php';
 				echo'
 					<tr>
 						<td>'
-							. '<p>' . $comment_by . ' : ' . $comment . '</p>' .
+							. $comment_by . 
+							'<td>'
+							. $comment . 
+							'</td>' .
 						'</td>
 					</tr>
 					';
