@@ -7,9 +7,8 @@ I want to add -
 - add alert boxes when something fails, otherwise just redirect 
 - add pop ups if user tries to use logged in features without being logged in. 
 - if account is not verfied, propt ask to resend verfication email
-
-
 */
+
 session_start();
 print_r($_SESSION);
 ini_set('display_errors', 1);
@@ -487,7 +486,7 @@ include 'config/database.php';
 						</div>								
 					</div>
 				</div>	
-					<canvas width="600" height="450" id="canvas" style="background-color: blue;" />
+					<canvas width="600" height="450" id="canvas" style="background-color: rgb(40, 41, 35);;" />
 				<script type="text/javascript">
 
 				/* For Camera */
@@ -543,6 +542,8 @@ include 'config/database.php';
 					{
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
+
+						location.reload();
 					}
 					if (d.id == 'option_cam')
 					{
@@ -583,14 +584,7 @@ include 'config/database.php';
 								{
 									video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
 								}
-													
-								// Play the video element to start the stream.
-								//video.play();
-								//video.onplay = function() 
-								//{
-									//showVideo();
-								//}
-								
+																				
 							})
 						}
 					}
@@ -611,43 +605,6 @@ include 'config/database.php';
 						document.getElementById('option_cam').style.display='block';
 					}
 				};
-				/*
-				if (navigator.mediaDevices.getUserMedia) 
-				{
-					navigator.mediaDevices.getUserMedia
-					(
-						{
-							video: true, 
-							audio: false
-						}
-					)
-					.then(function(mediaSource) 
-					{
-						
-						try 
-						{
-							video.srcObject = mediaSource;
-						} catch (error) 
-						{
-							video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
-						}
-						
-
-						
-						// Play the video element to start the stream.
-						//video.play();
-						//video.onplay = function() 
-						//{
-							//showVideo();
-						//}
-						
-					})
-				}
-				*/
-				//context = document.getElementById('canvas').getContext("2d");
-				//var img = document.creaElement("image");
-				//img.src = 'heart.svg';
-
 				
 				video.addEventListener('play', function()
 				{
@@ -701,6 +658,11 @@ include 'config/database.php';
 			</div>
 			<!-- SEARCH -->
 			<div id="search_page" class="page">
+				<form class="seach_box" action="php/search.php" method="POST">
+					<input type="text" placeholder="Search.." name="search_box">
+					<button type="submit">Search</button>
+				</form>
+
 
 			</div>
 		</div>
@@ -910,23 +872,30 @@ include 'config/database.php';
 
 				var nav_button = document.getElementsByClassName("nav_button");
 
-				if (!window.location.search || ((window.location.search).indexOf("activepage=home") > -1)) // we are at the root 
-				{
-					clear();
-					document.getElementById("home").classList.add("active");
-					document.getElementById("home_page").classList.add("active_page");
-				}
+				
 				if ((window.location.search).indexOf("activepage=photobooth") > -1)
 				{
 					clear();
 					document.getElementById("photo_booth").classList.add("active");
 					document.getElementById("photo_booth_page").classList.add("active_page");
 				}
-				if ((window.location.search).indexOf("activepage=gallery") > -1)
+				else if ((window.location.search).indexOf("activepage=gallery") > -1)
 				{
 					clear();
 					document.getElementById("gallery").classList.add("active");
 					document.getElementById("gallery_page").classList.add("active_page");
+				}
+				else if ((window.location.search).indexOf("activepage=search") > -1)
+				{
+					clear();
+					document.getElementById("search").classList.add("active");
+					document.getElementById("search_page").classList.add("active_page");
+				}
+				else if (!window.location.search || ((window.location.search).indexOf("activepage=home") > -1)) // we are at the root 
+				{
+					clear();
+					document.getElementById("home").classList.add("active");
+					document.getElementById("home_page").classList.add("active_page");
 				}
 
 				function clear()
