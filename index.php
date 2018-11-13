@@ -761,7 +761,7 @@ include 'config/database.php';
 							<button>Password</button>
 						</a>
 						<a onclick="document.getElementById('not_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
-							<button>Notifications</button>
+							<button onclick="triggernot(this)">Notifications</button>
 						</a>
 					</div>
 				<hr>
@@ -827,15 +827,30 @@ include 'config/database.php';
 									<label><b>Receive Email Notifications?</b><br/></label>
 									<label class="switch">
 										<!-- this toggle is not working -->
-										<?php if(isset($_SESSION['not_email']) === true):?>
-											<input type="checkbox" checked id="notify_mod" onclick="checkBox(this)">
-										<?php else:?>
-											<input type="checkbox" id="notify_mod" onclick="checkBox(this)">
-										<?php endif;?>
+										<input type="checkbox" id="notify_mod" checked onclick="checkBox(this)">
 										<span class="slider"></span>
 									</label>
 								<hr>
 								<script>
+
+									var box_checked = "<?php echo $_SESSION['email_notify'] ?>";
+
+									console.log(box_checked);
+
+
+									function triggernot(d)
+									{
+										console.log(box_checked);
+
+										var noti_mod = document.getElementById("notify_mod");
+
+										if (box_checked == 'true' && (noti_mod.checked == false || noti_mod.checked == 0))
+											noti_mod.setAttribute("checked", "true");
+										if (box_checked == 'false' && (noti_mod.checked == true || noti_mod.checked == 1))
+											noti_mod.removeAttribute("checked");
+
+									};
+
 									function checkBox(d)
 									{
 										var xml = new XMLHttpRequest();

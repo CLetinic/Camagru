@@ -9,7 +9,7 @@ include '../config/database.php';
 
 	$notify		= $_POST['notifi'];
 	$username	= $_SESSION['username'];
-	$_SESSION['not_email'] = $notify;
+	$_SESSION['email_notify'] = $notify;
 
 	try
 	{
