@@ -64,6 +64,8 @@ include '../config/database.php';
 			$stmt->execute();
 			$comments = $stmt->fetchAll();
 
+			///echo '$_SERVER[REQUEST_URI]';
+
 			echo '
 			<td>
 				<img src="data:image/png;base64,' . $img . '" />';
@@ -132,20 +134,3 @@ include '../config/database.php';
 
 	$conn = null;
 ?>
-<!-- 
-	<script>
-									function checkBox(d)
-									{
-										var xml = new XMLHttpRequest();
-										xml.open("POST", "php/mod_emailnotifications.php", true);
-										var toggle_true = "true";
-										var toggle_false = "false";
-										xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-										if (d.checked == true)
-											xml.send("notifi=true");
-										else if (d.checked == false)
-											xml.send("notifi=false");
-									};
-								</script>
- -->

@@ -42,78 +42,76 @@ include '../config/database.php';
 				$stmt->bindParam(':image_id', $image_id);
 				$stmt->execute();
 
-				echo "New record created successfully<br>";
+				$stmt = $conn->prepare("SELECT notifications, email FROM users WHERE user_name=:user_name");
+				$stmt->bindValue(':user_name', $image_user); // get the user of the image
+				$stmt->execute();
+				$notify = $stmt->fetch();
 
+				if ($notify['notifications'] == 1)
+				{
+						$by			= ucfirst($user_name);
+						$to			= $notify['email']; 
+						$subject	= 'Notification';
+						$headers 	= "MIME-Version: 1.0\r\n";
+						$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$message 	= 
+"
+<html>
+	<head>
+	<style>
+		button
+		{
+			background-color: rgb(40, 41, 35);
+			color: white;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			width: 100%;
+			display: inline-block;
+			font-size: 18px;
+			font-weight: bold;
+			padding: 16px 31px;
+			text-decoration: none;
+		}
 
-// 				// Send out a verification email
+		button:hover 
+		{
+			background-color: rgb(249, 35, 112);
+		}
+		p
+		{
+			color: black;
+		}
+		h1
+		{
+			color: black;
+		}
+		</style>
+	</head>
+	<body>
+		<h2>". $by ." Just Commented on Your Image!!</h2><br>
+		<p>
+			Click the button below to go to the website
+			<br>
+		<p>
 
-// 				$to			= $email; 
-// 				$subject	= 'Signup | Verification';
-// 				$headers 	= "MIME-Version: 1.0\r\n";
-// 				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-// 				$message 	= 
-// "
-// <html>
-//   <head>
-//     <style>
-// 		button
-// 		{
-// 			background-color: rgb(40, 41, 35);
-// 			color: white;
-// 			border: none;
-// 			outline: none;
-// 			cursor: pointer;
-// 			width: 100%;
-// 			display: inline-block;
-// 			font-size: 18px;
-// 			font-weight: bold;
-// 			padding: 16px 31px;
-// 			text-decoration: none;
-// 		}
-
-// 		button:hover 
-// 		{
-// 			background-color: rgb(249, 35, 112);
-// 		}
-// 		p
-// 		{
-// 			color: black;
-// 		}
-// 		h1
-// 		{
-// 			color: black;
-// 		}
-// 		</style>
-// 	</head>
-// 	<body>
-// 		<h2>Thanks for signing up!</h2><br>
-// 		<p>Your account has been created, you can login with your credentials
-// 		<br>
-// 		after you have activated your account by pressing the button below.<p>
-// 		<p>
-// 			Please click below to activate your account:
-// 			<br>
-// 		<p>
-
-// 		<a href="."http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'".">
-// 			<button>
-// 				Activate
-// 			</button>
-// 		</a>		
-// 	</body>
-// </html>
-// ";
-// 				if (mail($to, $subject, $message, $headers))
-// 				{
-// 					echo "email sent\n";
-// 					header('Location: ../index.php?');
-// 					exit;
-// 				}
-// 				else
-// 					die ('email failed to send.');
-// 			}
-// 			else
-// 				die('Username/Email Already Exists');		
+		<a href="."http://127.0.0.1:8080/camagru/".">
+			<button>
+				Go to Camagru!
+			</button>
+		</a>		
+	</body>
+</html>
+";
+						if (mail($to, $subject, $message, $headers))
+						{
+							echo "email sent\n";
+						}
+						else
+							die ('email failed to send.');
+					}
+					header('Location: ../index.php?');
+		
 		}
 		else
 			die ('Something went wrong...');
