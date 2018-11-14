@@ -52,6 +52,8 @@ include '../config/database.php';
 		$stmt->execute();
 		$image = $stmt->fetchAll();
 
+		$url = htmlspecialchars(strchr($_SERVER['REQUEST_URI'], "gallery"));
+
 		// Images per page
 		for ($i = 0; $i < sizeof($image) ; $i++) 
 		{ 
@@ -63,8 +65,6 @@ include '../config/database.php';
 			$stmt->bindValue(':image_id', $img_id);
 			$stmt->execute();
 			$comments = $stmt->fetchAll();
-
-			///echo '$_SERVER[REQUEST_URI]';
 
 			echo '
 			<td>
@@ -86,6 +86,7 @@ include '../config/database.php';
 				echo '<div>';
 				echo '
 					<form action="comment.php" id="commentform'.$img_id.'" method="POST">
+						<input type="hidden" name="url" value="' . $url . '"> 
 						<input type="hidden" name="image_id" value="' . $img_id . '"> 
 						<input type="hidden" name="image_user" value="' . $img_user . '">
 						<textarea name="commet_txt" form="commentform'.$img_id.'"></textarea>

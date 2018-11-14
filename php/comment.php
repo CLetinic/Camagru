@@ -11,6 +11,7 @@ include '../config/database.php';
 	$image_user		= trim(htmlspecialchars($_POST['image_user']));
 	$image_id 		= trim(htmlspecialchars($_POST['image_id']));
 	$comment 		= htmlspecialchars($_POST['commet_txt']);
+	$url			= $_POST['url'];
 
 	print_r($_SESSION);
 	print_r($_POST);
@@ -110,7 +111,7 @@ include '../config/database.php';
 						else
 							die ('email failed to send.');
 					}
-					header('Location: ../index.php?');
+					header('Location:' . $url . '');
 		
 		}
 		else
