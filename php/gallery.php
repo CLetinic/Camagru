@@ -66,14 +66,26 @@ include '../config/database.php';
 			$stmt->execute();
 			$comments = $stmt->fetchAll();
 
+			$stmt = $conn->prepare("SELECT * FROM likes WHERE image_id=:image_id");
+			$stmt->bindValue(':image_id', $img_id);
+			$stmt->execute();
+			$likes = $stmt->fetchAll();
+			$no_likes = sizeof($likes);
+
 			echo '
 			<td>
 				<img src="data:image/png;base64,' . $img . '" />';
 			if (isset($_SESSION['loggedin']) === true)
 			{
-				echo '
-					<div>
-						<button>Likes</button><button>Comment</button>';
+				echo '<br><div>';
+				echo '			
+					<form action="like_image.php" id="like_imageform'.$img_id.'" method="POST">
+					<input type="hidden" name="url" value="' . $url . '"> 
+					<input type="hidden" name="image_id" value="' . $img_id . '"> 
+					<input type="hidden" name="liked_by" value="' . $user_name . '">
+						<button type="submit">Like | '. $no_likes .' </button>
+					</form>';
+						// <button>Comment</button>';
 				if (isset($_SESSION['loggedin']) === true && ($username == $user_name))
 				{
 					echo '			
@@ -83,20 +95,20 @@ include '../config/database.php';
 						<button type="submit">Delete</button>
 					</form>';
 				}
-				echo '<div>';
+				echo '</div>';
 				echo '
 					<form action="comment.php" id="commentform'.$img_id.'" method="POST">
 						<input type="hidden" name="url" value="' . $url . '"> 
 						<input type="hidden" name="image_id" value="' . $img_id . '"> 
 						<input type="hidden" name="image_user" value="' . $img_user . '">
 						<textarea name="commet_txt" form="commentform'.$img_id.'"></textarea>
-						<br/>
+						<br>
 							<input type="submit">
 					</form>
 					';
 				}
 				echo '
-					<br/>
+					<br>
 					<table>';
 					
 				for ($j=0; $j < sizeof($comments); $j++) 
@@ -120,7 +132,7 @@ include '../config/database.php';
 				 ';
 			}
 
-			echo "<br/>";
+			echo "<br>";
 
 			// Pages Links
 			for ($page = 1; $page <= $number_of_pages; $page++) 
