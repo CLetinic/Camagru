@@ -8,16 +8,18 @@ error_reporting(E_ALL);
 	include '../config/database.php';
 	include_once './functions.php';
   
-	$user_name 		= trim(htmlspecialchars($_POST['username']));
-	$email 			= trim(htmlspecialchars($_POST['email']));
-	$passw 			= htmlspecialchars($_POST['psw']);
-	$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
-	$active 		= false;
-	$notifications	= true;
-	$token			= bin2hex(openssl_random_pseudo_bytes(16));
+
 
 	try
 	{
+		$user_name 		= trim(htmlspecialchars($_POST['username']));
+		$email 			= trim(htmlspecialchars($_POST['email']));
+		$passw 			= htmlspecialchars($_POST['psw']);
+		$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
+		$active 		= false;
+		$notifications	= true;
+		$token			= bin2hex(openssl_random_pseudo_bytes(16));
+
 		// Check for errors
 		if (!isset($user_name) || empty($user_name) || strlen($user_name) < 4)
 		{
@@ -153,5 +155,6 @@ error_reporting(E_ALL);
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;	
 ?>

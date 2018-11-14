@@ -7,13 +7,13 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	$token 			= $_SESSION['token'];
-	$email 			= $_SESSION['email'];
-	$passw_new		= htmlspecialchars($_POST['psw_new']);
-	$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
-
 	try
 	{
+		$token 			= $_SESSION['token'];
+		$email 			= $_SESSION['email'];
+		$passw_new		= htmlspecialchars($_POST['psw_new']);
+		$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
+
 		if (!isset($passw_new) || empty($passw_new) || !(strlen($passw_new) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new)) 
 			|| (!isset($passw_repeat) || empty($passw_repeat) && !($passw_new === $passw_repeat)))
 			{
@@ -62,5 +62,6 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 ?>

@@ -9,11 +9,11 @@ error_reporting(E_ALL);
 include '../config/database.php';
 include_once './functions.php';
 
-	$new_username	= trim(htmlspecialchars($_POST['username']));
-	$username		= $_SESSION['username'];
-
 	try
 	{
+		$new_username	= trim(htmlspecialchars($_POST['username']));
+		$username		= $_SESSION['username'];
+
 		if (!isset($new_username) || empty($new_username) || strlen($new_username) < 4)
 		{
 			echo "! Username input is invalid - *also check to see if username is more than 4 characters long<br>";

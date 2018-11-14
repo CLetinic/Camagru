@@ -10,7 +10,6 @@ include '../config/database.php';
 	try
 	{
 		$user_name		= $_SESSION['username'];
-		//$liked_by		= trim(htmlspecialchars($_POST['liked_by']));
 		$image_id 		= trim(htmlspecialchars($_POST['image_id']));
 		$url			= $_POST['url'];
 
@@ -58,5 +57,6 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;	
 ?>

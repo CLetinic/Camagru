@@ -7,13 +7,14 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	$passw 			= htmlspecialchars($_POST['psw']);
-	$passw_new		= htmlspecialchars($_POST['psw_new']);
-	$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
-	$username		= $_SESSION['username'];
-
 	try
 	{
+
+		$passw 			= htmlspecialchars($_POST['psw']);
+		$passw_new		= htmlspecialchars($_POST['psw_new']);
+		$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
+		$username		= $_SESSION['username'];
+
 		if (!isset($passw) || empty($passw) || !isset($passw_new) || empty($passw_new) || !isset($passw_repeat) || empty($passw_repeat) || !($passw_new === $passw_repeat) || !(strlen($passw) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw)) || !(strlen($passw_new) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new)))
 		{
 			echo "! Password input is invalid<br>";
@@ -74,5 +75,6 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 ?>

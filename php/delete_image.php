@@ -14,10 +14,6 @@ include '../config/database.php';
 			$image_user		= trim(htmlspecialchars($_POST['image_user']));
 			$image_id 		= trim(htmlspecialchars($_POST['image_id']));
 
-			print_r($_POST);
-			print_r($_SESSION);
-			var_dump($user_name);
-
 			if ($user_name == $image_user)
 			{
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
@@ -26,6 +22,8 @@ include '../config/database.php';
 				$stmt = $conn->prepare("DELETE FROM images WHERE image_id=:image_id");
 				$stmt->bindValue(':image_id', $image_id);
 				$stmt->execute();
+
+				header('Location:' . $url . '');
 			}
 			else
 				die("you are unauthorised to delete this image");
@@ -37,6 +35,7 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 
 ?>

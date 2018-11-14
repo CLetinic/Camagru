@@ -7,12 +7,12 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	$notify		= $_POST['notifi'];
-	$username	= $_SESSION['username'];
-	$_SESSION['email_notify'] = $notify;
-
 	try
 	{
+		$notify		= $_POST['notifi'];
+		$username	= $_SESSION['username'];
+		$_SESSION['email_notify'] = $notify;
+
 		if ($notify === "true" || $notify === "false")
 		{
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
@@ -56,6 +56,7 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 	exit;
 ?>

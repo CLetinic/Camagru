@@ -1,5 +1,5 @@
 <?php
-			//echo "<script language='javascript' type='text/javascript'> document.getElementById('login').style.display='block'; </script>";
+
 session_start();
 //	https://www.formget.com/php-data-object/
 //	http://thisinterestsme.com/php-user-registration-form/
@@ -8,11 +8,11 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include '../config/database.php';
 
-	$email = trim(htmlspecialchars($_POST['email']));
-	$passw = htmlspecialchars($_POST['psw']);
-
 	try
 	{
+		$email = trim(htmlspecialchars($_POST['email']));
+		$passw = htmlspecialchars($_POST['psw']);
+
 		// Check for errors
 		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
 		{
@@ -74,5 +74,6 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 ?>

@@ -7,17 +7,14 @@ error_reporting(E_ALL);
 
 include '../config/database.php';
 
-	$user_name		= $_SESSION['username'];
-	$image_user		= trim(htmlspecialchars($_POST['image_user']));
-	$image_id 		= trim(htmlspecialchars($_POST['image_id']));
-	$comment 		= htmlspecialchars($_POST['commet_txt']);
-	$url			= $_POST['url'];
-
-	print_r($_SESSION);
-	print_r($_POST);
-
 	try
 	{
+		$user_name		= $_SESSION['username'];
+		$image_user		= trim(htmlspecialchars($_POST['image_user']));
+		$image_id 		= trim(htmlspecialchars($_POST['image_id']));
+		$comment 		= htmlspecialchars($_POST['commet_txt']);
+		$url			= $_POST['url'];
+
 		// Check for errors
 		if (!isset($user_name) || empty($user_name))
 		{
@@ -121,5 +118,6 @@ include '../config/database.php';
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;	
 ?>

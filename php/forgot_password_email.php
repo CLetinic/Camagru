@@ -5,13 +5,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-	include '../config/database.php';
-
-	$email	= trim(htmlspecialchars($_POST['email']));
-	$token	= bin2hex(openssl_random_pseudo_bytes(16));
+include '../config/database.php';
 
 	try
 	{
+		$email	= trim(htmlspecialchars($_POST['email']));
+		$token	= bin2hex(openssl_random_pseudo_bytes(16));
+
 		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
 		{
 			echo "! Email input is invalid<br>";
@@ -39,26 +39,8 @@ error_reporting(E_ALL);
 				$stmt = $conn->prepare("UPDATE users SET token = :token");
 				$stmt->bindParam(':token', $token);
 				$stmt->execute();
-				//echo "added token\n";
-				//echo "$email";
-				
-				/*
+
 				$to			= $email; 
-				$subject	= 'Password Reset';
-				$message	= 
-				"
-Seems you have forgotten your password!
-You can create a new password after pressing the url below.
-
-
-Please click this link to reset your password:
-
-http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email='$email'&token='$token'
-
-				";
-				if (mail($to, $subject, $message))*/
-
-					$to			= $email; 
 				$subject	= 'Password Reset';
 				$headers 	= "MIME-Version: 1.0\r\n";
 				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -130,5 +112,6 @@ http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email='$email'&toke
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+
 	$conn = null;
 ?>

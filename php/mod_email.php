@@ -8,12 +8,12 @@ error_reporting(E_ALL);
 	include '../config/database.php';
 	include_once './functions.php';
 
-	$email			= trim(htmlspecialchars($_POST['email']));
-	$email_repeat	= trim(htmlspecialchars($_POST['email_repeat']));
-	$username		= $_SESSION['username'];
-
 	try
 	{
+		$email			= trim(htmlspecialchars($_POST['email']));
+		$email_repeat	= trim(htmlspecialchars($_POST['email_repeat']));
+		$username		= $_SESSION['username'];
+
 		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)) || !isset($email_repeat) || empty($email_repeat) || !($email === $email_repeat))
 		{
 			echo "! Email input is invalid<br>";
@@ -49,25 +49,12 @@ error_reporting(E_ALL);
 					$stmt->bindParam(':username', $username);
 					if ($stmt->execute())
 					{		
-					/*			
-						echo "email changed\n";
 
 						$to			= $email; 
 						$subject	= 'Email Change';
-						$message	= 
-"
-Seems You have modified your email address, to log in with your new credentials
-Please click this link to activate your account:
-
-http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
-
-";
-						if (mail($to, $subject, $message))*/
-						$to			= $email; 
-				$subject	= 'Email Change';
-				$headers 	= "MIME-Version: 1.0\r\n";
-				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-				$message 	= 
+						$headers 	= "MIME-Version: 1.0\r\n";
+						$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+						$message 	= 
 "
 <html>
   <head>
@@ -144,5 +131,6 @@ http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'
 	{
 		echo $stmt . "<br>" . $e->getMessage();
 	}
+	
 	$conn = null;
 ?>
