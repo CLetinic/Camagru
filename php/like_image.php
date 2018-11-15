@@ -64,7 +64,7 @@ include '../config/database.php';
 			}
 			else
 				die ('Something went wrong');
-			header('Location:' . $url . '');
+			header('Location: ../' . $url . '');
 		}
 		else
 			die ('Something went wrong...');

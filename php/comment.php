@@ -118,7 +118,7 @@ include '../config/database.php';
 						else
 							die ('email failed to send.');
 					}
-					header('Location:' . $url . '');
+					header('Location: ../' . $url . '');
 		
 		}
 		else

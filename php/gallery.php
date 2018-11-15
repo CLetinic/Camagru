@@ -136,11 +136,18 @@ include '../config/database.php';
 				{ 
 					$comment = $comments[$j]['comment'];
 					$comment_by = $comments[$j]['user_id'];
-					
+
+					$stmt = $conn->prepare("SELECT * FROM users WHERE user_id=:user_id");
+					$stmt->bindValue(':user_id', $comment_by);
+					$stmt->execute();
+					$com_user = $stmt->fetch();
+
+					$by = $com_user['user_name'];
+
 					echo'
 						<tr>
 							<td>'
-								. $comment_by . 
+								. $by . 
 								'<td>'
 								. $comment . 
 								'</td>' .
