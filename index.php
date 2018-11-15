@@ -529,7 +529,11 @@ include 'config/database.php';
 								C59.538,62.951,58.882,57.84,59.002,53.017z"/>
 								</svg>
 							</a>
-						</div>								
+						</div>
+						<div style="height: 35px;"></div>
+						<div class="photo_option">
+							
+						</div>						
 					</div>
 				</div>	
 					<canvas width="600" height="450" id="canvas" style="background-color: rgb(40, 41, 35);;" />
