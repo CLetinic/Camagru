@@ -890,9 +890,9 @@ include 'config/database.php';
 
 										var noti_mod = document.getElementById("notify_mod");
 
-										if (box_checked == 'true' && (noti_mod.checked == false || noti_mod.checked == 0))
+										if ((box_checked == 'true' || box_checked == 1) && (noti_mod.checked == false || noti_mod.checked == 0))
 											noti_mod.setAttribute("checked", "true");
-										if (box_checked == 'false' && (noti_mod.checked == true || noti_mod.checked == 1))
+										if ((box_checked == 'false' || box_checked == 0) && (noti_mod.checked == true || noti_mod.checked == 1))
 											noti_mod.removeAttribute("checked");
 
 									};

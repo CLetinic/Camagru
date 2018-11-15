@@ -44,15 +44,17 @@ include_once './functions.php';
 						$stmt->bindParam(':username', $username);
 						$stmt->execute();
 						
-						echo "password changed\n";
+						echo "username changed\n";
 						$_SESSION['username'] = $new_username;
-						header('Location: ../index.php?');
+						//header('Location: ../index.php?');
 						exit;
 					}
 				}
 			}
+			else if (!$exist)
+				die('username taken');
 			else
-				die ('Something went wrong...');
+				die('Something went wrong...');
 	}
 	catch(PDOException $e)
 	{

@@ -23,7 +23,7 @@ include '../config/database.php';
 				$stmt->bindValue(':image_id', $image_id);
 				$stmt->execute();
 
-				header('Location:' . $url . '');
+				header('Location: /gallery.php?');
 			}
 			else
 				die("you are unauthorised to delete this image");
