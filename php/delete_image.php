@@ -18,6 +18,7 @@ include '../config/database.php';
 			{
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$sql = "USE ".$DB_NAME;
 				$sql = "USE ".$DB_NAME;		
 				$stmt = $conn->prepare("DELETE FROM images WHERE image_id=:image_id");
 				$stmt->bindValue(':image_id', $image_id);

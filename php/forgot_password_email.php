@@ -21,6 +21,7 @@ include '../config/database.php';
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 			$sql = "USE ".$DB_NAME;
+	
 			$stmt = $conn->prepare("SELECT * FROM users WHERE email=:email");
 			$stmt->bindValue(':email', $email);
 			$stmt->execute();
@@ -28,14 +29,7 @@ include '../config/database.php';
 			if (!$user)
 				die('email does not exist');
 			else
-			{
-
-				var_dump($token);
-				
-				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-				$sql = "USE ".$DB_NAME;
-
+			{			
 				$stmt = $conn->prepare("UPDATE users SET token = :token");
 				$stmt->bindParam(':token', $token);
 				$stmt->execute();

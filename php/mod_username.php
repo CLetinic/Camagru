@@ -12,7 +12,11 @@ include_once './functions.php';
 	try
 	{
 		$new_username	= trim(htmlspecialchars($_POST['username']));
-		$username		= $_SESSION['username'];
+		
+		if (isset($_SESSION['loggedin']) === true)
+			$username		= $_SESSION['username'];
+		else
+			die ('no session variables have been set');
 
 		if (!isset($new_username) || empty($new_username) || strlen($new_username) < 4)
 		{
@@ -23,14 +27,11 @@ include_once './functions.php';
 
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$sql = "USE ".$DB_NAME;	
 				$exist = checkExist($new_username, NULL, $conn);
 
 				if (!$exist)
 				{
-					$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // remember to replace to PDO::ERRMODE_EXCEPTION
-					$sql = "USE ".$DB_NAME;		
-					$conn->exec($sql);
 					$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
 					$stmt->bindValue(':username', $username);
 					$stmt->execute();

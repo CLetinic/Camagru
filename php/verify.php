@@ -13,6 +13,7 @@ include '../config/database.php';
 		{
 			$token = htmlspecialchars($_GET['token']);
 			$email = htmlspecialchars($_GET['email']);
+
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 			$sql = "USE ".$DB_NAME;		
@@ -27,11 +28,7 @@ include '../config/database.php';
 
 				$active	= true;
 
-				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-				$sql = "USE ".$DB_NAME;
-				$sql = "UPDATE users SET activated = $active WHERE email = $email";
-				$stmt = $conn->prepare($sql);
+				$stmt = $conn->prepare("UPDATE users SET activated = $active WHERE email = $email");
 				$stmt->execute();
 				header('Location: ../index.php?pop_up_login=true');
 				exit;

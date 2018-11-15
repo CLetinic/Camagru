@@ -23,5 +23,4 @@ error_reporting(E_ALL);
 			return false;
 		}
 	}
-
 ?>

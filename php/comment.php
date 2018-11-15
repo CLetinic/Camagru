@@ -29,30 +29,40 @@ include '../config/database.php';
 			&& (isset($image_id) && !empty($image_id)) 
 			&& (isset($comment) && !empty($comment)))
 		{
-				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
-				$sql = "USE ".$DB_NAME;
-				$sql = "INSERT INTO comments (user_name, comment, image_id)
-				VALUES (:user_name, :comment, :image_id)";
-				$stmt = $conn->prepare($sql);
-				$stmt->bindParam(':user_name', $user_name);
-				$stmt->bindParam(':comment', $comment);
-				$stmt->bindParam(':image_id', $image_id);
-				$stmt->execute();
+			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			$sql = "USE ".$DB_NAME;
+			$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
+			$stmt->bindValue(':user_name', $user_name);
+			$stmt->execute();
+			$usernames = $stmt->fetch();
 
-				$stmt = $conn->prepare("SELECT notifications, email FROM users WHERE user_name=:user_name");
-				$stmt->bindValue(':user_name', $image_user); // get the user of the image
-				$stmt->execute();
-				$notify = $stmt->fetch();
+			if (!$usernames)
+				die("username does not exist");
 
-				if ($notify['notifications'] == 1)
-				{
-						$by			= ucfirst($user_name);
-						$to			= $notify['email']; 
-						$subject	= 'Notification';
-						$headers 	= "MIME-Version: 1.0\r\n";
-						$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-						$message 	= 
+			$user_id	= $usernames['user_id'];
+
+			$sql = "INSERT INTO comments (user_id, comment, image_id)
+			VALUES (:user_id, :comment, :image_id)";
+			$stmt = $conn->prepare($sql);
+			$stmt->bindParam(':user_id', $user_id);
+			$stmt->bindParam(':comment', $comment);
+			$stmt->bindParam(':image_id', $image_id);
+			$stmt->execute();
+
+			$stmt = $conn->prepare("SELECT notifications, email FROM users WHERE user_id=:user_id");
+			$stmt->bindValue(':user_name', $image_user); // get the user of the image
+			$stmt->execute();
+			$notify = $stmt->fetch();
+
+			if ($notify['notifications'] == 1)
+			{
+					$by			= ucfirst($user_name);
+					$to			= $notify['email']; 
+					$subject	= 'Notification';
+					$headers 	= "MIME-Version: 1.0\r\n";
+					$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+					$message 	= 
 "
 <html>
 	<head>

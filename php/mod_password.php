@@ -13,7 +13,11 @@ include '../config/database.php';
 		$passw 			= htmlspecialchars($_POST['psw']);
 		$passw_new		= htmlspecialchars($_POST['psw_new']);
 		$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
-		$username		= $_SESSION['username'];
+		
+		if (isset($_SESSION['loggedin']) === true)
+			$username		= $_SESSION['username'];
+		else
+			die ('no session variables have been set');
 
 		if (!isset($passw) || empty($passw) || !isset($passw_new) || empty($passw_new) || !isset($passw_repeat) || empty($passw_repeat) || !($passw_new === $passw_repeat) || !(strlen($passw) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw)) || !(strlen($passw_new) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new)))
 		{

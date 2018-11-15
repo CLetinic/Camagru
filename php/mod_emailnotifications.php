@@ -10,15 +10,20 @@ include '../config/database.php';
 	try
 	{
 		$notify		= $_POST['notifi'];
-		$username	= $_SESSION['username'];
-		$_SESSION['email_notify'] = $notify;
+
+		if (isset($_SESSION['loggedin']) === true)
+		{
+			$username	= $_SESSION['username'];
+			$_SESSION['email_notify'] = $notify;
+		}
+		else
+			die('No session variables have been set');
 
 		if ($notify === "true" || $notify === "false")
 		{
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 				$sql = "USE ".$DB_NAME;		
-				$conn->exec($sql);
 				$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");
 				$stmt->bindValue(':username', $username);
 				$stmt->execute();

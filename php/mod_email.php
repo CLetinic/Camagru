@@ -12,7 +12,11 @@ error_reporting(E_ALL);
 	{
 		$email			= trim(htmlspecialchars($_POST['email']));
 		$email_repeat	= trim(htmlspecialchars($_POST['email_repeat']));
-		$username		= $_SESSION['username'];
+
+		if (isset($_SESSION['loggedin']) === true)
+			$username		= $_SESSION['username'];
+		else
+			die ('no session variables have been set');
 
 		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)) || !isset($email_repeat) || empty($email_repeat) || !($email === $email_repeat))
 		{
@@ -42,6 +46,7 @@ error_reporting(E_ALL);
 				{
 					$active 		= false;
 					$token			= bin2hex(openssl_random_pseudo_bytes(16));
+					
 					$stmt = $conn->prepare("UPDATE users SET email = :email, token = :token, activated = :activated WHERE user_name = :username");
 					$stmt->bindParam(':email', $email);
 					$stmt->bindParam(':token', $token);
