@@ -65,9 +65,10 @@ include 'config/database.php';
 					<div id="picture">
 						<div class="cam">
 							<div style="height: 35px;"></div>
-							<video id="cam" width="600" height="450" autoplay="false"></video>					
-							<div class="overlay">
-								<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							<div id="boothlayout">
+								<video id="cam" width="600" height="450" autoplay="false"></video>
+								<canvas width="600" height="450" id="canvas" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>
+								<svg class="overlay" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
 								<path d="M160.916,100.366c-0.612-9.792-14.076-9.792-15.3-0.612c-8.568-23.868-29.988-42.84-55.08-46.512
@@ -98,10 +99,9 @@ include 'config/database.php';
 								c-2.448,5.509,3.672,13.465,9.792,12.853c11.628-1.224,23.256-1.836,34.884-4.284c10.404-1.836,8.568-18.972-2.446-18.972
 								c30.6-21.42,56.916-52.632,75.888-82.62C320.036,149.326,342.681,104.65,316.977,68.543z"/>
 								</svg>
-								<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+								<svg class="overlay" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="position:absolute; enable-background:new 0 0 359.346 359.346;"
 								xml:space="preserve">
-
 								<path d="M349.57,93.573c-36.107-88.74-142.596-56.304-170.747,16.524c-24.48-67.32-129.133-82.62-167.688-11.628
 								c-19.584,36.72-12.24,78.336,13.464,110.161c14.688,18.359,34.272,32.436,54.468,44.676c28.152,17.135,61.812,29.988,74.664,62.424
 								c1.836,4.283,6.12,4.283,8.568,2.447c1.224,1.225,3.672,1.836,6.12,0.613c31.823-15.301,62.424-33.049,94.248-48.35
@@ -538,7 +538,6 @@ include 'config/database.php';
 						</div>						
 					</div>
 				</div>	
-					<canvas width="600" height="450" id="canvas" style="background-color: rgb(40, 41, 35);;" />
 				<script type="text/javascript">
 
 				/* For Camera */
