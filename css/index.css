@@ -358,6 +358,11 @@ input:-webkit-autofill
 	opacity: 0.9;
 }
 
+input[type="submit"]:hover 
+{
+    background-color: rgb(249, 35, 112);
+}
+
 [type="submit"] :hover 
 {
 	opacity: 1;

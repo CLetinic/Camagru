@@ -16,6 +16,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +46,11 @@ include 'config/database.php';
 			<a class="right" href="php/logout.php">Logout</a>
 			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
 			<?php endif;?>
-			<a class="nav_button" id="gallery" href="index.php?activepage=gallery&user_name=<?php echo $_SESSION['username']; ?>&page=1">My Gallery</a>
+			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
 			<a class="nav_button" id="search" href="index.php?activepage=search">Search</a>
 		</nav>
+
+		<!-- <a class="nav_button" id="gallery" href="index.php?activepage=gallery&user_name=<?php echo $_SESSION['username']; ?>&page=1">My Gallery</a> -->
 
 		<!-- PAGES -->
 
@@ -546,23 +549,36 @@ include 'config/database.php';
 				var canvas	= document.getElementById('canvas');
 				var context = canvas.getContext('2d');
 
+				//https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
 				function handleFiles(e) 
 				{
-					var reader = new FileReader;
+					var reader = new FileReader();
+
 					reader.onload = function(event) 
 					{
-						var img = new Image;
-						img.src = event.target.result;
-						img.onload = function() 
+						if (reader.readyState == 2)
 						{
-							context.drawImage(img, 0, 0, 600, 450);
+							allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
+							if ((allowedFileTypes.indexOf(e.target.files[0].type)) > -1)
+							{
+								var img = new Image;
+								img.src = event.target.result;
+								img.onload = function() 
+								{
+									context.drawImage(img, 0, 0, 600, 450);
+								}
+							}
+							else
+							{
+								location.reload();				
+							}
 						}
 					}
 					reader.readAsDataURL(e.target.files[0]);
-				}
+				}	
 
-					var input = document.getElementById('input');
-					input.addEventListener('change', handleFiles);
+				var input = document.getElementById('input');
+				input.addEventListener('change', handleFiles);
 				
 				/* BUTTON HANDLER */
 				function optionHandler(d)
@@ -690,7 +706,7 @@ include 'config/database.php';
 				document.getElementById('option_save').addEventListener('click', function()
 				{
 					context = document.getElementById('canvas').getContext("2d");
-					//context.drawImage(video, 0, 0, 600, 450);
+
 					const imgUrl = canvas.toDataURL('image/png');
 					console.log(encodeURIComponent(imgUrl));
 
@@ -703,12 +719,15 @@ include 'config/database.php';
 			</div>
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
-				<?php
+				<div>
+					<?php
 
 					ini_set('display_errors', 1);
 					ini_set('display_startup_errors', 1);
 					error_reporting(E_ALL);
 					include './config/database.php';
+
+					$url = htmlspecialchars($_SERVER['REQUEST_URI']);
 
 						try
 						{
@@ -718,7 +737,9 @@ include 'config/database.php';
 								$user_id	= isset($_SESSION['user_id']);
 								$loggedin	= isset($_SESSION['loggedin']);
 
-								if (!isset($_GET['user_name']))
+								if (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0)
+									$user_name	= $username;
+								else if (!isset($_GET['user_name']))
 								{
 									$user_name	= $username;
 								}
@@ -728,10 +749,10 @@ include 'config/database.php';
 							}
 							else if (isset($_GET['user_name']))
 								$user_name	= htmlspecialchars($_GET['user_name']);	
-							else if (!isset($_GET['user_name']))
-								die("either log in or put in a user name");
+							else if (!isset($_GET['user_name']) || (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0))
+								echo ("either log in or put in a user name");
 							else
-								die("Something went wrong...");
+								echo ("Something went wrong...");
 
 							$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
@@ -741,7 +762,7 @@ include 'config/database.php';
 							$stmt->execute();
 							$usernames = $stmt->fetch();
 							if (!$usernames)
-								die("username does not exist");
+								echo ("username does not exist");
 
 							$user_id	= $usernames['user_id'];
 
@@ -882,7 +903,7 @@ include 'config/database.php';
 
 						$conn = null;
 					?>
-
+				</div>				
 			</div>
 			<!-- SEARCH -->
 			<div id="search_page" class="page">
