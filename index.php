@@ -548,12 +548,14 @@ include 'config/database.php';
 				video.srcObject;
 				var canvas	= document.getElementById('canvas');
 				var context = canvas.getContext('2d');
+				var reader = new FileReader();
+				var canSave = false;
+
+				console.log(canSave);
 
 				//https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
 				function handleFiles(e) 
 				{
-					var reader = new FileReader();
-
 					reader.onload = function(event) 
 					{
 						if (reader.readyState == 2)
@@ -561,6 +563,8 @@ include 'config/database.php';
 							allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
 							if ((allowedFileTypes.indexOf(e.target.files[0].type)) > -1)
 							{
+								canSave = true;
+
 								var img = new Image;
 								img.src = event.target.result;
 								img.onload = function() 
@@ -569,12 +573,13 @@ include 'config/database.php';
 								}
 							}
 							else
-							{
 								location.reload();				
-							}
 						}
+						else
+							location.reload();
 					}
-					reader.readAsDataURL(e.target.files[0]);
+					if(event.target.files[0])
+						reader.readAsDataURL(e.target.files[0]);
 				}	
 
 				var input = document.getElementById('input');
@@ -588,13 +593,19 @@ include 'config/database.php';
 					var option_buttons = document.getElementsByClassName("booth_options");
 					var time;
 
-					for (var i = 0; i < option_buttons.length; i++) 
+					function removeButton()
 					{
-						option_buttons[i].style.display='none';
-					}			
+						console.log("emove");
+						for (var i = 0; i < option_buttons.length; i++) 
+						{
+							option_buttons[i].style.display='none';
+						}
+					}
 
 					if (d.id == 'option_upload')
 					{
+						removeButton();
+
 						document.getElementById("option_back").classList.remove("cam_mode");
 						document.getElementById("option_back").classList.add("file_mode");
 
@@ -605,6 +616,8 @@ include 'config/database.php';
 					
 					if (d.id == 'option_back')
 					{
+						removeButton();
+
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
 
@@ -612,6 +625,8 @@ include 'config/database.php';
 					}
 					if (d.id == 'option_cam')
 					{
+						removeButton();
+
 						document.getElementById("option_back").classList.add("cam_mode");
 						document.getElementById("option_back").classList.remove("file_mode");
 
@@ -655,17 +670,32 @@ include 'config/database.php';
 					}
 					else if (d.id == 'option_save')
 					{
-						document.getElementById('option_upload').style.display='block';
-						document.getElementById('option_cam').style.display='block';
+						if (canSave == true)
+						{
+							removeButton();
+
+							document.getElementById('option_upload').style.display='block';
+							document.getElementById('option_cam').style.display='block';
+						}
 					}
 					else if (d.id == 'option_summit')
 					{
-						document.getElementById('option_upload').style.display='block';
-						document.getElementById('option_save').style.display='block';
-						document.getElementById('option_trash').style.display='block';
+						removeButton();
+
+						if (reader.readyState == 2)
+						{
+							document.getElementById('option_upload').style.display='block';
+							document.getElementById('option_save').style.display='block';
+							document.getElementById('option_trash').style.display='block';
+						}
+						else
+							location.reload();
+
 					}
 					else if (d.id == 'option_trash')
 					{
+						removeButton();
+
 						document.getElementById('option_upload').style.display='block';
 						document.getElementById('option_cam').style.display='block';
 					}
@@ -686,6 +716,7 @@ include 'config/database.php';
 
 				document.getElementById('capture').addEventListener('click', function()
 				{
+					canSave = true;
 				 	context.drawImage(video, 0, 0, 600, 450);
 				 	clearTimeout(time);
 				});
@@ -705,15 +736,22 @@ include 'config/database.php';
 
 				document.getElementById('option_save').addEventListener('click', function()
 				{
-					context = document.getElementById('canvas').getContext("2d");
+					console.log("save_button");
+					if (canSave == true)
+					{
+						console.log("saving");
+						context = document.getElementById('canvas').getContext("2d");
 
-					const imgUrl = canvas.toDataURL('image/png');
-					console.log(encodeURIComponent(imgUrl));
+						const imgUrl = canvas.toDataURL('image/png');
+						console.log(encodeURIComponent(imgUrl));
 
-					var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-					xhttp.open('POST', 'php/saveimg.php', true);
-					xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-					xhttp.send('key='+encodeURIComponent(imgUrl));
+						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+						xhttp.open('POST', 'php/saveimg.php', true);
+						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+						xhttp.send('key='+encodeURIComponent(imgUrl));
+
+						canSave = false;
+					}
 				});
 			</script>
 			</div>
