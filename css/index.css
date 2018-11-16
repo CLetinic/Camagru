@@ -102,12 +102,10 @@
 {
 	width: 200px; height: 200px; background-color: blue;
 }
-
 #photo_booth_page
 {
 	width: 200px; height: 200px; background-color: green;
 }
-
 #gallery_page
 {
 	width: 200px; height: 200px; background-color: yellow;
@@ -357,7 +355,7 @@ input:-webkit-autofill
 
 input[type="submit"]:hover 
 {
-    background-color: rgb(249, 35, 112);
+	background-color: rgb(249, 35, 112);
 }
 
 [type="submit"] :hover 
@@ -365,5 +363,13 @@ input[type="submit"]:hover
 	opacity: 1;
 }
 
-
-
+:not(input) [type="color"] 
+{
+	all: inherit;
+	height: 20px;
+	width: 40px;
+	background-color: #282822;
+	outline: none;
+	cursor: pointer;
+	padding: 2px;
+}
