@@ -68,6 +68,7 @@ include 'config/database.php';
 							<div id="boothlayout">
 								<video id="cam" width="600" height="450" autoplay="false"></video>
 								<canvas width="600" height="450" id="canvas" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>
+								
 								<svg class="overlay" id="svg_overlay_0" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: block; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -898,7 +899,8 @@ include 'config/database.php';
 								<input type="color" value="#000000" id="colourWell_0">
 								<input type="color" value="#000000" id="colourWell_1">
 							</a>
-						</div>						
+						</div>
+						<canvas width="600" height="450" id="can_sticker" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>					
 					</div>
 				</div>	
 				<script type="text/javascript">
@@ -913,28 +915,35 @@ include 'config/database.php';
 				var reader = new FileReader();
 				var canSave = false;
 
+
+					//var overlays = document.getElementsByClassName("overlay");
+
+
+
+
+
 				/* OVERLAY / STICKER */ 
-				var overlays = document.getElementsByClassName("overlay");
+				
 				
 				// console.log(overlay);
 
-				// colorPicker = document.getElementById("colourWell_0");
+				colorPicker = document.getElementById("colourWell_0");
 
-				// colorPicker.addEventListener("input", updateFirst, false);
-				// colorPicker.addEventListener("change", watchColorPicker, false);
+				colorPicker.addEventListener("input", updateFirst, false);
+				colorPicker.addEventListener("change", watchColorPicker, false);
 
-				// function watchColorPicker(event) 
-				// {
-				// 	var overlay = document.getElementById("svg_overlay_0");
-				// 	if (overlay) 
-				// 		overlay.style.fill = event.target.value;
-				// }
-				// function updateFirst(event) 
-				// {
-				// 	var overlay = document.getElementById("svg_overlay_0");
-				// 	if (overlay) 
-				// 		overlay.style.fill = event.target.value;
-				// }
+				function watchColorPicker(event) 
+				{
+					var overlay = document.getElementById("svg_overlay_0");
+					if (overlay) 
+						overlay.style.fill = event.target.value;
+				}
+				function updateFirst(event) 
+				{
+					var overlay = document.getElementById("svg_overlay_0");
+					if (overlay) 
+						overlay.style.fill = event.target.value;
+				}
 
 				// colorPicker1 = document.getElementById("colourWell_1");
 
@@ -1134,7 +1143,7 @@ include 'config/database.php';
 				{
 				 	 if (document.getElementById("option_back").classList.contains("cam_mode"))
 						video.srcObject.stop();
-					context.clearRect(0, 0, canvas.width, canvas.height);
+					context.clearRect(0, 0, 600, 450);
 				});
 				document.getElementById('option_trash').addEventListener('click', function()
 				{
@@ -1150,24 +1159,37 @@ include 'config/database.php';
 					console.log("save_button");
 					if (canSave == true)
 					{
+						
+
 						console.log("saving");
 						context = document.getElementById('canvas').getContext("2d");
 
 						const imgUrl = canvas.toDataURL('image/png');
 						console.log(encodeURIComponent(imgUrl));
 
-												// Stickers/ Overlays
-						// for (var k = 0; k < overlays.length; k++) 
-						// {
-						// 	if (overlays[j].style.display === 'block')
-						// 	{
-						// 		document.getElementById("can_sticker").getContext("2d").drawImage(overlays[j], 0, 0, 600, 450);
-						// 		console.log(overlays[j]);
-						// 		stickerURL = document.getElementById("can_sticker").toDataURL('image/png');
-						// 		console.log(encodeURIComponent(stickerURL));
-						// 	}
+						//Stickers/ Overlays
+						console.log("SVG");
 
-						// }
+						//https://stackoverflow.com/questions/12652769/rendering-html-elements-to-canvas
+
+						var canvas_sticker	= document.getElementById("can_sticker");
+						var context_sticker = canvas_sticker.getContext('2d');
+						var data = document.getElementById("svg_overlay_0").outerHTML;
+
+						var img = new Image();
+						var svg = new Blob([data], 
+						{
+							type: 'image/svg+xml'
+						});
+						var url = window.URL.createObjectURL(svg);
+
+						img.addEventListener("load", function()
+						{
+							context_sticker.drawImage(img, 0, 0);
+							window.URL.revokeObjectURL(url);
+						});
+
+						img.src = url;
 
 						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 						xhttp.open('POST', 'php/saveimg.php', true);
