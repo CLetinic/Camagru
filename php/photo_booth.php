@@ -18,6 +18,12 @@ include '../config/database.php';
 				$img		= preg_replace('#^data:image/\w+;base64,#i', '',$imageurl);
 
 				$_SESSION['num'.$imagenum] = $img;
+				$image = base64_decode($img);
+				file_put_contents('img'.$imagenum.'.png', $image);
+
+				/*
+				$img2 = base64_decode(file_get_contents('img2.txt'));
+		file_put_contents('img2.png', $img1);*/
 			}
 		}
 	}

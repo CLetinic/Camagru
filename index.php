@@ -907,6 +907,62 @@ include 'config/database.php';
 						<canvas width="600" height="450" id="can_sticker1" style="background-color: rgb(40, 41, 35);"></canvas>
 						<canvas width="600" height="450" id="can_sticker2" style="background-color: rgb(40, 41, 35);"></canvas>				
 					</div>
+					<div style="height: 35px;"></div>
+					<div style="width:100%; overflow-x: auto;">
+					<table>
+						<tr>
+							<?php
+
+								try
+								{
+									if (isset($_SESSION['loggedin']) === true)
+									{
+										$user_name	= $_SESSION['username'];
+										$user_id	= $_SESSION['user_id'];
+
+										if (isset($user_name))
+										{
+											$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+											$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+											$sql = "USE ".$DB_NAME;
+											$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
+											$stmt->bindValue(':user_name', $user_name);
+											$stmt->execute();
+											$usernames = $stmt->fetch();
+											if (!$usernames)
+												echo ("username does not exist");
+
+											$user_id	= $usernames['user_id'];
+											
+											$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id");
+											$stmt->bindValue(':user_id', $user_id);
+											$stmt->execute();
+											$image = $stmt->fetchAll();
+
+											for ($i = 0; $i < sizeof($image) ; $i++) 
+											{ 
+												$img = $image[$i]['content'];
+
+												echo '
+												<td>
+													<img src="data:image/png;base64,' . $img . '" style="width:240px; height:180px;"/>
+												</td>';												
+											}
+										}
+									}
+								}
+								catch(PDOException $e)
+								{
+									echo $stmt . "<br>" . $e->getMessage();
+								}
+
+								$conn = null;					
+								
+							?>							
+						</tr>
+					</table>
+				</div>
+				<div style="height: 35px;"></div>
 				</div>	
 				<script type="text/javascript">
 
@@ -927,64 +983,62 @@ include 'config/database.php';
 				//https://jsfiddle.net/pskfb/7v2ue7r2/
 				//var DOMURL = window.URL || window.webkitURL || window;
 
-				function drawSVG(num) 
+				function SVG()
 				{
-					var ctx = document.getElementById('can_sticker' + num).getContext('2d');
-					var imgTarget = document.getElementById('temp' + num);
-					var data = document.getElementById('svg_overlay_' + num).outerHTML;
-
-					//console.log(data);
-					var svg = new Blob([data], 
+					function drawSVG(num) 
 					{
-						type: 'image/svg+xml'
-					});
-					var url = window.URL.createObjectURL(svg);
-					imgTarget.src = url;
+						var ctx = document.getElementById('can_sticker' + num).getContext('2d');
+						var imgTarget = document.getElementById('temp' + num);
+						var data = document.getElementById('svg_overlay_' + num).outerHTML;
 
-					imgTarget.addEventListener("load", function() 
-					{
-						ctx.drawImage(imgTarget, 0, 0, 600, 450);
-						window.URL.revokeObjectURL(url);
-						var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
-
-						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-						xhttp.open('POST', 'php/photo_booth.php', true);
-						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-						xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
-					});
-					imgTarget.addEventListener("error", function(e) 
-					{
-						console.log(e);
-					});
-				}
-
-				function start() 
-				{
-					var num = 0;
-					for (var k = 0; k < overlays.length; k++) 
-					{
-						if (overlays[k].style.display === 'block')
+						//console.log(data);
+						var svg = new Blob([data], 
 						{
-							drawSVG(num);
-							num++;
+							type: 'image/svg+xml'
+						});
+						var url = window.URL.createObjectURL(svg);
+						imgTarget.src = url;
+
+						imgTarget.addEventListener("load", function() 
+						{
+							ctx.drawImage(imgTarget, 0, 0, 600, 450);
+							window.URL.revokeObjectURL(url);
+							var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
+
+							var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+							xhttp.open('POST', 'php/photo_booth.php', true);
+							xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+							xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
+						});
+						imgTarget.addEventListener("error", function(e) 
+						{
+							console.log(e);
+						});
+					}
+
+					function start() 
+					{
+						var num = 0;
+						for (var k = 0; k < overlays.length; k++) 
+						{
+							if (overlays[k].style.display === 'block')
+							{
+								drawSVG(num);
+								num++;
+							}
 						}
 					}
+
+					// double make sure image is loaded before svg to canvas
+					function loadImage() 
+					{
+						var img = new Image();
+						img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
+						img.addEventListener("load", start);
+					}
+
+					document.addEventListener('DOMContentLoaded', loadImage);
 				}
-
-				// double make sure image is loaded before svg to canvas
-				function loadImage() 
-				{
-					var img = new Image();
-					img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
-					img.addEventListener("load", start);
-				}
-
-				document.addEventListener('DOMContentLoaded', loadImage);
-
-
-				
-
-
 
 				// var index = 0;
 						
@@ -1031,7 +1085,7 @@ include 'config/database.php';
 
 				colorPicker = document.getElementById("colourWell_0");
 
-				colorPicker.addEventListener("input", updateFirst, false);
+				//colorPicker.addEventListener("input", updateFirst, false);
 				colorPicker.addEventListener("change", watchColorPicker, false);
 
 				function watchColorPicker(event) 
@@ -1039,13 +1093,14 @@ include 'config/database.php';
 					var overlay = document.getElementById("svg_overlay_0");
 					if (overlay) 
 						overlay.style.fill = event.target.value;
+
 				}
-				function updateFirst(event) 
-				{
-					var overlay = document.getElementById("svg_overlay_0");
-					if (overlay) 
-						overlay.style.fill = event.target.value;
-				}
+				// function updateFirst(event) 
+				// {
+				// 	var overlay = document.getElementById("svg_overlay_0");
+				// 	if (overlay) 
+				// 		overlay.style.fill = event.target.value;
+				// }
 
 				// colorPicker1 = document.getElementById("colourWell_1");
 
@@ -1262,7 +1317,6 @@ include 'config/database.php';
 					if (canSave == true)
 					{
 						
-
 						console.log("saving");
 						context = document.getElementById('canvas').getContext("2d");
 
@@ -1271,54 +1325,8 @@ include 'config/database.php';
 						
 						//Stickers/ Overlays
 						console.log("SVG");
-						//https://stackoverflow.com/questions/12652769/rendering-html-elements-to-canvas
-
-						// var index = 0;
-						
-						// for (var k = 0; k < overlays.length; k++) 
-						// {
-						// 	if (overlays[k].style.display === 'block')
-						// 	{
-						// 		var canvas_sticker	= document.getElementById("can_sticker");
-						// 		var context_sticker = canvas_sticker.getContext("2d");
-						// 		var data = overlays[k].outerHTML;
-
-						// 		var img = new Image();
-						// 		var svg = new Blob([data], 
-						// 		{
-						// 			type: 'image/svg+xml'
-						// 		});
-						// 		var url = window.URL.createObjectURL(svg);
-
-						// 		// img.addEventListener("load", function()
-						// 		// {
-						// 		// 	context_sticker.drawImage(img, 0, 0, 600, 450);
-						// 		// 	window.URL.revokeObjectURL(url);
-						// 		// 	sticker_Url = canvas_sticker.toDataURL('image/png');
-						// 		// 	arr[k] = sticker_Url;									
-						// 		// });
-						// 		img.onload = function()
-						// 		{
-						// 			context_sticker.drawImage(img, 0, 0, 600, 450);
-						// 			window.URL.revokeObjectURL(url);
-						// 			var sticker_Url = canvas_sticker.toDataURL('image/png');
-						// 			console.log("stickURL :" + sticker_Url);
-						// 		};
-
-						// 		img.src = url;
-								
-						// 		index++;
-
-						// 	}
-						// }
-
-						// for (var i = 0; i < arr.length; i++)
-						// {
-							
-						// }
-
-
-
+						SVG();
+												
 						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 						xhttp.open('POST', 'php/saveimg.php', true);
 						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
