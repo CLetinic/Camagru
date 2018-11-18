@@ -70,7 +70,7 @@ include 'config/database.php';
 								<canvas width="600" height="450" id="canvas" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>
 								
 								<svg class="overlay" id="svg_overlay_0" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
+								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: block; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
 								<path d="M160.916,100.366c-0.612-9.792-14.076-9.792-15.3-0.612c-8.568-23.868-29.988-42.84-55.08-46.512
 								c-34.884-5.508-68.544,17.748-82.008,48.96c-25.092,57.528,8.568,115.668,56.916,150.553c0,4.896,1.836,9.792,5.508,12.853
@@ -101,7 +101,7 @@ include 'config/database.php';
 								c30.6-21.42,56.916-52.632,75.888-82.62C320.036,149.326,342.681,104.65,316.977,68.543z"/>
 								</svg>
 								<svg class="overlay" version="1.1" id="svg_overlay_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="display: none; position:absolute; enable-background:new 0 0 359.346 359.346;"
+								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="display: block; position:absolute; enable-background:new 0 0 359.346 359.346;"
 								xml:space="preserve">
 								<path d="M349.57,93.573c-36.107-88.74-142.596-56.304-170.747,16.524c-24.48-67.32-129.133-82.62-167.688-11.628
 								c-19.584,36.72-12.24,78.336,13.464,110.161c14.688,18.359,34.272,32.436,54.468,44.676c28.152,17.135,61.812,29.988,74.664,62.424
@@ -114,7 +114,7 @@ include 'config/database.php';
 								C318.971,42.166,347.122,102.753,344.675,151.101z"/>
 								</svg>
 								<svg class="overlay" id="svg_overlay_2" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="450px" viewBox="0 0 380.026 380.026" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
+								width="600px" height="450px" viewBox="0 0 380.026 380.026" style="display: block; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
 								<path d="M334.426,359.104c-0.611-1.836-1.836-2.447-3.672-3.06c0,0,0-0.612-0.611-0.612
 								c-41.616-62.424-88.74-121.788-130.356-184.211c0-1.224,0-3.06-0.611-4.284c11.628,3.672,25.093,1.836,27.54-12.24
@@ -791,7 +791,7 @@ include 'config/database.php';
 							<input type="file" id="input" style="display:none;"/>
 
 							<!-- Submit -->
-							<a class="booth_options" id="option_summit" style="display: none;">
+							<a class="booth_options" id="option_summit" style="display: none;" onclick="optionHandler(this)">
 								<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
 							</a>
 							<!-- Trash -->
@@ -1248,12 +1248,24 @@ include 'config/database.php';
 						</a>
 													
 						</div>
-					<!-- <img id="temp0"/>
-						<img id="temp1"/>
-						<img id="temp2"/>
-						<canvas width="600" height="450" id="can_sticker0" style="background-color: rgb(40, 41, 35);"></canvas>
-						<canvas width="600" height="450" id="can_sticker1" style="background-color: rgb(40, 41, 35);"></canvas>
-						<canvas width="600" height="450" id="can_sticker2" style="background-color: rgb(40, 41, 35);"></canvas>	 -->
+						<div>
+							<img id="temp0"/>
+							<img id="temp1"/>
+							<img id="temp2"/>
+							<img id="temp3"/>
+							<img id="temp4"/>
+							<img id="temp5"/>
+							<img id="temp6"/>
+							<img id="temp7"/>
+							<canvas width="600" height="450" id="can_sticker0" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker1" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker2" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker3" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker4" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker5" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker6" style="background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker7" style="background-color: rgb(40, 41, 35);"></canvas>
+						</div>
 					<div style="height: 35px;"></div>
 					<div style="width:100%; overflow-x: auto;">
 					<table>
@@ -1325,6 +1337,77 @@ include 'config/database.php';
 				var reader = new FileReader();
 				var canSave = false;
 
+				/* OVERLAY / STICKER */ 
+					function drawSVG(num) 
+					{
+						console.log("level2");
+
+						var ctx = document.getElementById('can_sticker' + num).getContext('2d');
+						var imgTarget = document.getElementById('temp' + num);
+						var data = document.getElementById('svg_overlay_' + num).outerHTML;
+						//class="overlay" id="svg_overlay_6"
+						//console.log(data);
+						var svg = new Blob([data], 
+						{
+							type: 'image/svg+xml'
+						});
+						var url = window.URL.createObjectURL(svg);
+						imgTarget.src = url;
+						imgTarget.addEventListener("load", function() 
+						{
+							console.log("level3"); 
+							ctx.drawImage(imgTarget, 0, 0, 600, 450);
+							window.URL.revokeObjectURL(url);
+							var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
+							var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+							xhttp.open('POST', 'php/photo_booth.php', true);
+							xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+							xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
+						});
+						imgTarget.addEventListener("error", function(e) 
+						{
+							console.log(e);
+						});
+					}
+					function start() 
+					{
+						console.log("level1");
+						console.log(overlays.length);
+
+						var num = 0;
+						for (var k = 0; k < overlays.length; k++) 
+						{
+							console.log(overlays[k]);
+							if (overlays[k].style.display === 'block')
+							{
+								console.log("level1in");
+								drawSVG(num);
+								num++;
+							}
+						}
+					}
+					// double make sure image is loaded before svg to canvas
+					function loadImage() 
+					{
+						console.log("level0");
+						var img = new Image();
+						img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
+						img.addEventListener("load", start);
+					}
+					//document.addEventListener('DOMContentLoaded', loadImage);
+					document.getElementById('option_save').addEventListener('click',loadImage);
+				//}
+
+				colorPicker = document.getElementById("colourWell_0");
+				colorPicker.addEventListener("change", watchColorPicker, false);
+
+				function watchColorPicker(event) 
+				{
+					var overlay = document.getElementById("svg_overlay_0");
+					if (overlay) 
+						overlay.style.fill = event.target.value;				
+				}
+
 				/* Sticker uttons */
 
 				function stickerActivate(e)
@@ -1342,109 +1425,8 @@ include 'config/database.php';
 						document.getElementById("svg_overlay_"  + id_num).style.display = "none"
 						e.classList.remove("active_sticker");
 					}
-				}			
-
-				/* OVERLAY / STICKER */ 
+				}					
 				
-				//https://jsfiddle.net/pskfb/7v2ue7r2/
-				//var DOMURL = window.URL || window.webkitURL || window;
-
-				function SVG()
-				{
-					function drawSVG(num) 
-					{
-						var ctx = document.getElementById('can_sticker' + num).getContext('2d');
-						var imgTarget = document.getElementById('temp' + num);
-						var data = document.getElementById('svg_overlay_' + num).outerHTML;
-
-						//console.log(data);
-						var svg = new Blob([data], 
-						{
-							type: 'image/svg+xml'
-						});
-						var url = window.URL.createObjectURL(svg);
-						imgTarget.src = url;
-
-						imgTarget.addEventListener("load", function() 
-						{
-							ctx.drawImage(imgTarget, 0, 0, 600, 450);
-							window.URL.revokeObjectURL(url);
-							var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
-
-							var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-							xhttp.open('POST', 'php/photo_booth.php', true);
-							xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-							xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
-						});
-						imgTarget.addEventListener("error", function(e) 
-						{
-							console.log(e);
-						});
-					}
-
-					function start() 
-					{
-						var num = 0;
-						for (var k = 0; k < overlays.length; k++) 
-						{
-							if (overlays[k].style.display === 'block')
-							{
-								drawSVG(num);
-								num++;
-							}
-						}
-					}
-
-					// double make sure image is loaded before svg to canvas
-					function loadImage() 
-					{
-						var img = new Image();
-						img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
-						img.addEventListener("load", start);
-					}
-
-					document.addEventListener('DOMContentLoaded', loadImage);
-				}
-
-				colorPicker = document.getElementById("colourWell_0");
-
-				//colorPicker.addEventListener("input", updateFirst, false);
-				colorPicker.addEventListener("change", watchColorPicker, false);
-
-				function watchColorPicker(event) 
-				{
-					var overlay = document.getElementById("svg_overlay_0");
-					if (overlay) 
-						overlay.style.fill = event.target.value;
-					SVG();
-				}
-				// function updateFirst(event) 
-				// {
-				// 	var overlay = document.getElementById("svg_overlay_0");
-				// 	if (overlay) 
-				// 		overlay.style.fill = event.target.value;
-				// }
-
-				// colorPicker1 = document.getElementById("colourWell_1");
-
-				// colorPicker1.addEventListener("input", updateFirst1, false);
-				// colorPicker1.addEventListener("change", watchColorPicker1, false);
-
-				// function watchColorPicker1(event) 
-				// {
-				// 	var overlay = document.getElementById("svg_overlay_1");
-				// 	if (overlay) 
-				// 		overlay.style.fill = event.target.value;
-				// }
-				// function updateFirst1(event) 
-				// {
-				// 	var overlay = document.getElementById("svg_overlay_1");
-				// 	if (overlay) 
-				// 		overlay.style.fill = event.target.value;
-				// }
-
-
-
 				/* UPLOAD HANDLER*/
 
 				//https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
@@ -1577,12 +1559,12 @@ include 'config/database.php';
 					else if (d.id == 'option_summit')
 					{
 						removeButton();
-
 						if (reader.readyState == 2)
 						{
 							document.getElementById('option_upload').style.display='block';
 							document.getElementById('option_save').style.display='block';
 							document.getElementById('option_trash').style.display='block';
+							SVG();
 						}
 						else
 							location.reload();
@@ -1638,22 +1620,18 @@ include 'config/database.php';
 				{
 					console.log("save_button");
 					if (canSave == true)
-					{
-						
+					{	
 						console.log("saving");
+
 						context = document.getElementById('canvas').getContext("2d");
 
 						const imgUrl = canvas.toDataURL('image/png');
 						console.log(encodeURIComponent(imgUrl));
-						
-						SVG();
 												
 						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 						xhttp.open('POST', 'php/saveimg.php', true);
 						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-						xhttp.send('key='+encodeURIComponent(imgUrl));
-
-						canSave = false;
+						xhttp.send('key='+encodeURIComponent(imgUrl));		
 					}
 				});
 			</script>
