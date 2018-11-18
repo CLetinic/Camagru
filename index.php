@@ -10,7 +10,7 @@ I want to add -
 */
 
 session_start();
-print_r($_SESSION);
+var_dump($_SESSION);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -900,7 +900,12 @@ include 'config/database.php';
 								<input type="color" value="#000000" id="colourWell_1">
 							</a>
 						</div>
-						<canvas width="600" height="450" id="can_sticker" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>					
+						<img id="temp0"/>
+						<img id="temp1"/>
+						<img id="temp2"/>
+						<canvas width="600" height="450" id="can_sticker0" style="background-color: rgb(40, 41, 35);"></canvas>
+						<canvas width="600" height="450" id="can_sticker1" style="background-color: rgb(40, 41, 35);"></canvas>
+						<canvas width="600" height="450" id="can_sticker2" style="background-color: rgb(40, 41, 35);"></canvas>				
 					</div>
 				</div>	
 				<script type="text/javascript">
@@ -915,15 +920,112 @@ include 'config/database.php';
 				var reader = new FileReader();
 				var canSave = false;
 
-
-					//var overlays = document.getElementsByClassName("overlay");
-
-
-
-
+				var overlays = document.getElementsByClassName("overlay");
 
 				/* OVERLAY / STICKER */ 
 				
+				//https://jsfiddle.net/pskfb/7v2ue7r2/
+				//var DOMURL = window.URL || window.webkitURL || window;
+
+				function drawSVG(num) 
+				{
+					var ctx = document.getElementById('can_sticker' + num).getContext('2d');
+					var imgTarget = document.getElementById('temp' + num);
+					var data = document.getElementById('svg_overlay_' + num).outerHTML;
+
+					//console.log(data);
+					var svg = new Blob([data], 
+					{
+						type: 'image/svg+xml'
+					});
+					var url = window.URL.createObjectURL(svg);
+					imgTarget.src = url;
+
+					imgTarget.addEventListener("load", function() 
+					{
+						ctx.drawImage(imgTarget, 0, 0, 600, 450);
+						window.URL.revokeObjectURL(url);
+						var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
+
+						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+						xhttp.open('POST', 'php/photo_booth.php', true);
+						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+						xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
+					});
+					imgTarget.addEventListener("error", function(e) 
+					{
+						console.log(e);
+					});
+				}
+
+				function start() 
+				{
+					var num = 0;
+					for (var k = 0; k < overlays.length; k++) 
+					{
+						if (overlays[k].style.display === 'block')
+						{
+							drawSVG(num);
+							num++;
+						}
+					}
+				}
+
+				// double make sure image is loaded before svg to canvas
+				function loadImage() 
+				{
+					var img = new Image();
+					img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
+					img.addEventListener("load", start);
+				}
+
+				document.addEventListener('DOMContentLoaded', loadImage);
+
+
+				
+
+
+
+				// var index = 0;
+						
+				// 		for (var k = 0; k < overlays.length; k++) 
+				// 		{
+				// 			if (overlays[k].style.display === 'block')
+				// 			{
+				// 				var canvas_sticker	= document.getElementById("can_sticker");
+				// 				var context_sticker = canvas_sticker.getContext("2d");
+				// 				var data = overlays[k].outerHTML;
+
+				// 				var img = new Image();
+				// 				var svg = new Blob([data], 
+				// 				{
+				// 					type: 'image/svg+xml'
+				// 				});
+				// 				var url = window.URL.createObjectURL(svg);
+
+				// 				// img.addEventListener("load", function()
+				// 				// {
+				// 				// 	context_sticker.drawImage(img, 0, 0, 600, 450);
+				// 				// 	window.URL.revokeObjectURL(url);
+				// 				// 	sticker_Url = canvas_sticker.toDataURL('image/png');
+				// 				// 	arr[k] = sticker_Url;									
+				// 				// });
+				// 				img.onload = function()
+				// 				{
+				// 					context_sticker.drawImage(img, 0, 0, 600, 450);
+				// 					window.URL.revokeObjectURL(url);
+				// 					var sticker_Url = canvas_sticker.toDataURL('image/png');
+				// 					console.log("stickURL :" + sticker_Url);
+				// 				};
+
+				// 				img.src = url;
+								
+				// 				index++;
+
+				// 			}
+				// 		}
+
+
 				
 				// console.log(overlay);
 
@@ -1166,30 +1268,56 @@ include 'config/database.php';
 
 						const imgUrl = canvas.toDataURL('image/png');
 						console.log(encodeURIComponent(imgUrl));
-
+						
 						//Stickers/ Overlays
 						console.log("SVG");
-
 						//https://stackoverflow.com/questions/12652769/rendering-html-elements-to-canvas
 
-						var canvas_sticker	= document.getElementById("can_sticker");
-						var context_sticker = canvas_sticker.getContext('2d');
-						var data = document.getElementById("svg_overlay_0").outerHTML;
+						// var index = 0;
+						
+						// for (var k = 0; k < overlays.length; k++) 
+						// {
+						// 	if (overlays[k].style.display === 'block')
+						// 	{
+						// 		var canvas_sticker	= document.getElementById("can_sticker");
+						// 		var context_sticker = canvas_sticker.getContext("2d");
+						// 		var data = overlays[k].outerHTML;
 
-						var img = new Image();
-						var svg = new Blob([data], 
-						{
-							type: 'image/svg+xml'
-						});
-						var url = window.URL.createObjectURL(svg);
+						// 		var img = new Image();
+						// 		var svg = new Blob([data], 
+						// 		{
+						// 			type: 'image/svg+xml'
+						// 		});
+						// 		var url = window.URL.createObjectURL(svg);
 
-						img.addEventListener("load", function()
-						{
-							context_sticker.drawImage(img, 0, 0);
-							window.URL.revokeObjectURL(url);
-						});
+						// 		// img.addEventListener("load", function()
+						// 		// {
+						// 		// 	context_sticker.drawImage(img, 0, 0, 600, 450);
+						// 		// 	window.URL.revokeObjectURL(url);
+						// 		// 	sticker_Url = canvas_sticker.toDataURL('image/png');
+						// 		// 	arr[k] = sticker_Url;									
+						// 		// });
+						// 		img.onload = function()
+						// 		{
+						// 			context_sticker.drawImage(img, 0, 0, 600, 450);
+						// 			window.URL.revokeObjectURL(url);
+						// 			var sticker_Url = canvas_sticker.toDataURL('image/png');
+						// 			console.log("stickURL :" + sticker_Url);
+						// 		};
 
-						img.src = url;
+						// 		img.src = url;
+								
+						// 		index++;
+
+						// 	}
+						// }
+
+						// for (var i = 0; i < arr.length; i++)
+						// {
+							
+						// }
+
+
 
 						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 						xhttp.open('POST', 'php/saveimg.php', true);
