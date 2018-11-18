@@ -70,7 +70,7 @@ include 'config/database.php';
 								<canvas width="600" height="450" id="canvas" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>
 								
 								<svg class="overlay" id="svg_overlay_0" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: block; position:absolute;enable-background:new 0 0 328.425 328.425;"
+								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
 								<path d="M160.916,100.366c-0.612-9.792-14.076-9.792-15.3-0.612c-8.568-23.868-29.988-42.84-55.08-46.512
 								c-34.884-5.508-68.544,17.748-82.008,48.96c-25.092,57.528,8.568,115.668,56.916,150.553c0,4.896,1.836,9.792,5.508,12.853
@@ -101,7 +101,7 @@ include 'config/database.php';
 								c30.6-21.42,56.916-52.632,75.888-82.62C320.036,149.326,342.681,104.65,316.977,68.543z"/>
 								</svg>
 								<svg class="overlay" version="1.1" id="svg_overlay_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="display: block; position:absolute; enable-background:new 0 0 359.346 359.346;"
+								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="display: none; position:absolute; enable-background:new 0 0 359.346 359.346;"
 								xml:space="preserve">
 								<path d="M349.57,93.573c-36.107-88.74-142.596-56.304-170.747,16.524c-24.48-67.32-129.133-82.62-167.688-11.628
 								c-19.584,36.72-12.24,78.336,13.464,110.161c14.688,18.359,34.272,32.436,54.468,44.676c28.152,17.135,61.812,29.988,74.664,62.424
@@ -114,7 +114,7 @@ include 'config/database.php';
 								C318.971,42.166,347.122,102.753,344.675,151.101z"/>
 								</svg>
 								<svg class="overlay" id="svg_overlay_2" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								width="600px" height="450px" viewBox="0 0 380.026 380.026" style="display: block; position:absolute;enable-background:new 0 0 328.425 328.425;"
+								width="600px" height="450px" viewBox="0 0 380.026 380.026" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
 								<path d="M334.426,359.104c-0.611-1.836-1.836-2.447-3.672-3.06c0,0,0-0.612-0.611-0.612
 								c-41.616-62.424-88.74-121.788-130.356-184.211c0-1.224,0-3.06-0.611-4.284c11.628,3.672,25.093,1.836,27.54-12.24
@@ -1327,24 +1327,21 @@ include 'config/database.php';
 
 				/* Sticker uttons */
 
-				for (var k = 0; k < overlays.length; k++) 
-				{
-					if (overlays[k].style.display === 'block')
-					{
-						document.getElementById('sticker_' + k).classList.add("active_sticker");
-					}
-					else 
-						document.getElementById('sticker_' + k).classList.remove("active_sticker");
-				} 
-
 				function stickerActivate(e)
 				{
 					console.log(e.id);
-					console.log(e.id.substr(10));
-					// if (e.style.display === "none")
-					// 	e.style.display = "block"
-					// else (e.style.display === "block")
-					// 	e.style.display = "none"
+					var id_num = e.id.substr(10);
+
+					if (document.getElementById("svg_overlay_"  + id_num).style.display === "none")
+					{
+						document.getElementById("svg_overlay_"  + id_num).style.display = "block"
+						e.classList.add("active_sticker");
+					}
+					else if (document.getElementById("svg_overlay_"  + id_num).style.display === "block")
+					{
+						document.getElementById("svg_overlay_"  + id_num).style.display = "none"
+						e.classList.remove("active_sticker");
+					}
 				}			
 
 				/* OVERLAY / STICKER */ 
