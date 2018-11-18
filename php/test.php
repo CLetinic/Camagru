@@ -1,6 +1,9 @@
 
 <table>
 	<tr>
+		<td>
+							<img src="data:image/png;base64,' . $img . '" style="width:60px; height:45px;"/>
+						</td>
 		<?php
 		session_start();
 		ini_set('display_errors', 1);

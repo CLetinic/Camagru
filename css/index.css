@@ -29,23 +29,49 @@
 	color: #f1f1f1;
 }
 
+.sticker_size
+{
+	width: 80px;
+	height: 60px;
+}
+
+.colour_size
+{
+	width: 80px;
+}
+
+.sticker_options
+{
+	color: #f1f1f1;
+	text-align: center;
+	text-decoration: none;
+	background-color: rgb(40, 41, 35);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.sticker_options:hover
+{
+	background-color: rgb(249, 35, 112);
+	color: #f1f1f1;
+}
+
 .photo_option
 {
 	width: 640px;
 	background-color: rgb(40, 41, 35);
 	position: relative;
-	/* position: absolute; */
-	/* top: 0%; */
-	/* bottom: 0%; */
-	/* right: 0%; */
-	/* left: 0%; */
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin: auto;
 }
 
-
+.sticker_svg
+{
+	padding-top: 5px;
+}
 
 .option_svg
 {
@@ -84,33 +110,6 @@
 	border-bottom-width: 120px;
 	box-shadow: 8px 8px 30px rgb(40, 41, 35);*/
 }
-
-/*.overlay
-{
-	position: absolute;
-	top: 0%;
-	bottom: 22.4%;
-	right: 0%;
-	left: 0%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}*/
-
-/*
-#home_page
-{
-	width: 200px; height: 200px; background-color: blue;
-}
-#photo_booth_page
-{
-	width: 200px; height: 200px; background-color: green;
-}
-#gallery_page
-{
-	width: 200px; height: 200px; background-color: yellow;
-}
-*/
 
 .intro
 {
@@ -366,10 +365,10 @@ input[type="submit"]:hover
 :not(input) [type="color"] 
 {
 	all: inherit;
-	height: 20px;
-	width: 40px;
-	background-color: #282822;
-	outline: none;
-	cursor: pointer;
-	padding: 2px;
+    height: 20px;
+    /* width: 40px; */
+    background-color: #282822;
+    outline: none;
+    cursor: pointer;
+    /* padding: 2px; */
 }
