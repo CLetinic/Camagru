@@ -49,21 +49,21 @@ include '../config/database.php';
 					imagecopy($dest, $src, 0, 0, 0, 0, 600, 450);
 					header('Content-type: image/png');
 
+					//https://stackoverflow.com/questions/9370847/php-create-image-with-imagepng-and-convert-with-base64-encode-in-a-single-file
 					ob_start();
-					imagepng($dest);
-					// Capture the output
-					$img = ob_get_contents();
+					
+						imagepng($dest);					
+						$img = ob_get_contents(); // Capture the output
 
-					// Clear the output buffer
-					ob_end_clean();
+					ob_end_clean(); // Clear the output buffer
 
 					$img = base64_encode($img);
 					$temp = base64_decode($img);					
 
-					file_put_contents('join'.$x.'.png', $temp);
+					//file_put_contents('join'.$x.'.png', $temp);
 				}
-				$temp = base64_decode($img);
-				file_put_contents('join.png', $temp);
+				// $temp = base64_decode($img);
+				// file_put_contents('join.png', $temp);
 			
 				$sql = "INSERT INTO images (user_id, content)
 				VALUES (:user_id, :content)";
