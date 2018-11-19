@@ -22,7 +22,6 @@ include '../config/database.php';
 				
 				$_SESSION['num'.$imagenum] = $img;
 				$image = base64_decode($img);
-				file_put_contents('img'.$imagenum.'.png', $image);
 			}
 		}
 	}

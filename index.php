@@ -1261,27 +1261,27 @@ include 'config/database.php';
 							</div>
 						</div>
 						<div>
-							<img id="temp0"/>
-							<img id="temp1"/>
-							<img id="temp2"/>
-							<img id="temp3"/>
-							<img id="temp4"/>
-							<img id="temp5"/>
-							<img id="temp6"/>
-							<img id="temp7"/>
-							<canvas width="600" height="450" id="can_sticker0" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker1" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker2" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker3" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker4" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker5" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker6" style="background-color: rgb(40, 41, 35);"></canvas>
-							<canvas width="600" height="450" id="can_sticker7" style="background-color: rgb(40, 41, 35);"></canvas>
+							<img style="display: none;" id="temp0"/>
+							<img style="display: none;" id="temp1"/>
+							<img style="display: none;" id="temp2"/>
+							<img style="display: none;" id="temp3"/>
+							<img style="display: none;" id="temp4"/>
+							<img style="display: none;" id="temp5"/>
+							<img style="display: none;" id="temp6"/>
+							<img style="display: none;" id="temp7"/>
+							<canvas width="600" height="450" id="can_sticker0" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker1" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker2" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker3" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker4" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker5" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker6" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+							<canvas width="600" height="450" id="can_sticker7" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
 						</div>
 					<div style="height: 35px;"></div>
 					<div style="width:100%; overflow-x: auto;">
 					<table>
-						<tr>
+						<!-- <tr>
 							<?php
 
 								try
@@ -1330,7 +1330,7 @@ include 'config/database.php';
 								$conn = null;					
 								
 							?>							
-						</tr>
+						</tr> -->
 					</table>
 				</div>
 				<div style="height: 35px;"></div>
@@ -1661,7 +1661,6 @@ include 'config/database.php';
 						xhttp.open('POST', 'php/saveimg.php', true);
 						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
 						xhttp.send('key='+encodeURIComponent(imgUrl));
-						location.reload();
 					}
 				});
 			</script>
@@ -1675,6 +1674,8 @@ include 'config/database.php';
 					ini_set('display_startup_errors', 1);
 					error_reporting(E_ALL);
 					include './config/database.php';
+
+					echo ('here');
 
 					$url = htmlspecialchars($_SERVER['REQUEST_URI']);
 
