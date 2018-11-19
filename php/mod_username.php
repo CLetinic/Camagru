@@ -2,9 +2,9 @@
 
 // remember to remove this
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1); 
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 include '../config/database.php';
 include_once './functions.php';
@@ -26,7 +26,7 @@ include_once './functions.php';
 			{
 
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$sql = "USE ".$DB_NAME;	
 				$exist = checkExist($new_username, NULL, $conn);
 

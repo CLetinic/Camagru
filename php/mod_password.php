@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1); 
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 include '../config/database.php';
 
@@ -45,7 +45,7 @@ include '../config/database.php';
 		&& (strlen($passw) > 6) && (preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw)) && (strlen($passw_new) > 6) && (preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw_new)))
 		{
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "USE ".$DB_NAME;		
 			$conn->exec($sql);
 			$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:username");

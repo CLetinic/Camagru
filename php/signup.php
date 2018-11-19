@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1); 
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 // https://www.formget.com/php-data-object/
 	include '../config/database.php';
 	include_once './functions.php';
@@ -53,7 +53,7 @@ error_reporting(E_ALL);
 			// firstly check if the username or email already exists in this database
 
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$user = checkExist($user_name, $email, $conn);
 
 			if (!$user)
@@ -63,7 +63,7 @@ error_reporting(E_ALL);
 				$enc_passw = password_hash($passw, PASSWORD_BCRYPT);
 
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$sql = "USE ".$DB_NAME;
 				$sql = "INSERT INTO users (user_name, email, password, token, activated, notifications)
 				VALUES (:user_name, :email, :passw, :token, :activated, :notifications)";

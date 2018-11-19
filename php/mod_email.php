@@ -1,9 +1,9 @@
 <?php
 
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1); 
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 	include '../config/database.php';
 	include_once './functions.php';
@@ -28,13 +28,13 @@ error_reporting(E_ALL);
 		{
 
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$exist = checkExist(NULL, $email, $conn);
 
 			if (!$exist)
 			{
 				$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 				$sql = "USE ".$DB_NAME;		
 				$stmt = $conn->prepare("SELECT * FROM users WHERE user_name = :username");
 				$stmt->bindParam(':username', $username);

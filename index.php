@@ -10,7 +10,7 @@ I want to add -
 */
 
 session_start();
-var_dump($_SESSION);
+// var_dump($_SESSION);
 
 for ($i = 0; $i <= 7; $i++)				
 {
@@ -18,9 +18,9 @@ for ($i = 0; $i <= 7; $i++)
 		unset ($_SESSION['num'.$i]);
 }
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1); 
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 // https://www.formget.com/php-data-object/
 include 'config/database.php';
 
@@ -35,13 +35,13 @@ include 'config/database.php';
 	</HEAD>
 	<BODY>
 		<header>
-			<p id="info"> ! change</p>
+			<p id="info"> Welcome!</p>
 		</header>
-		<div class="banner">
+		<!-- <div class="banner">
 			<a href="index.php?activepage=home">
 				<img id= "logo" src="img/logo.svg">
 			</a>				
-		</div>
+		</div> -->
 		<nav id="nav">
 			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
 			<?php if(isset($_SESSION['loggedin']) !== true):?>
@@ -57,15 +57,12 @@ include 'config/database.php';
 			<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
 		</nav>
 
-		<!-- <a class="nav_button" id="gallery" href="index.php?activepage=gallery&user_name=<?php echo $_SESSION['username']; ?>&page=1">My Gallery</a> -->
-
-
-
+		<!-- PAGES -->
 		<div id="pages">
 			<!-- HOME -->
 			<div id="home_page" class="page active_page" >				
 			</div>
-			<!-- PAGES -->
+			<!-- PHOTOBOOTH -->
 			<div id="photo_booth_page" class="page">
 				<div id="photobooth">
 					<div id="picture">
@@ -856,8 +853,8 @@ include 'config/database.php';
 							<div style="height: 35px;"></div>
 							<div id ="sticker_panel" style="display:none;">
 								<div class="photo_option">
-									<a id="stick_but_0" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">								
 									<!-- https://jsfiddle.net/api/mdn/ -->
+									<a id="stick_but_0" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">	
 										<svg id="sticker_0" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 328.425 328.425" style="enable-background:new 0 0 328.425 328.425;"
 										xml:space="preserve">
@@ -1289,7 +1286,7 @@ include 'config/database.php';
 													if (isset($user_name))
 													{
 														$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-														$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+														$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 														$sql = "USE ".$DB_NAME;
 														$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
 														$stmt->bindValue(':user_name', $user_name);
@@ -1332,7 +1329,7 @@ include 'config/database.php';
 			<script type="text/javascript">
 				/* PHOTOBOOTH */
 				//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
-				//var stick_butt = document.getElementsByClassName("sticker_size");
+				
 				var colourWells = document.getElementsByClassName("colourwell");
 				var overlays = document.getElementsByClassName("overlay");
 				var video = document.getElementById('cam');
@@ -1346,13 +1343,9 @@ include 'config/database.php';
 				/* OVERLAY / STICKER */ 
 					function drawSVG(num) 
 					{
-						console.log("level2");
-
 						var ctx = document.getElementById('can_sticker' + num).getContext('2d');
 						var imgTarget = document.getElementById('temp' + num);
 						var data = document.getElementById('svg_overlay_' + num).outerHTML;
-						//class="overlay" id="svg_overlay_6"
-						//console.log(data);
 						var svg = new Blob([data], 
 						{
 							type: 'image/svg+xml'
@@ -1361,7 +1354,6 @@ include 'config/database.php';
 						imgTarget.src = url;
 						imgTarget.addEventListener("load", function() 
 						{
-							console.log("level3"); 
 							ctx.drawImage(imgTarget, 0, 0, 600, 450);
 							window.URL.revokeObjectURL(url);
 							var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
@@ -1372,20 +1364,15 @@ include 'config/database.php';
 						});
 						imgTarget.addEventListener("error", function(e) 
 						{
-							console.log(e);
+							alert(e);
 						});
 					}
 					function start() 
 					{
-						console.log("level1");
-						console.log(overlays.length);
-
 						for (var k = 0; k < overlays.length; k++) 
 						{
-							console.log(overlays[k]);
 							if (overlays[k].style.display === 'block')
 							{
-								console.log("level1in");
 								drawSVG(k);
 							}
 						}
@@ -1393,7 +1380,6 @@ include 'config/database.php';
 
 					function loadImage() 
 					{
-						console.log("level0");
 						var img = new Image();
 						img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
 						img.addEventListener("load", start);
@@ -1414,11 +1400,10 @@ include 'config/database.php';
 						overlay.style.fill = event.target.value;				
 				}
 
-				/* Sticker uttons */
+				/* Sticker Buttons */
 
 				function stickerActivate(e)
 				{
-					console.log(e.id);
 					var id_num = e.id.substr(10);
 
 					if (document.getElementById("svg_overlay_"  + id_num).style.display === "none")
@@ -1442,7 +1427,7 @@ include 'config/database.php';
 					{
 						if (reader.readyState == 2)
 						{
-							allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
+							var allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
 							if ((allowedFileTypes.indexOf(e.target.files[0].type)) > -1)
 							{
 								canSave = true;
@@ -1460,7 +1445,7 @@ include 'config/database.php';
 						else
 							location.reload();
 					}
-					if(event.target.files[0])
+					if(e.target.files[0])
 						reader.readAsDataURL(e.target.files[0]);
 				}	
 
@@ -1470,8 +1455,6 @@ include 'config/database.php';
 				/* BUTTON HANDLER */
 				function optionHandler(d)
 				{
-					console.log(d.id);
-
 					var option_buttons = document.getElementsByClassName("booth_options");
 					var time;
 
@@ -1519,9 +1502,6 @@ include 'config/database.php';
 						document.getElementById('option_summit_cam').style.display='block';
 
 						document.getElementById('sticker_panel').style.display='block';
-
-						// document.getElementById('option_save').style.display='block';
-						// document.getElementById('option_trash').style.display='block';
 
 						/* CAMERA HANDLER */
 
@@ -1645,13 +1625,13 @@ include 'config/database.php';
 
 				document.getElementById('option_save').addEventListener('click', function()
 				{
-					console.log("save_button");
+					//("save_button");
 					if (canSave == true)
 					{											
 						context = document.getElementById('canvas').getContext("2d");
 
 						const imgUrl = canvas.toDataURL('image/png');
-						console.log(encodeURIComponent(imgUrl));
+						//(encodeURIComponent(imgUrl));
 												
 						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 						xhttp.open('POST', 'php/saveimg.php', true);
@@ -1664,9 +1644,9 @@ include 'config/database.php';
 			<div id="gallery_page" class="page">
 				<div>
 					<?php
-					ini_set('display_errors', 1);
-					ini_set('display_startup_errors', 1);
-					error_reporting(E_ALL);
+					//ini_set('display_errors', 1); 
+					//ini_set('display_startup_errors', 1);
+					//error_reporting(E_ALL);
 					include './config/database.php';
 					$url = htmlspecialchars($_SERVER['REQUEST_URI']);
 					try
@@ -1696,7 +1676,7 @@ include 'config/database.php';
 						if (isset($user_name))
 						{
 							$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 							$sql = "USE ".$DB_NAME;
 							$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
 							$stmt->bindValue(':user_name', $user_name);
@@ -1714,10 +1694,19 @@ include 'config/database.php';
 							$results_per_page = 5;
 							$number_of_results = sizeof($image);
 							$number_of_pages = ceil($number_of_results / $results_per_page);
-							if (!isset($_GET['page'])) 
+
+							if (!isset($_GET['page']))
+							{
 								$page = 1;
+								//echo '<script>document.getElementById("page1").classList.add("active_pagenum");</script>';
+							
+							}
 							else
+							{
 								$page = $_GET['page'];
+								//echo '<script>document.getElementById("page'.$page.'").classList.add("active_pagenum");</script>';
+							}
+
 							$page_first_result = ($page - 1) * $results_per_page;
 							$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id LIMIT " . $page_first_result . "," .  $results_per_page);
 							$stmt->bindValue(':user_id', $user_id);
@@ -1817,7 +1806,8 @@ include 'config/database.php';
 							// http://127.0.0.1:8080/camagru/activepage=gallery&user_name=nelly&page=2
 							for ($page = 1; $page <= $number_of_pages; $page++) 
 							{
-								echo '<a href="index.php?activepage=gallery&user_name=' . $user_name .'&page=' . $page . '">' . $page . '</a> ';
+								echo '<a id="page'.$page.'" class="pagenum" href="index.php?activepage=gallery&user_name=' . $user_name .'&page=' . $page . '">' . $page . '</a> ';
+								echo '<script> document.getElementById("page'.$page.'").classList.remove("active_pagenum"); </script>';
 							}
 							echo '<div style="height: 35px;"></div>';
 						}
@@ -2009,20 +1999,14 @@ include 'config/database.php';
 
 									var box_checked = "<?php echo $_SESSION['email_notify'] ?>";
 
-									console.log(box_checked);
-
-
 									function triggernot(d)
 									{
-										console.log(box_checked);
-
 										var noti_mod = document.getElementById("notify_mod");
 
 										if ((box_checked == 'true' || box_checked == 1) && (noti_mod.checked == false || noti_mod.checked == 0))
 											noti_mod.setAttribute("checked", "true");
 										if ((box_checked == 'false' || box_checked == 0) && (noti_mod.checked == true || noti_mod.checked == 1))
 											noti_mod.removeAttribute("checked");
-
 									};
 
 									function checkBox(d)
@@ -2092,7 +2076,6 @@ include 'config/database.php';
 						nav_button[i].classList.remove("active");
 
 						var pages = document.getElementsByClassName("page");
-						console.log(pages);
 
 						for (var j = 0; j < pages.length; j++) 
 						{

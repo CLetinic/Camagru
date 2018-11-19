@@ -5,7 +5,7 @@ include 'database.php';
 	try 
 	{
 		$conn = new PDO($DB_DNS, $DB_USER, $DB_PASSWORD);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$sql = "CREATE DATABASE IF NOT EXISTS $DB_NAME";
 		$conn->exec($sql);
 		echo "Database created successfully<br/>";
@@ -64,13 +64,6 @@ include 'database.php';
 		)";
 		$conn->exec($sql);
 		echo "Table 'likes' created successfully<br/>";
-
-/*
-	$sql = "CREATE TABLE `camagru`.`images` ( `img_id` INT(255) NOT NULL AUTO_INCREMENT , `img_name` VARCHAR(255) NOT NULL , `user_id` INT(255) NOT NULL , `img_path` VARCHAR(255) NOT NULL , PRIMARY KEY (`img_id`), INDEX (`user_id`)) ENGINE = InnoDB";
-		$conn->exec($sql);
-			echo "Table images created successfully";
-			*/
-
 	}
 	catch(PDOException $e)
 	{
@@ -79,6 +72,5 @@ include 'database.php';
 
 	$conn = null;
 
-	//header('Location: ../index.php?');
 ?>
 

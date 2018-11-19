@@ -10,6 +10,29 @@
 	opacity: 0.9;
 }
 
+.pagenum
+{
+	padding: 5px 15px;
+	color: #f1f1f1;
+	text-align: center;
+	text-decoration: none;
+	background-color: rgb(40, 41, 35);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+.pagenum:hover
+{
+	background-color: rgb(249, 35, 112);
+	color: #f1f1f1;
+}
+
+.pagenum.active_pagenum
+{
+	background-color: rgb(249, 35, 112);
+	color: #f1f1f1;
+}
+
 .booth_options 
 {
 	width: 80px;
@@ -323,6 +346,23 @@ input
 	outline: none;
 }
 
+input:-webkit-autofill 
+{
+	background-color: rgb(249, 35, 112);
+}
+
+textarea
+{
+	display: inline-block;
+	background: white;
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	box-sizing: border-box;
+	outline: none;
+}
+
 span.psw 
 {
 	float: right;
@@ -337,11 +377,6 @@ button
 }
 
 button:hover 
-{
-	background-color: rgb(249, 35, 112);
-}
-
-input:-webkit-autofill 
 {
 	background-color: rgb(249, 35, 112);
 }
