@@ -204,7 +204,7 @@
 	text-align: center;
 }
 
-.page_popup hr 
+hr 
 {
 	border: 1px solid rgb(249, 35, 112);
 	margin-bottom: 25px;
@@ -381,6 +381,25 @@ button:hover
 	background-color: rgb(249, 35, 112);
 }
 
+.galbut
+{
+	background-color: rgb(40, 41, 35);
+	color: white;
+	padding: 16px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	opacity: 0.9;
+}
+
+.galbut:hover
+{
+	background-color: rgb(40, 41, 35);
+	border: none;
+	outline: none;
+}
+
 [type="submit"] 
 {
 	background-color: rgb(40, 41, 35);
@@ -412,4 +431,21 @@ input[type="submit"]:hover
     outline: none;
     cursor: pointer;
     /* padding: 2px; */
+}
+
+#commentstab
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+#commentstab td 
+{
+	border: 1px solid #ddd;
+	padding: 8px;
+
+}
+
+#commentstab tr:nth-child(odd)
+{
+	background-color: white;
 }

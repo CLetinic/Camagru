@@ -80,10 +80,12 @@ session_start();
 
 				// Send out a verification email
 
-				$to			= $email; 
+				$to			= $email;
+				$redirect	= "http://127.0.0.1:8080/camagru/php/verify.php?email=". $email . "&token=" . $token;
 				$subject	= 'Signup | Verification';
 				$headers 	= "MIME-Version: 1.0\r\n";
 				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
 				$message 	= 
 "
 <html>
@@ -128,11 +130,17 @@ session_start();
 			<br>
 		<p>
 
-		<a href="."http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'".">
+		<a href=".$redirect.">
 			<button>
 				Activate
 			</button>
-		</a>		
+		</a>
+
+		<p>
+			If, for some reason the button above fails redirect, please paste the link below
+			<br>
+			" . $redirect . "
+		<p>		
 	</body>
 </html>
 ";

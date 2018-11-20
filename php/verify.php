@@ -29,9 +29,14 @@ include '../config/database.php';
 
 				$active	= true;
 
-				$stmt = $conn->prepare("UPDATE users SET activated = $active WHERE email = $email");
-				$stmt->execute();
-				header('Location: ../index.php?pop_up_login=true');
+				$stmt = $conn->prepare("UPDATE users SET activated = :active WHERE email = :email");
+				$stmt->bindParam(':email', $email);
+				$stmt->bindParam(':active', $active);
+				$valid = $stmt->execute();
+				if ($valid)
+					header('Location:../index.php?pop_up_login=true');
+				else 
+					die ("Something went wrong.. ");
 				exit;
 			}
 			else

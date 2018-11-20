@@ -55,7 +55,8 @@ session_start();
 					if ($stmt->execute())
 					{		
 
-						$to			= $email; 
+						$to			= $email;
+						$redirect	= "http://127.0.0.1:8080/camagru/php/verify.php?email=". $email . "&token=" . $token;
 						$subject	= 'Email Change';
 						$headers 	= "MIME-Version: 1.0\r\n";
 						$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -101,12 +102,16 @@ session_start();
 			Please click this button to activate your account:
 			<br>
 		<p>
-
-		<a href="."http://127.0.0.1:8080/camagru/php/verify.php?email='$email'&token='$token'".">
+		<a href=". $redirect .">
 			<button>
 				Reset Password
 			</button>
-		</a>		
+		</a>
+		<p>
+		Should the button above not work, please use the link provided below
+		<br>
+		" . $redirect . "
+		</p>	
 	</body>
 </html>
 ";

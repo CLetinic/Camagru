@@ -5,6 +5,8 @@ session_start();
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 
+
+
 include '../config/database.php';
 
 	try
@@ -24,11 +26,13 @@ include '../config/database.php';
 		{
 			echo "! Comment is invalid <br>";
 		}
-		else if ((isset($user_name) && !empty($user_name)) 
+
+		else if (isset($user_name) && !empty($user_name) 
 			&& (isset($image_user) && !empty($image_user))
-			&& (isset($image_id) && !empty($image_id)) 
+			&& (isset($image_id) && !empty($image_id))
 			&& (isset($comment) && !empty($comment)))
 		{
+			
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "USE ".$DB_NAME;
@@ -36,6 +40,7 @@ include '../config/database.php';
 			$stmt->bindValue(':user_name', $user_name);
 			$stmt->execute();
 			$usernames = $stmt->fetch();
+
 
 			if (!$usernames)
 				die("username does not exist");
@@ -51,13 +56,14 @@ include '../config/database.php';
 			$stmt->execute();
 
 			$stmt = $conn->prepare("SELECT notifications, email FROM users WHERE user_id=:user_id");
-			$stmt->bindValue(':user_name', $image_user); // get the user of the image
+			$stmt->bindValue(':user_id', $image_user); // get the user of the image
 			$stmt->execute();
 			$notify = $stmt->fetch();
 
 			if ($notify['notifications'] == 1)
 			{
 					$by			= ucfirst($user_name);
+					$redirect	= "http://127.0.0.1:8080/camagru/";
 					$to			= $notify['email']; 
 					$subject	= 'Notification';
 					$headers 	= "MIME-Version: 1.0\r\n";
@@ -103,7 +109,7 @@ include '../config/database.php';
 			<br>
 		<p>
 
-		<a href="."http://127.0.0.1:8080/camagru/".">
+		<a href=". $redirect .">
 			<button>
 				Go to Camagru!
 			</button>

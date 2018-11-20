@@ -76,7 +76,8 @@ include '../config/database.php';
 				{
 					if (isset($_SESSION['num'.$x]))
 						unset($_SESSION['num'.$x]);
-				} 
+				}
+				header('Location: ..index.php?activepage=photobooth/');
 			}
 		}
 	}

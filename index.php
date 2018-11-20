@@ -1637,6 +1637,7 @@ include 'config/database.php';
 						xhttp.open('POST', 'php/saveimg.php', true);
 						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
 						xhttp.send('key='+encodeURIComponent(imgUrl));
+						location.reload();
 					}
 				});
 			</script>
@@ -1740,16 +1741,10 @@ include 'config/database.php';
 								echo '
 								<td>
 									<img src="data:image/png;base64,' . $img . '" />';
+									if (!isset($_SESSION['loggedin'])) 
+										echo '<button class="galbut"> Like | '. $no_likes .' </button>';
 								if (isset($_SESSION['loggedin']) === true)
 								{
-									echo '<br><div>';
-									echo '			
-										<form action="php/like_image.php" id="like_imageform'.$img_id.'" method="POST">
-										<input type="hidden" name="url" value="' . $url . '"> 
-										<input type="hidden" name="image_id" value="' . $img_id . '"> 
-										<input type="hidden" name="liked_by" value="' . $user_id . '">
-											<button type="submit">Like | '. $no_likes .' </button>
-										</form>';
 									if (isset($_SESSION['loggedin']) === true && ($username == $user_name))
 									{
 										echo '			
@@ -1759,7 +1754,16 @@ include 'config/database.php';
 											<button type="submit">Delete</button>
 										</form>';
 									}
+									echo '<div>';
+									echo '			
+										<form action="php/like_image.php" id="like_imageform'.$img_id.'" method="POST">
+										<input type="hidden" name="url" value="' . $url . '"> 
+										<input type="hidden" name="image_id" value="' . $img_id . '"> 
+										<input type="hidden" name="liked_by" value="' . $user_id . '">
+											<button type="submit">Like | '. $no_likes .' </button>
+										</form>';
 									echo '</div>';
+									echo '<hr>';
 									echo '
 										<form action="php/comment.php" id="commentform'.$img_id.'" method="POST">
 											<input type="hidden" name="url" value="' . $url . '"> 
@@ -1771,11 +1775,13 @@ include 'config/database.php';
 												<input type="submit">
 										</form>
 										';
+										echo '<hr>';
 								}
 								echo '
 									<br>
-									<table><ul>';
-									
+									<button class="galbut"> Comments </button>
+									<table id="commentstab">';
+																	
 								for ($j=0; $j < sizeof($comments); $j++) 
 								{ 
 									$comment = $comments[$j]['comment'];
@@ -1787,17 +1793,17 @@ include 'config/database.php';
 									$by = $com_user['user_name'];
 									echo'
 										<tr>
-											<td><li>'
+											<td width="10%">'
 												. $by . 
-												' - <td>'
+												'<td>'
 												. $comment . 
 												'</td>' .
 											'</td>
-										</li></tr>
+										</tr>
 										';
 								}
 								echo '
-									</ul></table>
+									</table>
 									 ';
 							}
 							echo "<br>";

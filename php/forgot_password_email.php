@@ -34,7 +34,8 @@ include '../config/database.php';
 				$stmt->bindParam(':token', $token);
 				$stmt->execute();
 
-				$to			= $email; 
+				$to			= $email;
+				$redirect	= "http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email=". $email . "&token=" . $token;
 				$subject	= 'Password Reset';
 				$headers 	= "MIME-Version: 1.0\r\n";
 				$headers 	.= "Content-Type: text/html; charset=ISO-8859-1\r\n";
@@ -80,12 +81,16 @@ include '../config/database.php';
 			Please click this button to reset your password:
 			<br>
 		<p>
-
-		<a href="."http://127.0.0.1:8080/camagru/php/forgot_password_verify.php?email='$email'&token='$token'".">
+			<a href=". $redirect ."
 			<button>
 				Reset Password
 			</button>
-		</a>		
+		</a>
+		<p>
+		Should the button above not work please use the link provided below
+		<br>
+			" . $redirect . "
+		<p>		
 	</body>
 </html>
 ";
