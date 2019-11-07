@@ -1,1 +1,16 @@
 cletinic
+
+<nav id="nav">
+			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
+			<?php if(isset($_SESSION['loggedin']) !== true):?>
+			
+			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
+			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
+			<?php else:?>
+			<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
+			<a class="right" href="php/logout.php">Logout</a>
+			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
+			<?php endif;?>
+			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
+			<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
+		</nav>

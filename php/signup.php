@@ -16,7 +16,7 @@ session_start();
 		$email 			= trim(htmlspecialchars($_POST['email']));
 		$passw 			= htmlspecialchars($_POST['psw']);
 		$passw_repeat	= htmlspecialchars($_POST['psw_repeat']);
-		$active 		= false;
+		$active 		= true;
 		$notifications	= true;
 		$token			= bin2hex(openssl_random_pseudo_bytes(16));
 

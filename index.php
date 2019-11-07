@@ -32,36 +32,69 @@ include 'config/database.php';
 		<TITLE>Camagru</TITLE>
 		<link rel="stylesheet" type="text/css" href="css/index.css">
 		<link href='https://fonts.googleapis.com/css?family=Atma' rel='stylesheet'>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	</HEAD>
 	<BODY>
 		<header>
-			<p id="info"> Welcome!</p>
-		</header>
-		<!-- <div class="banner">
-			<a href="index.php?activepage=home">
-				<img id= "logo" src="img/logo.svg">
-			</a>				
-		</div> -->
-		<nav id="nav">
-			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
-			<?php if(isset($_SESSION['loggedin']) !== true):?>
-			
-			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
-			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
-			<?php else:?>
-			<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
-			<a class="right" href="php/logout.php">Logout</a>
-			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
+		<nav class="navbar navbar-expand-lg navbar-dark">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="navbar-collapse collapse" id="navbarColor01" style="">
+			<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+			<a class="nav-link" id="home" href="index.php?activepage=home">Home <span class="sr-only">(current)</span></a>
+			</li>
+			<?php if(isset($_SESSION['loggedin']) === true):?>
+			<li class="nav-item">
+				<a class="nav-link" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
+			</li>
 			<?php endif;?>
-			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
-			<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
+			</ul>
+			<span class="navbar-text">
+				<ul class="navbar-nav mr-auto">
+				<?php if(isset($_SESSION['loggedin']) !== true):?>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="modal" data-target="#signup"role="button">Sign Up</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="modal" data-target="#login" role="button">Login</a>
+				</li>
+				<?php else:?>
+				<li class="nav-item">
+					<a class="nav-link" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="php/logout.php">Logout</a>
+				</li>
+				<?php endif;?>
+				</ul>
+			</span>
+			</div>
 		</nav>
+		</header>
 
 		<!-- PAGES -->
 		<div id="pages">
 			<!-- HOME -->
-			<div id="home_page" class="page active_page" >				
+			<div id="home_page" class="page active_page" >	
+			<div class="jumbotron">
+				<img src="cam.svg" style="width: 100%;">
+				<h id="jumheader">Camagru</h>
+				<div class="flex-just-cent">
+					<a class="btn jumbutton" data-toggle="modal" data-target="#signup"role="button">Sign Up</a>
+					<a class="btn jumbutton" data-toggle="modal" data-target="#login" role="button">Login</a>
+				</div>				
 			</div>
+			
 			<!-- PHOTOBOOTH -->
 			<div id="photo_booth_page" class="page">
 				<div id="photobooth">
@@ -792,12 +825,12 @@ include 'config/database.php';
 								<input type="file" id="input" style="display:none;"/>
 
 								<!-- Submit Upload-->
-								<a class="booth_options" id="option_summit" style="display: none;" onclick="optionHandler(this)">
-									<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
+								<a class="booth_options" id="option_submit" style="display: none;" onclick="optionHandler(this)">
+									<b style="display: inline-flex; margin-top: 20px; color:white;">SUBMIT</b>
 								</a>
 								<!-- Submit Cam-->
-								<a class="booth_options" id="option_summit_cam" style="display: none;" onclick="optionHandler(this)">
-									<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
+								<a class="booth_options" id="option_submit_cam" style="display: none;" onclick="optionHandler(this)">
+									<b style="display: inline-flex; margin-top: 20px; color:white;">SUBMIT</b>
 								</a>
 								<!-- Trash -->
 								<a class="booth_options" id="option_trash" style="display: none;" onclick="optionHandler(this)">
@@ -1476,7 +1509,7 @@ include 'config/database.php';
 
 						document.getElementById('option_back').style.display='block';
 						document.getElementById('option_file').style.display='block';
-						document.getElementById('option_summit').style.display='block';
+						document.getElementById('option_submit').style.display='block';
 
 						document.getElementById('sticker_panel').style.display='block';
 					}
@@ -1499,7 +1532,7 @@ include 'config/database.php';
 
 						document.getElementById('option_back').style.display='block';
 						document.getElementById('capture').style.display='block';
-						document.getElementById('option_summit_cam').style.display='block';
+						document.getElementById('option_submit_cam').style.display='block';
 
 						document.getElementById('sticker_panel').style.display='block';
 
@@ -1548,7 +1581,7 @@ include 'config/database.php';
 							document.getElementById('option_cam').style.display='block';
 						}
 					}
-					else if (d.id == 'option_summit')
+					else if (d.id == 'option_submit')
 					{
 						removeButton();
 						if (reader.readyState == 2)
@@ -1563,7 +1596,7 @@ include 'config/database.php';
 							location.reload();
 
 					}
-					else if (d.id == 'option_summit_cam')
+					else if (d.id == 'option_submit_cam')
 					{
 						removeButton();
 						if (canSave == true)
@@ -1840,7 +1873,7 @@ include 'config/database.php';
 		<!-- NAVIGATION OPTIONS -->
 
 		<!-- LOGIN -->
-		<div id="login" class="modal page_popup">
+		<!-- <div id="login" class="modal page_popup">
 			<form class="login_content" action="php/login.php" method="POST">
 				<div class="modal_container">
 					<h1>Login</h1>
@@ -1857,9 +1890,38 @@ include 'config/database.php';
 				<p>Forgot <a href="#" onclick="document.getElementById('forgot_pass').style.display='block'; document.getElementById('login').style.display='none'">password</a>?</p>
 			</div>
 			</form>
-		</div>
+		</div> -->
+		<div class="modal fade" id="login" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div div class="modal-header" style="display: block">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title gradientFont">Login</h4>
+							<p>Please fill in this form log into your account.</p>
+						</div>
+						<form class="login_content" action="php/login.php" method="POST">
+							<div class="modal-body">
+								<input class="input pass" type="email" placeholder="Enter Email" name="email" required>
+								<input class="input pass" type="password" placeholder="Enter Password" name="psw" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" title= "Must contain 6 or more characters, and at least one number and letters." required>
+							</div>
+							<div class="modal-footer footer_signup" style="text-align: center; display: block;">
+								<button type="submit" class="btn btn-default inputButton gradientFontHover gradientBorder" style="border-radius: 0%; border-width: 4px;">Login</button>
+								<p>Forgot 
+									<a class="gradientFontHover" id="switchtosignup" data-toggle="modal" data-dismiss="modal" data-target="#forgot" style="cursor: pointer; text-transform: uppercase; color: #cecccc;">Password
+									</a>? | Haven't  
+									<a class="gradientFontHover" id="switchtosignup" data-toggle="modal" data-dismiss="modal" data-target="#signup" style="cursor: pointer; text-transform: uppercase; color: #cecccc;">Signed Up
+									</a>?
+								</p>
+								<!-- <a class="gradientFontHover" id="switchtosignup" data-toggle="modal" data-dismiss="modal" data-target="#forgotModal" style="cursor: pointer; text-transform: uppercase; color: #cecccc;">Resend Verification
+								</a>	 -->							
+							</div>
+						</form>			
+					</div>					
+				</div>
+			</div>
+
 		<!-- FORGOT PASSWORD Send email-->
-		<div id="forgot_pass" class="modal page_popup">
+		<!-- <div id="forgot_pass" class="modal page_popup">
 			<form class="forgot_content" action="php/forgot_password_email.php" method="POST">
 				<div class="modal_container">
 				<h1>Login</h1>
@@ -1871,7 +1933,27 @@ include 'config/database.php';
 					<button type="submit" name="submit">Send Email</button>
 				</div>
 			</form>
-		</div>
+		</div> -->
+		<div class="modal fade" id="forgot" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div div class="modal-header" style="display: block">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title gradientFont">Reset Password</h4>
+							<p>Please fill in this form to reset your password.</p>
+						</div>
+						<form action="php/forgot_password_email.php" method="POST">
+							<div class="modal-body">
+								<input class="input pass" type="email" placeholder="Enter Email" name="email" required>
+							</div>
+							<div class="modal-footer footer_signup" style="text-align: center; display: block;">
+								<button type="submit" class="btn btn-default inputButton gradientFontHover gradientBorder" style="border-radius: 0%; border-width: 4px;">Send Email</button>
+							</div>
+						</form>			
+					</div>					
+				</div>
+			</div>
+
 		<!-- FORGOT PASSWORD verify-->
 		<div id="forgot_pass_set" class="modal page_popup">
 			<form class="forgot_content" action="php/forgot_password_reset.php" method="POST">
@@ -1889,7 +1971,7 @@ include 'config/database.php';
 			</form>
 		</div>
 		<!-- SIGN UP -->
-		<div id="signup" class="modal_signup page_popup">
+		<!-- <div id="signup" class="modal_signup page_popup">
 			<form action="php/signup.php" method="POST">
 				<div class="signup_container modal_container">
 					<h1>Register</h1>
@@ -1910,7 +1992,34 @@ include 'config/database.php';
 					<p>Already have an account? <a href="#" onclick="document.getElementById('login').style.display='block'; document.getElementById('signup').style.display='none'">Sign in</a>.</p>
 				</div>
 			</form>
-		</div>
+		</div> -->
+
+		<!-- Modal -->
+		<div class="modal fade" id="signup" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div div class="modal-header" style="display: block">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title gradientFont">Sign Up</h4>
+							<p>Please fill in this form to create an account.</p>
+						</div>
+						<form action="php/signup.php" method="POST">
+							<div class="modal-body">
+								<input class="input pass" type="text" placeholder="Enter Username" name="username" required>
+								<input class="input pass" type="email" placeholder="Enter Email" name="email" required>
+								<input id="signup_password" class="input pass" type="password" placeholder="Enter Password" name="psw" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" title= "Must contain 6 or more characters, and at least one number and letters." required>
+								<input  id="signup_password_repeat" class="input pass" type="password" placeholder="Confirm Password" name="psw_repeat" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" title= "Must contain 6 or more characters, and at least one number and letters." required>
+							</div>
+							<div class="modal-footer footer_signup" style="text-align: center; display: block;">
+								<button type="submit" class="btn btn-default inputButton gradientFontHover gradientBorder" style="border-radius: 0%; border-width: 4px;">Sign up</button>
+								<p>Already have an account? <a class="gradientFontHover" id="switchtologin" data-toggle="modal" data-dismiss="modal" data-target="#login" style="cursor: pointer; text-transform: uppercase; color: #cecccc;">Login</a></p>
+								</p>
+							</div>
+						</form>			
+					</div>					
+				</div>
+			</div>
+		
 
 		<!-- MOD PREFEREVCES -->
 

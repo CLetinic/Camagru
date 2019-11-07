@@ -10,30 +10,32 @@ include '../config/database.php';
 
 	try
 	{
+		
 		$email = trim(htmlspecialchars($_POST['email']));
 		$passw = htmlspecialchars($_POST['psw']);
 
 		// Check for errors
-		if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
-		{
-			echo "! Email input is invalid<br>";
-		}
-		else if (!isset($passw) || empty($passw) || !(strlen($passw) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw)))
-		{
-			echo "! Password input is invalid<br>";
-			if (!(strlen($passw) > 6))
-			{
-				echo "! Password length is too short, must be atleast 6 characters long<br>";
-			}
-			if (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw))
-			{
-				echo "! Passowrd must contain letters and digits<br>";
-			}
-		}
-		else if ((isset($_POST["submit"])) 
-			&& (isset($email) && !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL)))
-			&& (isset($passw) && !empty($passw)))
-		{	
+		// if (!isset($email) || empty($email) || !(filter_var($email, FILTER_VALIDATE_EMAIL)))
+		// {
+		// 	echo "! Email input is invalid<br>";
+		// }
+		// else if (!isset($passw) || empty($passw) || !(strlen($passw) > 6) || (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw)))
+		// {
+		// 	echo "! Password input is invalid<br>";
+		// 	if (!(strlen($passw) > 6))
+		// 	{
+		// 		echo "! Password length is too short, must be atleast 6 characters long<br>";
+		// 	}
+		// 	if (!preg_match('/(?=.*[a-z])(?=.*[0-9]).{6,}/i', $passw))
+		// 	{
+		// 		echo "! Password must contain letters and digits<br>";
+		// 	}
+		// }
+		// else if ((isset($_POST["submit"])) 
+		// 	&& (isset($email) && !empty($email) && (filter_var($email, FILTER_VALIDATE_EMAIL)))
+		// 	&& (isset($passw) && !empty($passw)))
+		// {	
+			echo "here2";
 			$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "USE ".$DB_NAME;		
@@ -66,9 +68,9 @@ include '../config/database.php';
 					die('You have not verified your account, check your email!');
 			}
 		}
-		else 
-			die('Something went wrong...');
-	}
+	// 	else 
+	// 		die('Something went wrong...');
+	// }
 	catch(PDOException $e)
 	{
 		echo $stmt . "<br>" . $e->getMessage();
