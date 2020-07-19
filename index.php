@@ -1,13 +1,5 @@
 <?php
 
-/*
-
-I want to add - 
-- esc key to exit out of pop up pages - ie login, sign up
-- add alert boxes when something fails, otherwise just redirect 
-- add pop ups if user tries to use logged in features without being logged in. 
-- if account is not verfied, propt ask to resend verfication email
-*/
 
 session_start();
 // var_dump($_SESSION);
@@ -27,41 +19,61 @@ include 'config/database.php';
 ?>
 
 <!DOCTYPE html>
-<HTML>
-	<HEAD>
-		<TITLE>Camagru</TITLE>
-		<link rel="stylesheet" type="text/css" href="css/index.css">
+<html>
+	<head>
+		<title>Camagru - Home</title>
+		<!-- Style Sheets -->
+		<link rel="stylesheet" type="text/css" href="./css/style.css">
+		<!-- Fonts -->
 		<link href='https://fonts.googleapis.com/css?family=Atma' rel='stylesheet'>
-	</HEAD>
-	<BODY>
-		<header>
-			<p id="info"> Welcome!</p>
-		</header>
-		<!-- <div class="banner">
-			<a href="index.php?activepage=home">
-				<img id= "logo" src="img/logo.svg">
-			</a>				
-		</div> -->
+		<!-- <script type="text/javascript" src="Scripts/WebComponents/Modal.js"></script> -->
+		<script type="text/javascript" src="./javascript/modal.js"></script>
+	</head>
+	<body>
+	<popup-modal id="confirmationModal">
+		
+		<div id="modalHeader" slot="header">
+		</div>
+		<div id="modalBody" slot="body">
+		</div>
+		<div id="modalFooter" slot="footer">
+		</div>
+	</popup-modal>
 		<nav id="nav">
-			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
 			<?php if(isset($_SESSION['loggedin']) !== true):?>
-			
-			<a class="right" onclick="document.getElementById('signup').style.display='block'">Sign Up</a>
-			<a class="right" onclick="document.getElementById('login').style.display='block'">Login</a>
+				<div class="nav_div">
+					<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
+				</div>
+				<div class="nav_div">
+					<a onclick="signupModal()">Sign Up</a>
+					<a onclick="loginModal()">Sign In</a>
+				</div>		
 			<?php else:?>
-			<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
-			<a class="right" href="php/logout.php">Logout</a>
-			<a class="right" onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
-			<?php endif;?>
-			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
-			<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
-		</nav>
-
-		<!-- PAGES -->
-		<div id="pages">
-			<!-- HOME -->
-			<div id="home_page" class="page active_page" >				
+			<div class="nav_div">
+				<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
+				<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
+				<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>			
 			</div>
+			<div class="nav_div">
+				<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
+				<a href="php/logout.php">Sign Out</a>
+				<a onclick="document.getElementById('prefs').style.display='block'" >Preferences</a>
+			</div>
+			<?php endif;?>		
+		</nav>
+		<!-- PAGES -->
+		<main id="pages">		
+			<!-- HOME -->
+			<div id="home_page" class="page active_page" >		
+				<div id="home_banner"></div>
+				<div id="home_action_buttons">
+					<div id="action_button_collection">
+						<button class="action_button" onclick="modifyPreferencesSelectModal()">Sign Up</button>
+						<button class="action_button" onclick="loginModal()">Sign In</button>
+					</div>
+				</div>		
+			</div>
+			
 			<!-- PHOTOBOOTH -->
 			<div id="photo_booth_page" class="page">
 				<div id="photobooth">
@@ -71,6 +83,7 @@ include 'config/database.php';
 							<div id="boothlayout">
 								<video id="cam" width="600" height="450" autoplay="false"></video>
 								<canvas width="600" height="450" id="canvas" style="position:absolute; background-color: rgb(40, 41, 35);"></canvas>
+								<!-- OVERLAY 0 -  -->
 								<svg class="overlay" id="svg_overlay_0" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 328.425 328.425" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -102,6 +115,7 @@ include 'config/database.php';
 								c-2.448,5.509,3.672,13.465,9.792,12.853c11.628-1.224,23.256-1.836,34.884-4.284c10.404-1.836,8.568-18.972-2.446-18.972
 								c30.6-21.42,56.916-52.632,75.888-82.62C320.036,149.326,342.681,104.65,316.977,68.543z"/>
 								</svg>
+								<!-- OVERLAY 1 -  -->
 								<svg class="overlay" version="1.1" id="svg_overlay_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="400px" viewBox="0 0 359.346 359.346" style="display: none; position:absolute; enable-background:new 0 0 359.346 359.346;"
 								xml:space="preserve">
@@ -115,6 +129,7 @@ include 'config/database.php';
 								c0.611,6.12,10.403,4.284,11.016-1.224c0-5.508,0-10.404-0.612-15.3c12.24-36.108,38.556-67.32,77.725-74.664
 								C318.971,42.166,347.122,102.753,344.675,151.101z"/>
 								</svg>
+								<!-- OVERLAY 2 -  -->
 								<svg class="overlay" id="svg_overlay_2" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 380.026 380.026" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -140,6 +155,7 @@ include 'config/database.php';
 								c-42.229-62.425-86.292-124.235-132.191-183.601c3.06,0,6.12-0.612,9.18-1.836c3.672-1.836,6.12-5.508,7.344-9.18
 								c33.66,63.647,75.275,130.355,126.685,180.541c0,0.611,0,1.224,0,1.836C325.858,363.388,325.858,366.447,324.022,369.508z"/>
 								</svg>
+								<!-- OVERLAY 3 -  -->
 								<svg class="overlay" id="svg_overlay_3" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 328.863 328.863" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -189,6 +205,7 @@ include 'config/database.php';
 								c1.836-8.566,4.283-15.911,9.792-23.256c2.447-3.06,4.896-6.119,9.181-7.956c2.447-1.224,4.896-1.224,7.344-0.611v0.611
 								c1.225,4.284,6.12,8.568,6.731,14.076C320.716,244.349,319.491,249.244,318.268,254.141z"/>
 								</svg>
+								<!-- OVERLAY 4 -  -->
 								<svg class="overlay" id="svg_overlay_4" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 342.901 342.901" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -311,6 +328,7 @@ include 'config/database.php';
 								C316.673,194.127,321.569,189.231,328.301,186.171z M328.301,136.601c-1.836,1.224-3.672,1.836-5.508,2.447
 								c0.612-2.447,2.448-4.896,3.672-7.344c1.226-1.836,7.956-8.568,9.182-5.508C337.481,129.255,330.138,134.763,328.301,136.601z"/>
 								</svg>
+								<!-- OVERLAY 5 -  -->
 								<svg class="overlay" id="svg_overlay_5" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 383.326 383.326" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">	
@@ -339,6 +357,7 @@ include 'config/database.php';
 								c-4.896-1.836-6.732-5.508-9.182-8.568c11.018-20.807,17.748-42.227,12.854-62.423c20.195-6.12,41.616-3.672,60.588,6.732
 								C368.788,157.929,384.088,183.634,367.564,205.666z"/>
 								</svg>
+								<!-- OVERLAY 6 -  -->
 								<svg class="overlay" id="svg_overlay_6" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 370.245 370.244" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -385,6 +404,7 @@ include 'config/database.php';
 								c13.465-29.376,22.031-61.812,29.987-93.022c9.792-1.226,20.196-3.672,29.376-6.732
 								C276.952,278.503,269.608,299.923,259.816,320.119z"/>
 								</svg>
+								<!-- OVERLAY 7 -  -->
 								<svg class="overlay" id="svg_overlay_7" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 								width="600px" height="450px" viewBox="0 0 375.439 375.439" style="display: none; position:absolute;enable-background:new 0 0 328.425 328.425;"
 								xml:space="preserve">
@@ -429,7 +449,7 @@ include 'config/database.php';
 							</div>
 							<div style="height: 35px;"></div>
 							<div class="photo_option">
-									<!-- Upload Option -->
+								<!-- Upload Option -->
 								<a class="booth_options" id="option_upload" style="display: block;" onclick="optionHandler(this)">
 									<svg version="1.1" id="option_upload_svg" class="option_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 									width="58px" height="58px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve" style="enable-background:new 0 0 351.553 351.552;">
@@ -720,8 +740,8 @@ include 'config/database.php';
 									C456.22,131.906,456.038,138.726,455.217,145.317z"></path>	
 									</svg>
 								</a>
-								<!-- File -->
-								
+
+								<!-- File -->								
 								<label for="input" class="booth_options" id="option_file" style="display: none;">
 									<a>
 										<svg version="1.1" id="option_file_svg" class="option_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="48px" height="48px"
@@ -790,14 +810,13 @@ include 'config/database.php';
 									</a>
 								</label>
 								<input type="file" id="input" style="display:none;"/>
-
 								<!-- Submit Upload-->
 								<a class="booth_options" id="option_summit" style="display: none;" onclick="optionHandler(this)">
 									<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
 								</a>
 								<!-- Submit Cam-->
 								<a class="booth_options" id="option_summit_cam" style="display: none;" onclick="optionHandler(this)">
-									<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
+									<b style="display: inline-flex; margin-top: 20px;">SUBMIT</b>
 								</a>
 								<!-- Trash -->
 								<a class="booth_options" id="option_trash" style="display: none;" onclick="optionHandler(this)">
@@ -848,12 +867,13 @@ include 'config/database.php';
 									c-0.408,5.864-0.681,11.685-0.824,17.558c-0.126,5.242-1.758,11.318,0.298,16.234c0.426,1.02,2.133,1.693,2.725,0.357
 									C59.538,62.951,58.882,57.84,59.002,53.017z"/>
 									</svg>
-								</a>								
+								</a>
 							</div>
 							<div style="height: 35px;"></div>
 							<div id ="sticker_panel" style="display:none;">
 								<div class="photo_option">
 									<!-- https://jsfiddle.net/api/mdn/ -->
+									<!-- STICKER -  -->
 									<a id="stick_but_0" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">	
 										<svg id="sticker_0" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 328.425 328.425" style="enable-background:new 0 0 328.425 328.425;"
@@ -885,7 +905,9 @@ include 'config/database.php';
 										c1.224-1.837,1.836-3.673,3.06-5.509c4.284-6.731-6.12-15.301-11.628-8.567c-7.956,8.567-15.3,18.359-19.584,29.987
 										c-2.448,5.509,3.672,13.465,9.792,12.853c11.628-1.224,23.256-1.836,34.884-4.284c10.404-1.836,8.568-18.972-2.446-18.972
 										c30.6-21.42,56.916-52.632,75.888-82.62C320.036,149.326,342.681,104.65,316.977,68.543z"/>
+										</svg>
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_1" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">
 										<svg version="1.1" id="sticker_1" class="option_svg sticker_svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 359.346 359.346" style="enable-background:new 0 0 359.346 359.346;"
@@ -901,6 +923,7 @@ include 'config/database.php';
 										C318.971,42.166,347.122,102.753,344.675,151.101z"/>
 										</svg>							
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_2" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">								
 										<svg id="sticker_2" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 380.026 380.026" style="enable-background:new 0 0 328.425 328.425;"
@@ -928,8 +951,8 @@ include 'config/database.php';
 										c33.66,63.647,75.275,130.355,126.685,180.541c0,0.611,0,1.224,0,1.836C325.858,363.388,325.858,366.447,324.022,369.508z"/>
 										</svg>															
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_3" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">
-										
 										<svg id="sticker_3" class="option_svg sticker_svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 328.863 328.863" style="enable-background:new 0 0 328.425 328.425;"
 										xml:space="preserve">
@@ -980,6 +1003,7 @@ include 'config/database.php';
 										c1.225,4.284,6.12,8.568,6.731,14.076C320.716,244.349,319.491,249.244,318.268,254.141z"/>
 										</svg>																
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_4" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">								
 										<svg id="sticker_4" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 342.901 342.901" style="enable-background:new 0 0 328.425 328.425;"
@@ -1104,8 +1128,8 @@ include 'config/database.php';
 										c0.612-2.447,2.448-4.896,3.672-7.344c1.226-1.836,7.956-8.568,9.182-5.508C337.481,129.255,330.138,134.763,328.301,136.601z"/>
 										</svg>							
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_5" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">
-									
 										<svg id="sticker_5" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 383.326 383.326" style="enable-background:new 0 0 328.425 328.425;"
 										xml:space="preserve">	
@@ -1135,6 +1159,7 @@ include 'config/database.php';
 										C368.788,157.929,384.088,183.634,367.564,205.666z"/>
 										</svg>							
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_6" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">								
 										<svg id="sticker_6" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="48px" height="48px" viewBox="0 0 370.245 370.244" style="enable-background:new 0 0 328.425 328.425;"
@@ -1183,6 +1208,7 @@ include 'config/database.php';
 										C276.952,278.503,269.608,299.923,259.816,320.119z"/>
 										</svg>							
 									</a>
+									<!-- STICKER -  -->
 									<a id="stick_but_7" style="display: block;" class="sticker_options sticker_size" onclick="stickerActivate(this)">								
 										<svg id="sticker_7" class="option_svg sticker_svg" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 										width="50px" height="50px" viewBox="0 0 375.439 375.439" style="enable-background:new 0 0 328.425 328.425;"
@@ -1321,719 +1347,723 @@ include 'config/database.php';
 									</tr>
 								</table>
 							</div>
-							<div style="height: 35px;"></div>							
-						</div>						
-					</div>					
-				</div>
-			</div>
+							<div style="height: 35px;"></div>	
+						</div> <!-- cam -->
+					</div> <!-- picture -->
+				</div> <!-- photobooth -->
+			</div> <!--photo_booth_page  -->
 			<script type="text/javascript">
-				/* PHOTOBOOTH */
-				//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
-				
-				var colourWells = document.getElementsByClassName("colourwell");
-				var overlays = document.getElementsByClassName("overlay");
-				var video = document.getElementById('cam');
-				const mediaSource = new MediaSource(); //https://developer.mozilla.org/en-US/docs/Web/API/
-				video.srcObject;
-				var canvas	= document.getElementById('canvas');
-				var context = canvas.getContext('2d');
-				var reader = new FileReader();
-				var canSave = false;
+					/* PHOTOBOOTH */
+					//https://www.kirupa.com/html5/accessing_your_webcam_in_html5.htm
+					
+					var colourWells = document.getElementsByClassName("colourwell");
+					var overlays = document.getElementsByClassName("overlay");
+					var video = document.getElementById('cam');
+					const mediaSource = new MediaSource(); //https://developer.mozilla.org/en-US/docs/Web/API/
+					video.srcObject;
+					var canvas	= document.getElementById('canvas');
+					var context = canvas.getContext('2d');
+					var reader = new FileReader();
+					var canSave = false;
 
-				/* OVERLAY / STICKER */ 
-					function drawSVG(num) 
-					{
-						var ctx = document.getElementById('can_sticker' + num).getContext('2d');
-						var imgTarget = document.getElementById('temp' + num);
-						var data = document.getElementById('svg_overlay_' + num).outerHTML;
-						var svg = new Blob([data], 
+					/* OVERLAY / STICKER */ 
+						function drawSVG(num) 
 						{
-							type: 'image/svg+xml'
-						});
-						var url = window.URL.createObjectURL(svg);
-						imgTarget.src = url;
-						imgTarget.addEventListener("load", function() 
-						{
-							ctx.drawImage(imgTarget, 0, 0, 600, 450);
-							window.URL.revokeObjectURL(url);
-							var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
-							var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-							xhttp.open('POST', 'php/photo_booth.php', true);
-							xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-							xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
-						});
-						imgTarget.addEventListener("error", function(e) 
-						{
-							alert(e);
-						});
-					}
-					function start() 
-					{
-						for (var k = 0; k < overlays.length; k++) 
-						{
-							if (overlays[k].style.display === 'block')
+							var ctx = document.getElementById('can_sticker' + num).getContext('2d');
+							var imgTarget = document.getElementById('temp' + num);
+							var data = document.getElementById('svg_overlay_' + num).outerHTML;
+							var svg = new Blob([data], 
 							{
-								drawSVG(k);
+								type: 'image/svg+xml'
+							});
+							var url = window.URL.createObjectURL(svg);
+							imgTarget.src = url;
+							imgTarget.addEventListener("load", function() 
+							{
+								ctx.drawImage(imgTarget, 0, 0, 600, 450);
+								window.URL.revokeObjectURL(url);
+								var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
+								var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+								xhttp.open('POST', 'php/photo_booth.php', true);
+								xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+								xhttp.send('num='+ num +'&key='+encodeURIComponent(result));
+							});
+							imgTarget.addEventListener("error", function(e) 
+							{
+								alert(e);
+							});
+						}
+						function start() 
+						{
+							for (var k = 0; k < overlays.length; k++) 
+							{
+								if (overlays[k].style.display === 'block')
+								{
+									drawSVG(k);
+								}
 							}
 						}
-					}
 
-					function loadImage() 
-					{
-						var img = new Image();
-						img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
-						img.addEventListener("load", start);
-					}
-
-				// colorPicker = document.getElementById("colourWell_0");
-				// colorPicker.addEventListener("change", watchColorPicker, false);
-				for (var i = 0; i < colourWells.length; i++) 
-				{
-					document.getElementById("colourWell_"  + i).addEventListener("change", watchColorPicker, false);
-				}				
-
-				function watchColorPicker(event) 
-				{
-					var id_num = event.target.id.substr(11);
-					var overlay = document.getElementById("svg_overlay_" + id_num);
-					if (overlay) 
-						overlay.style.fill = event.target.value;				
-				}
-
-				/* Sticker Buttons */
-
-				function stickerActivate(e)
-				{
-					var id_num = e.id.substr(10);
-
-					if (document.getElementById("svg_overlay_"  + id_num).style.display === "none")
-					{
-						document.getElementById("svg_overlay_"  + id_num).style.display = "block"
-						e.classList.add("active_sticker");
-					}
-					else if (document.getElementById("svg_overlay_"  + id_num).style.display === "block")
-					{
-						document.getElementById("svg_overlay_"  + id_num).style.display = "none"
-						e.classList.remove("active_sticker");
-					}
-				}					
-				
-				/* UPLOAD HANDLER*/
-
-				//https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
-				function handleFiles(e) 
-				{
-					reader.onload = function(event) 
-					{
-						if (reader.readyState == 2)
+						function loadImage() 
 						{
-							var allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
-							if ((allowedFileTypes.indexOf(e.target.files[0].type)) > -1)
-							{
-								canSave = true;
+							var img = new Image();
+							img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Solid_white.svg/512px-Solid_white.svg.png'; // just a placeholder
+							img.addEventListener("load", start);
+						}
 
-								var img = new Image;
-								img.src = event.target.result;
-								img.onload = function() 
+					// colorPicker = document.getElementById("colourWell_0");
+					// colorPicker.addEventListener("change", watchColorPicker, false);
+					for (var i = 0; i < colourWells.length; i++) 
+					{
+						document.getElementById("colourWell_"  + i).addEventListener("change", watchColorPicker, false);
+					}				
+
+					function watchColorPicker(event) 
+					{
+						var id_num = event.target.id.substr(11);
+						var overlay = document.getElementById("svg_overlay_" + id_num);
+						if (overlay) 
+							overlay.style.fill = event.target.value;				
+					}
+
+					/* Sticker Buttons */
+
+					function stickerActivate(e)
+					{
+						var id_num = e.id.substr(10);
+
+						if (document.getElementById("svg_overlay_"  + id_num).style.display === "none")
+						{
+							document.getElementById("svg_overlay_"  + id_num).style.display = "block"
+							e.classList.add("active_sticker");
+						}
+						else if (document.getElementById("svg_overlay_"  + id_num).style.display === "block")
+						{
+							document.getElementById("svg_overlay_"  + id_num).style.display = "none"
+							e.classList.remove("active_sticker");
+						}
+					}					
+					
+					/* UPLOAD HANDLER*/
+
+					//https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+					function handleFiles(e) 
+					{
+						reader.onload = function(event) 
+						{
+							if (reader.readyState == 2)
+							{
+								var allowedFileTypes = ["image/png", "image/jpeg", "image/gif"];
+								if ((allowedFileTypes.indexOf(e.target.files[0].type)) > -1)
 								{
-									context.drawImage(img, 0, 0, 600, 450);
+									canSave = true;
+
+									var img = new Image;
+									img.src = event.target.result;
+									img.onload = function() 
+									{
+										context.drawImage(img, 0, 0, 600, 450);
+									}
 								}
+								else
+									location.reload();				
 							}
 							else
-								location.reload();				
+								location.reload();
 						}
-						else
-							location.reload();
-					}
-					if(e.target.files[0])
-						reader.readAsDataURL(e.target.files[0]);
-				}	
+						if(e.target.files[0])
+							reader.readAsDataURL(e.target.files[0]);
+					}	
 
-				var input = document.getElementById('input');
-				input.addEventListener('change', handleFiles);
-				
-				/* BUTTON HANDLER */
-				function optionHandler(d)
-				{
-					var option_buttons = document.getElementsByClassName("booth_options");
-					var time;
-
-					function removeButton()
-					{
-						for (var i = 0; i < option_buttons.length; i++) 
-						{
-							option_buttons[i].style.display='none';
-							document.getElementById('sticker_panel').style.display='none';
-						}
-					}
-
-					if (d.id == 'option_upload')
-					{
-						removeButton();
-
-						document.getElementById("option_back").classList.remove("cam_mode");
-						document.getElementById("option_back").classList.add("file_mode");
-
-						document.getElementById('option_back').style.display='block';
-						document.getElementById('option_file').style.display='block';
-						document.getElementById('option_summit').style.display='block';
-
-						document.getElementById('sticker_panel').style.display='block';
-					}
+					var input = document.getElementById('input');
+					input.addEventListener('change', handleFiles);
 					
-					if (d.id == 'option_back')
+					/* BUTTON HANDLER */
+					function optionHandler(d)
 					{
-						removeButton();
+						var option_buttons = document.getElementsByClassName("booth_options");
+						var time;
 
-						document.getElementById('option_upload').style.display='block';
-						document.getElementById('option_cam').style.display='block';
-
-						location.reload();
-					}
-					if (d.id == 'option_cam')
-					{
-						removeButton();
-
-						document.getElementById("option_back").classList.add("cam_mode");
-						document.getElementById("option_back").classList.remove("file_mode");
-
-						document.getElementById('option_back').style.display='block';
-						document.getElementById('capture').style.display='block';
-						document.getElementById('option_summit_cam').style.display='block';
-
-						document.getElementById('sticker_panel').style.display='block';
-
-						/* CAMERA HANDLER */
-
-						if (navigator.mediaDevices.getUserMedia) 
+						function removeButton()
 						{
-							navigator.mediaDevices.getUserMedia
-							(
-								{
-									video: true, 
-									audio: false
-								}
-							)
-							.then(function(mediaSource) 
+							for (var i = 0; i < option_buttons.length; i++) 
 							{
-								
-								try 
-								{
-									video.srcObject = mediaSource;
-
-									video.srcObject.stop = function ()
-									{
-										this.getVideoTracks().forEach(function (track) 
-										{ 
-											track.stop();
-										});
-									};
-
-								} 
-								catch (error) 
-								{
-									video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
-								}
-																				
-							})
+								option_buttons[i].style.display='none';
+								document.getElementById('sticker_panel').style.display='none';
+							}
 						}
-					}
-					else if (d.id == 'option_save')
-					{
-						if (canSave == true)
+
+						if (d.id == 'option_upload')
+						{
+							removeButton();
+
+							document.getElementById("option_back").classList.remove("cam_mode");
+							document.getElementById("option_back").classList.add("file_mode");
+
+							document.getElementById('option_back').style.display='block';
+							document.getElementById('option_file').style.display='block';
+							document.getElementById('option_summit').style.display='block';
+
+							document.getElementById('sticker_panel').style.display='block';
+						}
+						
+						if (d.id == 'option_back')
+						{
+							removeButton();
+
+							document.getElementById('option_upload').style.display='block';
+							document.getElementById('option_cam').style.display='block';
+
+							location.reload();
+						}
+						if (d.id == 'option_cam')
+						{
+							removeButton();
+
+							document.getElementById("option_back").classList.add("cam_mode");
+							document.getElementById("option_back").classList.remove("file_mode");
+
+							document.getElementById('option_back').style.display='block';
+							document.getElementById('capture').style.display='block';
+							document.getElementById('option_summit_cam').style.display='block';
+
+							document.getElementById('sticker_panel').style.display='block';
+
+							/* CAMERA HANDLER */
+
+							if (navigator.mediaDevices.getUserMedia) 
+							{
+								navigator.mediaDevices.getUserMedia
+								(
+									{
+										video: true, 
+										audio: false
+									}
+								)
+								.then(function(mediaSource) 
+								{
+									
+									try 
+									{
+										video.srcObject = mediaSource;
+
+										video.srcObject.stop = function ()
+										{
+											this.getVideoTracks().forEach(function (track) 
+											{ 
+												track.stop();
+											});
+										};
+
+									} 
+									catch (error) 
+									{
+										video.src = URL.createObjectURL(mediaSource); //video.src = window.URL.createObjectURL(stream);
+									}
+																					
+								})
+							}
+						}
+						else if (d.id == 'option_save')
+						{
+							if (canSave == true)
+							{
+								removeButton();
+
+								document.getElementById('option_upload').style.display='block';
+								document.getElementById('option_cam').style.display='block';
+							}
+						}
+						else if (d.id == 'option_summit')
+						{
+							removeButton();
+							if (reader.readyState == 2)
+							{
+								document.getElementById('option_upload').style.display='block';
+								document.getElementById('option_save').style.display='block';
+								document.getElementById('option_trash').style.display='block';
+
+								loadImage();
+							}
+							else
+								location.reload();
+
+						}
+						else if (d.id == 'option_summit_cam')
+						{
+							removeButton();
+							if (canSave == true)
+							{
+								document.getElementById('option_cam').style.display='block';
+								document.getElementById('option_save').style.display='block';
+								document.getElementById('option_trash').style.display='block';
+
+								loadImage();
+							}
+							else
+								location.reload();
+						}
+						else if (d.id == 'option_trash')
 						{
 							removeButton();
 
 							document.getElementById('option_upload').style.display='block';
 							document.getElementById('option_cam').style.display='block';
 						}
-					}
-					else if (d.id == 'option_summit')
+					};
+					
+					video.addEventListener('play', function()
 					{
-						removeButton();
-						if (reader.readyState == 2)
-						{
-							document.getElementById('option_upload').style.display='block';
-							document.getElementById('option_save').style.display='block';
-							document.getElementById('option_trash').style.display='block';
+						draw(this, context, 600, 450);
+					}, 
+						false
+					);
 
-							loadImage();
-						}
-						else
-							location.reload();
+					/* CANVAS */
 
-					}
-					else if (d.id == 'option_summit_cam')
+					function draw (video, context, width, height)
 					{
-						removeButton();
+						context.drawImage(video, 0, 0, 600, 450);
+						time = setTimeout(draw, 0, video, context, width);
+					}
+
+					document.getElementById('capture').addEventListener('click', function()
+					{
+						canSave = true;
+						context.drawImage(video, 0, 0, 600, 450);
+						clearTimeout(time);
+					});
+
+					document.getElementById('option_back').addEventListener('click', function()
+					{
+						if (document.getElementById("option_back").classList.contains("cam_mode"))
+							video.srcObject.stop();
+						context.clearRect(0, 0, 600, 450);
+					});
+					document.getElementById('option_trash').addEventListener('click', function()
+					{
+						if (document.getElementById("option_back").classList.contains("cam_mode"))
+							video.srcObject.stop();
+						context.clearRect(0, 0, canvas.width, canvas.height);
+					});
+
+					/* SUBMITTING / SAVING */
+
+					document.getElementById('option_save').addEventListener('click', function()
+					{
+						//("save_button");
 						if (canSave == true)
-						{
-							document.getElementById('option_cam').style.display='block';
-							document.getElementById('option_save').style.display='block';
-							document.getElementById('option_trash').style.display='block';
+						{											
+							context = document.getElementById('canvas').getContext("2d");
 
-							loadImage();
-						}
-						else
+							const imgUrl = canvas.toDataURL('image/png');
+							//(encodeURIComponent(imgUrl));
+													
+							var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
+							xhttp.open('POST', 'php/saveimg.php', true);
+							xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
+							xhttp.send('key='+encodeURIComponent(imgUrl));
 							location.reload();
-					}
-					else if (d.id == 'option_trash')
-					{
-						removeButton();
-
-						document.getElementById('option_upload').style.display='block';
-						document.getElementById('option_cam').style.display='block';
-					}
-				};
-				
-				video.addEventListener('play', function()
-				{
-					draw(this, context, 600, 450);
-				}, 
-					false
-				);
-
-				/* CANVAS */
-
-				function draw (video, context, width, height)
-				{
-					context.drawImage(video, 0, 0, 600, 450);
-					time = setTimeout(draw, 0, video, context, width);
-				}
-
-				document.getElementById('capture').addEventListener('click', function()
-				{
-					canSave = true;
-				 	context.drawImage(video, 0, 0, 600, 450);
-				 	clearTimeout(time);
-				});
-
-				document.getElementById('option_back').addEventListener('click', function()
-				{
-				 	 if (document.getElementById("option_back").classList.contains("cam_mode"))
-						video.srcObject.stop();
-					context.clearRect(0, 0, 600, 450);
-				});
-				document.getElementById('option_trash').addEventListener('click', function()
-				{
-				 	 if (document.getElementById("option_back").classList.contains("cam_mode"))
-						video.srcObject.stop();
-					context.clearRect(0, 0, canvas.width, canvas.height);
-				});
-
-				/* SUBMITTING / SAVING */
-
-				document.getElementById('option_save').addEventListener('click', function()
-				{
-					//("save_button");
-					if (canSave == true)
-					{											
-						context = document.getElementById('canvas').getContext("2d");
-
-						const imgUrl = canvas.toDataURL('image/png');
-						//(encodeURIComponent(imgUrl));
-												
-						var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-						xhttp.open('POST', 'php/saveimg.php', true);
-						xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-						xhttp.send('key='+encodeURIComponent(imgUrl));
-						location.reload();
-					}
-				});
+						}
+					});
 			</script>
+
 			<!-- GALLERY -->
 			<div id="gallery_page" class="page">
 				<div>
-					<?php
-					//ini_set('display_errors', 1); 
-					//ini_set('display_startup_errors', 1);
-					//error_reporting(E_ALL);
-					include './config/database.php';
-					$url = htmlspecialchars($_SERVER['REQUEST_URI']);
-					try
-					{
-						if (isset($_SESSION['loggedin']) === true)
+				<?php
+						//ini_set('display_errors', 1); 
+						//ini_set('display_startup_errors', 1);
+						//error_reporting(E_ALL);
+						include './config/database.php';
+						$url = htmlspecialchars($_SERVER['REQUEST_URI']);
+						try
 						{
-							$username	= $_SESSION['username'];
-							$user_id	= isset($_SESSION['user_id']);
-							$loggedin	= isset($_SESSION['loggedin']);
-							if (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0)
-								$user_name	= $username;
-							else if (!isset($_GET['user_name']))
+							if (isset($_SESSION['loggedin']) === true)
 							{
-								$user_name	= $username;
+								$username	= $_SESSION['username'];
+								$user_id	= isset($_SESSION['user_id']);
+								$loggedin	= isset($_SESSION['loggedin']);
+								if (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0)
+									$user_name	= $username;
+								else if (!isset($_GET['user_name']))
+								{
+									$user_name	= $username;
+								}
+								else if (isset($_GET['user_name']))
+									$user_name	= htmlspecialchars($_GET['user_name']);	
 							}
 							else if (isset($_GET['user_name']))
 								$user_name	= htmlspecialchars($_GET['user_name']);	
-						}
-						else if (isset($_GET['user_name']))
-							$user_name	= htmlspecialchars($_GET['user_name']);	
-						else if (!isset($_GET['user_name']) || (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0))
-						{
-							echo("either log in or put in a user name");
-						}
-						else
-							echo("Something went wrong...");
-						if (isset($user_name))
-						{
-							$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
-							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							$sql = "USE ".$DB_NAME;
-							$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
-							$stmt->bindValue(':user_name', $user_name);
-							$stmt->execute();
-							$usernames = $stmt->fetch();
-							if (!$usernames)
-								echo ("username does not exist");
-							$user_id	= $usernames['user_id'];
-							
-							$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id");
-							$stmt->bindValue(':user_id', $user_id);
-							$stmt->execute();
-							$image = $stmt->fetchAll();
-							//REF: https://www.youtube.com/watch?v=gdEpUPMh63s Create Pagination in PHP and MySQL
-							$results_per_page = 5;
-							$number_of_results = sizeof($image);
-							$number_of_pages = ceil($number_of_results / $results_per_page);
-
-							if (!isset($_GET['page']))
+							else if (!isset($_GET['user_name']) || (strcasecmp($url, '/camagru/index.php?activepage=gallery') == 0))
 							{
-								$page = 1;
-								//echo '<script>document.getElementById("page1").classList.add("active_pagenum");</script>';
-							
+								echo("either log in or put in a user name");
 							}
 							else
+								echo("Something went wrong...");
+							if (isset($user_name))
 							{
-								$page = $_GET['page'];
-								//echo '<script>document.getElementById("page'.$page.'").classList.add("active_pagenum");</script>';
-							}
+								$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+								$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+								$sql = "USE ".$DB_NAME;
+								$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
+								$stmt->bindValue(':user_name', $user_name);
+								$stmt->execute();
+								$usernames = $stmt->fetch();
+								if (!$usernames)
+									echo ("username does not exist");
+								$user_id	= $usernames['user_id'];
+								
+								$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id");
+								$stmt->bindValue(':user_id', $user_id);
+								$stmt->execute();
+								$image = $stmt->fetchAll();
+								//REF: https://www.youtube.com/watch?v=gdEpUPMh63s Create Pagination in PHP and MySQL
+								$results_per_page = 5;
+								$number_of_results = sizeof($image);
+								$number_of_pages = ceil($number_of_results / $results_per_page);
 
-							$page_first_result = ($page - 1) * $results_per_page;
-							$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id LIMIT " . $page_first_result . "," .  $results_per_page);
-							$stmt->bindValue(':user_id', $user_id);
-							$stmt->execute();
-							$image = $stmt->fetchAll();
-							// index.php?activepage=gallery&user_name=
-							// /camagru/php/activepage=gallery&user_name=nelly&page=1
-							$url = htmlspecialchars(strchr($_SERVER['REQUEST_URI'], "index.php?activepage=gallery"));
-							if (isset($username))
-							{
-								if ($user_name == $username)
-									echo '<h2 style="text-align: center;">My Gallery</h2><br>';
-							}
-							else 
-								echo '<h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2><br>';
-							// Images per page
-							for ($i = 0; $i < sizeof($image) ; $i++) 
-							{ 
-								$img = $image[$i]['content'];
-								$img_id = $image[$i]['image_id'];
-								$img_user = $image[$i]['user_id'];
-								$stmt = $conn->prepare("SELECT * FROM comments WHERE image_id=:image_id");
-								$stmt->bindValue(':image_id', $img_id);
-								$stmt->execute();
-								$comments = $stmt->fetchAll();
-								$stmt = $conn->prepare("SELECT * FROM likes WHERE image_id=:image_id");
-								$stmt->bindValue(':image_id', $img_id);
-								$stmt->execute();
-								$likes = $stmt->fetchAll();
-								$no_likes = sizeof($likes);
-								echo '
-								<td>
-									<img src="data:image/png;base64,' . $img . '" />';
-									if (!isset($_SESSION['loggedin'])) 
-										echo '<button class="galbut"> Like | '. $no_likes .' </button>';
-								if (isset($_SESSION['loggedin']) === true)
+								if (!isset($_GET['page']))
 								{
-									if (isset($_SESSION['loggedin']) === true && ($username == $user_name))
-									{
-										echo '			
-										<form action="php/delete_image.php" id="delete_imageform'.$img_id.'" method="POST">
-										<input type="hidden" name="image_id" value="' . $img_id . '"> 
-										<input type="hidden" name="image_user" value="' . $img_user . '">
-											<button type="submit">Delete</button>
-										</form>';
-									}
-									echo '<div>';
-									echo '			
-										<form action="php/like_image.php" id="like_imageform'.$img_id.'" method="POST">
-										<input type="hidden" name="url" value="' . $url . '"> 
-										<input type="hidden" name="image_id" value="' . $img_id . '"> 
-										<input type="hidden" name="liked_by" value="' . $user_id . '">
-											<button type="submit">Like | '. $no_likes .' </button>
-										</form>';
-									echo '</div>';
-									echo '<hr>';
+									$page = 1;
+									//echo '<script>document.getElementById("page1").classList.add("active_pagenum");</script>';
+								
+								}
+								else
+								{
+									$page = $_GET['page'];
+									//echo '<script>document.getElementById("page'.$page.'").classList.add("active_pagenum");</script>';
+								}
+
+								$page_first_result = ($page - 1) * $results_per_page;
+								$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id LIMIT " . $page_first_result . "," .  $results_per_page);
+								$stmt->bindValue(':user_id', $user_id);
+								$stmt->execute();
+								$image = $stmt->fetchAll();
+								// index.php?activepage=gallery&user_name=
+								// /camagru/php/activepage=gallery&user_name=nelly&page=1
+								$url = htmlspecialchars(strchr($_SERVER['REQUEST_URI'], "index.php?activepage=gallery"));
+								if (isset($username))
+								{
+									if ($user_name == $username)
+										echo '<h2 style="text-align: center;">My Gallery</h2><br>';
+								}
+								else 
+									echo '<h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2><br>';
+								// Images per page
+								for ($i = 0; $i < sizeof($image) ; $i++) 
+								{ 
+									$img = $image[$i]['content'];
+									$img_id = $image[$i]['image_id'];
+									$img_user = $image[$i]['user_id'];
+									$stmt = $conn->prepare("SELECT * FROM comments WHERE image_id=:image_id");
+									$stmt->bindValue(':image_id', $img_id);
+									$stmt->execute();
+									$comments = $stmt->fetchAll();
+									$stmt = $conn->prepare("SELECT * FROM likes WHERE image_id=:image_id");
+									$stmt->bindValue(':image_id', $img_id);
+									$stmt->execute();
+									$likes = $stmt->fetchAll();
+									$no_likes = sizeof($likes);
 									echo '
-										<form action="php/comment.php" id="commentform'.$img_id.'" method="POST">
-											<input type="hidden" name="url" value="' . $url . '"> 
+									<td>
+										<img src="data:image/png;base64,' . $img . '" />';
+										if (!isset($_SESSION['loggedin'])) 
+											echo '<button class="galbut"> Like | '. $no_likes .' </button>';
+									if (isset($_SESSION['loggedin']) === true)
+									{
+										if (isset($_SESSION['loggedin']) === true && ($username == $user_name))
+										{
+											echo '			
+											<form action="php/delete_image.php" id="delete_imageform'.$img_id.'" method="POST">
 											<input type="hidden" name="image_id" value="' . $img_id . '"> 
 											<input type="hidden" name="image_user" value="' . $img_user . '">
-											<h4>Comment</h4>
-											<textarea style="width: 100%; height: 65px;" name="commet_txt" form="commentform'.$img_id.'"></textarea>
-											<br>
-												<input type="submit">
-										</form>
-										';
+												<button type="submit">Delete</button>
+											</form>';
+										}
+										echo '<div>';
+										echo '			
+											<form action="php/like_image.php" id="like_imageform'.$img_id.'" method="POST">
+											<input type="hidden" name="url" value="' . $url . '"> 
+											<input type="hidden" name="image_id" value="' . $img_id . '"> 
+											<input type="hidden" name="liked_by" value="' . $user_id . '">
+												<button type="submit">Like | '. $no_likes .' </button>
+											</form>';
+										echo '</div>';
 										echo '<hr>';
-								}
-								echo '
-									<br>
-									<button class="galbut"> Comments </button>
-									<table id="commentstab">';
-																	
-								for ($j=0; $j < sizeof($comments); $j++) 
-								{ 
-									$comment = $comments[$j]['comment'];
-									$comment_by = $comments[$j]['user_id'];
-									$stmt = $conn->prepare("SELECT * FROM users WHERE user_id=:user_id");
-									$stmt->bindValue(':user_id', $comment_by);
-									$stmt->execute();
-									$com_user = $stmt->fetch();
-									$by = $com_user['user_name'];
-									echo'
-										<tr>
-											<td width="10%">'
-												. $by . 
-												'<td>'
-												. $comment . 
-												'</td>' .
-											'</td>
-										</tr>
+										echo '
+											<form action="php/comment.php" id="commentform'.$img_id.'" method="POST">
+												<input type="hidden" name="url" value="' . $url . '"> 
+												<input type="hidden" name="image_id" value="' . $img_id . '"> 
+												<input type="hidden" name="image_user" value="' . $img_user . '">
+												<h4>Comment</h4>
+												<textarea style="width: 100%; height: 65px;" name="commet_txt" form="commentform'.$img_id.'"></textarea>
+												<br>
+													<input type="submit">
+											</form>
+											';
+											echo '<hr>';
+									}
+									echo '
+										<br>
+										<button class="galbut"> Comments </button>
+										<table id="commentstab">';
+																		
+									for ($j=0; $j < sizeof($comments); $j++) 
+									{ 
+										$comment = $comments[$j]['comment'];
+										$comment_by = $comments[$j]['user_id'];
+										$stmt = $conn->prepare("SELECT * FROM users WHERE user_id=:user_id");
+										$stmt->bindValue(':user_id', $comment_by);
+										$stmt->execute();
+										$com_user = $stmt->fetch();
+										$by = $com_user['user_name'];
+										echo'
+											<tr>
+												<td width="10%">'
+													. $by . 
+													'<td>'
+													. $comment . 
+													'</td>' .
+												'</td>
+											</tr>
+											';
+									}
+									echo '
+										</table>
 										';
 								}
-								echo '
-									</table>
-									 ';
+								echo "<br>";
+								// Pages Links
+								// index.php?activepage=gallery&user_name=
+								// http://127.0.0.1:8080/camagru/activepage=gallery&user_name=nelly&page=2
+								for ($page = 1; $page <= $number_of_pages; $page++) 
+								{
+									echo '<a id="page'.$page.'" class="pagenum" href="index.php?activepage=gallery&user_name=' . $user_name .'&page=' . $page . '">' . $page . '</a> ';
+									echo '<script> document.getElementById("page'.$page.'").classList.remove("active_pagenum"); </script>';
+								}
+								echo '<div style="height: 35px;"></div>';
 							}
-							echo "<br>";
-							// Pages Links
-							// index.php?activepage=gallery&user_name=
-							// http://127.0.0.1:8080/camagru/activepage=gallery&user_name=nelly&page=2
-							for ($page = 1; $page <= $number_of_pages; $page++) 
-							{
-								echo '<a id="page'.$page.'" class="pagenum" href="index.php?activepage=gallery&user_name=' . $user_name .'&page=' . $page . '">' . $page . '</a> ';
-								echo '<script> document.getElementById("page'.$page.'").classList.remove("active_pagenum"); </script>';
-							}
-							echo '<div style="height: 35px;"></div>';
 						}
-					}
-					catch(PDOException $e)
-					{
-						echo $stmt . "<br>" . $e->getMessage();
-					}
-					$conn = null;
-					?>
-				</div>				
+						catch(PDOException $e)
+						{
+							echo $stmt . "<br>" . $e->getMessage();
+						}
+						$conn = null;
+						?>
+				</div>
 			</div>
+
 			<!-- SEARCH -->
 			<div id="search_page" class="page">
 				<form class="seach_box" action="php/search.php" method="POST">
 					<input type="text" placeholder="Search.." name="search_box">
 					<button type="submit">Search</button>
 				</form>
-
-
 			</div>
-		</div>
 
-		<!-- NAVIGATION OPTIONS -->
+			<!-- NAVIGATION OPTIONS -->
+			<!-- LOGIN -->
+			<div id="login" class="modal page_popup">
+				<form class="login_content" action="php/login.php" method="POST">
+					<div class="modal_container">
+						<h1>Login</h1>
+						<p>Please fill in this form to log into your account.</p>
+						<hr>
+							<label for="email"><b>Email</b></label>
+							<input type="email" placeholder="Enter Email" name="email" required>
+							<label for="psw"><b>Password</b></label>
+							<input type="password" placeholder="Enter Password" name="psw" required>
+							<hr>
+							<button id="loginbtn" type="submit" name="submit">Login</button>
+						</div>
+						<div class="container modal_container base" id="login_bottom">
+					<p>Forgot <a href="#" onclick="document.getElementById('forgot_pass').style.display='block'; document.getElementById('login').style.display='none'">password</a>?</p>
+				</div>
+				</form>
+			</div>
 
-		<!-- LOGIN -->
-		<div id="login" class="modal page_popup">
-			<form class="login_content" action="php/login.php" method="POST">
-				<div class="modal_container">
+			<!-- FORGOT PASSWORD Send email-->
+			<div id="forgot_pass" class="modal page_popup">
+				<form class="forgot_content" action="php/forgot_password_email.php" method="POST">
+					<div class="modal_container">
 					<h1>Login</h1>
-					<p>Please fill in this form to log into your account.</p>
+					<p>Please fill in your email to reset your password.</p>
 					<hr>
 						<label for="email"><b>Email</b></label>
 						<input type="email" placeholder="Enter Email" name="email" required>
-						<label for="psw"><b>Password</b></label>
-						<input type="password" placeholder="Enter Password" name="psw" required>
 						<hr>
-						<button id="loginbtn" type="submit" name="submit">Login</button>
+						<button type="submit" name="submit">Send Email</button>
 					</div>
-					<div class="container modal_container base" id="login_bottom">
-				<p>Forgot <a href="#" onclick="document.getElementById('forgot_pass').style.display='block'; document.getElementById('login').style.display='none'">password</a>?</p>
+				</form>
 			</div>
-			</form>
-		</div>
-		<!-- FORGOT PASSWORD Send email-->
-		<div id="forgot_pass" class="modal page_popup">
-			<form class="forgot_content" action="php/forgot_password_email.php" method="POST">
-				<div class="modal_container">
-				<h1>Login</h1>
-				<p>Please fill in your email to reset your password.</p>
-				<hr>
-					<label for="email"><b>Email</b></label>
-					<input type="email" placeholder="Enter Email" name="email" required>
-					<hr>
-					<button type="submit" name="submit">Send Email</button>
-				</div>
-			</form>
-		</div>
-		<!-- FORGOT PASSWORD verify-->
-		<div id="forgot_pass_set" class="modal page_popup">
-			<form class="forgot_content" action="php/forgot_password_reset.php" method="POST">
-				<div class="modal_container">
-				<h1>Reset Password</h1>
-						<p>Please fill in this form to reset your password.</p>
-						<hr>
-							<label for="new psw"><b>New Password</b></label>
-							<input type="password" placeholder="New Password" name="psw_new" required>
-							<label for="psw_repeat"><b>Confirm Password</b></label>
-							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
-						<hr> 
-						<button type="submit" class="reset_password">Reset Password</button>
-				</div>
-			</form>
-		</div>
-		<!-- SIGN UP -->
-		<div id="signup" class="modal_signup page_popup">
-			<form action="php/signup.php" method="POST">
-				<div class="signup_container modal_container">
-					<h1>Register</h1>
-					<p>Please fill in this form to create an account.</p>
-					<hr>
-						<label for="username"><b>Username</b></label>
-						<input type="username" placeholder="Enter Username" name="username" required>
-						<label for="email"><b>Email</b></label>
-						<input type="text" placeholder="Enter Email" name="email" required>
-						<label for="psw"><b>Password</b></label>
-						<input type="password" placeholder="Enter Password" name="psw" required>
-						<label for="psw_repeat"><b>Repeat Password</b></label>
-						<input type="password" placeholder="Repeat Password" name="psw_repeat" required>
-					<hr> 
-					<button type="submit" class="registerbtn">Register</button>
-				</div>
-				<div class="signup_container modal_container base">
-					<p>Already have an account? <a href="#" onclick="document.getElementById('login').style.display='block'; document.getElementById('signup').style.display='none'">Sign in</a>.</p>
-				</div>
-			</form>
-		</div>
 
-		<!-- MOD PREFEREVCES -->
-
-		<div id="prefs" class="modal_pref page_popup">
-			<div class="modal_container">
-				<h1>Modify Account</h1>
-				<p>Make changes to your account</p>
-				<hr>
-					<div class="pref_buttons">
-						<!-- <a class="right" onclick="document.getElementById('prefs').style.display='block'" >preferences</a> -->
-						<a onclick="document.getElementById('users_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
-							<button>Username</button>
-						</a>
-						<a onclick="document.getElementById('email_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
-							<button>Email</button>
-						</a>
-						<a onclick="document.getElementById('psw_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
-							<button>Password</button>
-						</a>
-						<a onclick="document.getElementById('not_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
-							<button onclick="triggernot(this)">Notifications</button>
-						</a>
-					</div>
-				<hr>
-				</div>
-			</div>
-				<!-- MODIFY USER -->
-				<div id="users_mod" class="page_popup">
-					<form action="php/mod_username.php" method="POST">
-						<div class="modal_container">
-							<h1>Modify Username</h1>
-							<p>Please fill in this form to modify your username.</p>
-								<hr>
-									<label for="username"><b>Username</b></label>
-									<input type="username" placeholder="Enter Username" name="username" required>
-								<hr>
-								<button type="submit" class="reset_usernmse">Reset Username</button>
-						</div>
-					</form>
-				</div>
-				<!-- MODIFY EMAIL-->
-				<div id="email_mod" class="page_popup">
-					<form action="php/mod_email.php" method="POST">
+			<!-- FORGOT PASSWORD verify-->
+			<div id="forgot_pass_set" class="modal page_popup">
+				<form class="forgot_content" action="php/forgot_password_reset.php" method="POST">
 					<div class="modal_container">
-						<h1>Modify Email</h1>
-						<p>Please fill in this form to modify your email.</p>
+					<h1>Reset Password</h1>
+							<p>Please fill in this form to reset your password.</p>
 							<hr>
-								<div class="pref_buttons">
-									<label for="email"><b>New Email</b></label>
-									<input type="text" placeholder="Enter New Email" name="email" required>
-									<label for="email"><b>Confirm Email</b></label>
-									<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
-								</div>
-							<hr>
-								<button type="submit" class="reset_email">Reset Email</button>
-					</div>
-					</form>
-				</div>
-				<!-- MODIFY PASSWORD -->
-				<div id="psw_mod" class="page_popup">
-					<form action="php/mod_password.php" method="POST">
-						<div class="modal_container">
-							<h1>Modify Password</h1>
-							<p>Please fill in this form to modify your password.</p>
-							<hr>
-								<label for="old psw"><b>Current Password</b></label>
-								<input type="password" placeholder="Enter Password" name="psw" required>
 								<label for="new psw"><b>New Password</b></label>
 								<input type="password" placeholder="New Password" name="psw_new" required>
 								<label for="psw_repeat"><b>Confirm Password</b></label>
 								<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
 							<hr> 
 							<button type="submit" class="reset_password">Reset Password</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- SIGN UP -->
+			<div id="signup" class="modal_signup page_popup">
+				<form action="php/signup.php" method="POST">
+					<div class="signup_container modal_container">
+						<h1>Register</h1>
+						<p>Please fill in this form to create an account.</p>
+						<hr>
+							<label for="username"><b>Username</b></label>
+							<input type="username" placeholder="Enter Username" name="username" required>
+							<label for="email"><b>Email</b></label>
+							<input type="text" placeholder="Enter Email" name="email" required>
+							<label for="psw"><b>Password</b></label>
+							<input type="password" placeholder="Enter Password" name="psw" required>
+							<label for="psw_repeat"><b>Repeat Password</b></label>
+							<input type="password" placeholder="Repeat Password" name="psw_repeat" required>
+						<hr> 
+						<button type="submit" class="registerbtn">Register</button>
+					</div>
+					<div class="signup_container modal_container base">
+						<p>Already have an account? <a href="#" onclick="document.getElementById('login').style.display='block'; document.getElementById('signup').style.display='none'">Sign in</a>.</p>
+					</div>
+				</form>
+			</div>
+
+			<!-- MOD PREFEREVCES -->
+			<div id="prefs" class="modal_pref page_popup">
+				<div class="modal_container">
+					<h1>Modify Account</h1>
+					<p>Make changes to your account</p>
+					<hr>
+						<div class="pref_buttons">
+							<!-- <a class="right" onclick="document.getElementById('prefs').style.display='block'" >preferences</a> -->
+							<a onclick="document.getElementById('users_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+								<button>Username</button>
+							</a>
+							<a onclick="document.getElementById('email_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+								<button>Email</button>
+							</a>
+							<a onclick="document.getElementById('psw_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+								<button>Password</button>
+							</a>
+							<a onclick="document.getElementById('not_mod').style.display='block'; document.getElementById('prefs').style.display='none'" >
+								<button onclick="triggernot(this)">Notifications</button>
+							</a>
 						</div>
-					</form>
+					<hr>
 				</div>
-				<!-- MODIFY NOTIFCATIONS -->
-				<div id="not_mod" class="modal_pref page_popup">
-					<form id="not_mod_form" method="POST">
-						<div class="modal_container">
-							<h1>Notifications</h1>
-							<p>Please toggle switch to be emailed notifications.</p>
-								<hr>
-									<label><b>Receive Email Notifications?</b><br/></label>
-									<label class="switch">
-										<!-- this toggle is not working -->
-										<input type="checkbox" id="notify_mod" checked onclick="checkBox(this)">
-										<span class="slider"></span>
-									</label>
-								<hr>
-								<script>
+			</div>
 
-									var box_checked = "<?php echo $_SESSION['email_notify'] ?>";
+			<!-- MODIFY USER -->
+			<div id="users_mod" class="page_popup">
+				<form action="php/mod_username.php" method="POST">
+					<div class="modal_container">
+						<h1>Modify Username</h1>
+						<p>Please fill in this form to modify your username.</p>
+							<hr>
+								<label for="username"><b>Username</b></label>
+								<input type="username" placeholder="Enter Username" name="username" required>
+							<hr>
+							<button type="submit" class="reset_usernmse">Reset Username</button>
+					</div>
+				</form>
+			</div>
 
-									function triggernot(d)
-									{
-										var noti_mod = document.getElementById("notify_mod");
-
-										if ((box_checked == 'true' || box_checked == 1) && (noti_mod.checked == false || noti_mod.checked == 0))
-											noti_mod.setAttribute("checked", "true");
-										if ((box_checked == 'false' || box_checked == 0) && (noti_mod.checked == true || noti_mod.checked == 1))
-											noti_mod.removeAttribute("checked");
-									};
-
-									function checkBox(d)
-									{
-										var xml = new XMLHttpRequest();
-										xml.open("POST", "php/mod_emailnotifications.php", true);
-										var toggle_true = "true";
-										var toggle_false = "false";
-										xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-										if (d.checked == true)
-											xml.send("notifi=true");
-										else if (d.checked == false)
-											xml.send("notifi=false");
-									};
-								</script>
-						</div>
-					</form>
+			<!-- MODIFY EMAIL-->
+			<div id="email_mod" class="page_popup">
+				<form action="php/mod_email.php" method="POST">
+				<div class="modal_container">
+					<h1>Modify Email</h1>
+					<p>Please fill in this form to modify your email.</p>
+						<hr>
+							<div class="pref_buttons">
+								<label for="email"><b>New Email</b></label>
+								<input type="text" placeholder="Enter New Email" name="email" required>
+								<label for="email"><b>Confirm Email</b></label>
+								<input type="text" placeholder="Confirm New Email" name="email_repeat" required>
+							</div>
+						<hr>
+							<button type="submit" class="reset_email">Reset Email</button>
 				</div>
+				</form>
+			</div>
+
+			<!-- MODIFY PASSWORD -->
+			<div id="psw_mod" class="page_popup">
+				<form action="php/mod_password.php" method="POST">
+					<div class="modal_container">
+						<h1>Modify Password</h1>
+						<p>Please fill in this form to modify your password.</p>
+						<hr>
+							<label for="old psw"><b>Current Password</b></label>
+							<input type="password" placeholder="Enter Password" name="psw" required>
+							<label for="new psw"><b>New Password</b></label>
+							<input type="password" placeholder="New Password" name="psw_new" required>
+							<label for="psw_repeat"><b>Confirm Password</b></label>
+							<input type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+						<hr> 
+						<button type="submit" class="reset_password">Reset Password</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- MODIFY NOTIFCATIONS -->
+			<div id="not_mod" class="modal_pref page_popup">
+				<form id="not_mod_form" method="POST">
+					<div class="modal_container">
+						<h1>Notifications</h1>
+						<p>Please toggle switch to be emailed notifications.</p>
+						<hr>
+						<label><b>Receive Email Notifications?</b><br/></label>
+						<label class="switch">
+							<!-- this toggle is not working -->
+							<input type="checkbox" id="notify_mod" checked onclick="checkBox(this)">
+							<span class="slider"></span>
+						</label>
+						<hr>
+						<script>
+
+							var box_checked = "<?php echo $_SESSION['email_notify'] ?>";
+
+							function triggernot(d)
+							{
+								var noti_mod = document.getElementById("notify_mod");
+
+								if ((box_checked == 'true' || box_checked == 1) && (noti_mod.checked == false || noti_mod.checked == 0))
+									noti_mod.setAttribute("checked", "true");
+								if ((box_checked == 'false' || box_checked == 0) && (noti_mod.checked == true || noti_mod.checked == 1))
+									noti_mod.removeAttribute("checked");
+							};
+
+							function checkBox(d)
+							{
+								var xml = new XMLHttpRequest();
+								xml.open("POST", "php/mod_emailnotifications.php", true);
+								var toggle_true = "true";
+								var toggle_false = "false";
+								xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+								if (d.checked == true)
+									xml.send("notifi=true");
+								else if (d.checked == false)
+									xml.send("notifi=false");
+							};
+						</script>
+					</div>
+				</form>
+			</div>
+
 			<script>
-
 				// SCRIPT TO HANDLE NAVIGATION AND PAGE POP UPS
 
 				var modal_pop = document.getElementsByClassName('page_popup');
@@ -2049,7 +2079,7 @@ include 'config/database.php';
 
 				var nav_button = document.getElementsByClassName("nav_button");
 
-				
+
 				if ((window.location.search).indexOf("activepage=photobooth") > -1)
 				{
 					clear();
@@ -2090,11 +2120,317 @@ include 'config/database.php';
 					}
 				}
 			</script>
-			<footer>
-				<i align="right" style="font-family:'Courier New'"> &copy cletinić 2018</i>
-			</footer>
-	</BODY>
-</HTML>
+			<script>
+				// MODALS
+				// LOGIN | SIGN IN
+				function loginModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<h1>Sign In</h1>
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form class="login_content" action="php/login.php" method="POST">
+							<p>Please fill in this form to sign in to your account.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="email" placeholder="Email" name="email" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Password" name="psw" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="loginbtn" type="submit" name="submit">Sign In</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').style.justifyContent = "space-evenly";
+					document.getElementById('modalFooter').innerHTML = `
+						<div>
+							<p>New? <a href="#" onclick="document.querySelector('#confirmationModal')._hideModal(); signupModal()">Sign Up</a></p>
+						</div>
+						<div>
+							<p><strong> | </strong></p>
+						</div>
+						<div>
+							<p>Forgot <a href="#" onclick="document.querySelector('#confirmationModal')._hideModal(); forgotPasswordModal();">password</a>?</p>
+						</div>
+					`;
+
+					document.querySelector('#confirmationModal')._showModal();
+							
+				}
+
+				// REGISTER| SIGN UP
+				function signupModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<h1>Sign Up</h1>
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form action="php/signup.php" method="POST">
+							<p>Please fill in this form to create an account.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="text" placeholder="Username" name="username" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="text" placeholder="Email" name="email" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Password" name="psw" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Repeat Password" name="psw_repeat" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="signupbtn" type="submit" name="submit">Sign Up</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `
+					<p>Already have an account? <a href="#" onclick="document.querySelector('#confirmationModal')._hideModal(); loginModal()">Sign in</a>.</p>
+					`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// FORGOT PASSWORD - send email
+				function forgotPasswordModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<h1>Forgot Password</h1>
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form class="forgot_content" action="php/forgot_password_email.php" method="POST">
+							<p>Please fill in your email to reset your password.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="text" placeholder="Email" name="email" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="forgotpasswordbtn" type="submit" name="submit">Send Email</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// FORGOT PASSWORD RESET
+				function forgotPasswordResetModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<h1>Password Reset</h1>
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form class="forgot_content" action="php/forgot_password_reset.php" method="POST">
+							<p>Please fill in this form to reset your password.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="New Password" name="psw_new" required>
+								<span class="focus-border"></span>
+							</div>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="forgotpasswordresetbtn" type="submit" name="submit">Reset Password</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// 	MODIFY PREFERENCES
+				function modifyPreferencesSelectModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<h1>Modify Account</h1>
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+							<p>Make changes to your account</p>
+							<button class="modal-button" id="modifyselectusernamebtn" type="button"  onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesUsernameModal();">Username</button>
+							<br/>
+							<button class="modal-button" id="modifyselectemailbtn" type="button" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesEmailModal();">Email</button>
+							<br/>
+							<button class="modal-button" id="modifyselectpasswordbtn" type="button" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesPasswordModal()">Password</button>
+							<br/>
+							<button class="modal-button" id="modifyselectnotificationsbtn" type="button" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesNotificationsModal();">Notifications</button>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// MODIFY USERNAME
+				function modifyPreferencesUsernameModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<div style="display: flex;">
+							<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesSelectModal()"><</button>
+							<h1 style="padding-left: 0px;">Modify Username</h1>	
+						</div>					
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form action="php/mod_username.php" method="POST">
+							<p>Please fill in this form to modify your username.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="text" placeholder="New Username" name="username" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="modifyusernamebtn" type="submit" name="submit">Reset Username</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// MODIFY EMAIL
+				function modifyPreferencesEmailModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<div style="display: flex;">
+							<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesSelectModal()"><</button>
+							<h1 style="padding-left: 0px;">Modify Email</h1>	
+						</div>					
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form action="php/mod_email.php" method="POST">
+							<p>Please fill in this form to modify your email.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="email" placeholder="New Email" name="email" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="email" placeholder="Confirm New Email" name="email_repeat" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="modifyemailbtn" type="submit" name="submit">Reset Email</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// MODIFY EMAIL
+				function modifyPreferencesPasswordModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<div style="display: flex;">
+							<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesSelectModal()"><</button>
+							<h1 style="padding-left: 0px;">Modify Password</h1>	
+						</div>					
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+						<form action="php/mod_password.php" method="POST">
+							<p>Please fill in this form to modify your password.</p>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Current Password" name="psw" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="New Password" name="psw_new" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<div class="input-field">
+								<input class="underline-effect" type="password" placeholder="Confirm New Password" name="psw_repeat" required>
+								<span class="focus-border"></span>
+							</div>
+							<br/>
+							<button class="modal-button" id="modifypasswordbtn" type="submit" name="submit">Reset Password</button>
+						</form>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+				}
+
+				// MODIFY NOTIFCATIONS
+				function modifyPreferencesNotificationsModal() {
+
+					document.getElementById('modalHeader').innerHTML = `
+						<div style="display: flex;">
+							<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal(); modifyPreferencesSelectModal()"><</button>
+							<h1 style="padding-left: 0px;">Modify Notifications</h1>	
+						</div>					
+						<button class="modal-close" onclick="document.querySelector('#confirmationModal')._hideModal()">X</button>
+					`;
+					document.getElementById('modalBody').innerHTML = `
+							<p>Please toggle switch to be emailed notifications.</p>
+							<label><b>Receive Email Notifications?</b><br/></label>
+							<label class="switch">
+								<!-- this toggle is not working -->
+								<input type="checkbox" id="notify_mod" checked onclick="checkBox(this)">
+								<span class="slider"></span>
+							</label>
+							<br/>
+					`;
+					document.getElementById('modalFooter').innerHTML = `<br/>`;
+
+					document.querySelector('#confirmationModal')._showModal();
+
+					}
+				var box_checked = "<?php echo $_SESSION['email_notify'] ?>";
+
+				function triggernot(d)
+				{
+					var noti_mod = document.getElementById("notify_mod");
+
+					if ((box_checked == 'true' || box_checked == 1) && (noti_mod.checked == false || noti_mod.checked == 0))
+						noti_mod.setAttribute("checked", "true");
+					if ((box_checked == 'false' || box_checked == 0) && (noti_mod.checked == true || noti_mod.checked == 1))
+						noti_mod.removeAttribute("checked");
+				};
+
+				function checkBox(d)
+				{
+					var xml = new XMLHttpRequest();
+					xml.open("POST", "php/mod_emailnotifications.php", true);
+					var toggle_true = "true";
+					var toggle_false = "false";
+					xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+					if (d.checked == true)
+						xml.send("notifi=true");
+					else if (d.checked == false)
+						xml.send("notifi=false");
+				};
+
+			</script>
+		</main>
+		<footer></footer>
+	</body>
+</html>
+
 <?php
 	if (isset($_GET['pop_up_login']) == true)
 		echo "<script> document.getElementById('login').style.display='block'; </script>";
