@@ -30,15 +30,6 @@
 	font-family: var(--font-family-atma);
 }
 
-/* body {
-	margin: 0;
-  
-	color : var(--main-font);
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-weight: lighter;
-} */
-
-
 body {
 	margin: 0 auto;
 }
@@ -482,7 +473,7 @@ input:focus {
 	width: 26px;
 	left: 4px;
 	bottom: 4px;
-	background-color: white;
+	background-color: var(--tertiary);
 	-webkit-transition: .4s;
 	transition: .4s;
   }
@@ -517,5 +508,207 @@ input:focus {
 {
 	display: block;
 }
+
+/* ______________________________________________ */
+
+/* __________________Photobooth__________________ */
+
+.booth_options 
+{
+	width: 80px;
+	height: 60px;
+
+	color: #f1f1f1;
+	text-align: center;
+	text-decoration: none;
+	background-color: var(--secondary);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+.booth_options:hover
+{
+	background-color: var(--primary);
+	color: #f1f1f1;
+}
+
+.sticker_options.active_sticker
+{
+	background-color: var(--primary);
+	color: #f1f1f1;
+}
+
+.sticker_size
+{
+	width: 80px;
+	height: 60px;
+}
+
+.colour_size
+{
+	width: 80px;
+}
+
+.sticker_options
+{
+	width: inherit;
+	color: #f1f1f1;
+	text-align: center;
+	text-decoration: none;
+	background-color: var(--secondary);
+	outline: none;
+	border: none;
+	cursor: pointer;
+}
+
+.sticker_options:hover
+{
+	background-color: var(--primary);
+	color: #f1f1f1;
+}
+
+.well {
+	cursor: default;
+}
+
+.well:hover {
+	background-color: var(--secondary);
+	color: #f1f1f1;
+}
+
+.colourwell {
+	cursor: pointer;
+}
+
+.photo_option
+{
+	width: 640px;
+	background-color: var(--secondary);
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: auto;
+}
+
+.sticker_svg
+{
+	padding-top: 5px;
+}
+
+.option_svg
+{
+	fill: #f1f1f1;
+}
+
+#boothlayout
+{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#cam
+{
+	background-color: var(--secondary);
+}
+
+
+/* ---*/
+#photobooth {
+	height: inherit;
+	display: grid;
+}
+
+#picture {
+	height: inherit;
+}
+
+.cam {
+	height: inherit;
+}
+
+#booth_panel1 {
+	grid-area: booth_panel_1;
+
+    display: flex;
+    align-items: center;
+}
+
+#booth_panel2 {
+	grid-area: booth_panel_2;
+}
+
+#booth_panel3 {
+	grid-area: booth_panel_3;
+}
+
+#booth_panelbottom {
+	grid-area: booth_panel_4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.booth_grid {
+	background-color: blueviolet;
+}
+
+#photobooth {
+	
+	grid-gap: 1px;
+	grid-template-rows: 3fr 100px;
+	/* grid-template-columns: 1fr 3fr 1fr; */
+	grid-template-columns: 1fr 660px 1fr;
+	grid-template-areas:
+		"booth_panel_1 booth_panel_2 booth_panel_3"
+		"booth_panel_4 booth_panel_4 booth_panel_4"
+}
+
+#boothlayout {
+    height: 100%;
+}
+
+#sticker_panel {
+	width: 100%;
+}
+
+#sticker_buttons {
+	display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    /* overflow: scroll; */
+    height: 450px;
+    width: auto;
+}
+
+.sticker_but_div
+{
+	border-bottom: var(--tertiary) 2px solid;
+	width: 100%;
+}
+
+/* #sticker_buttons {
+	display: flex;
+	flex-direction: column;
+	width: inherit;
+} */
+
+
+
+/* .photo_option {
+    background-color: var(--secondary);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    width: initial;
+} */
+
+
+
 
 /* ______________________________________________ */
