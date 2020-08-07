@@ -32,7 +32,7 @@ A local server to host on, in this case we will make use of bitnami local server
 
 ```
 cd [Insert path to your MAMP/ WAMP / LAMP Directory ]/apache2/htdocs
-$ git clone https://github.com/CLetinic/Camagru.git
+git clone https://github.com/CLetinic/Camagru.git
 ```
 
 # Setup
