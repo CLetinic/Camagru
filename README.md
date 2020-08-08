@@ -36,8 +36,38 @@ git clone https://github.com/CLetinic/Camagru.git
 ```
 
 # Setup
+## Configuring Server Environment
 
+> Locate and run the executable file
 
+![Server](./misc/images/MAMP/MAMPEXE.png)
+
+> Start the server 
+
+![Server](./misc/images/MAMP/MAMP3.png)
+
+> Browse to site location
+> NOTE - by default the server is set to port 80  
+> http://localhost/Camagru
+
+## Configuring Camagru
+
+### Changing Camagru Variables 
+
+> In [Insert path to your MAMP/ WAMP / LAMP Directory ]/apache2/htdocs/Camagru/config/database.php  
+> 
+> Change the password of `$DB_PASSWORD`, to the password chosen during from bitnami setup.
+
+![Database_Configuration](./misc/images/MAMP/DBSETUP.png)
+
+### Creating Database and Tables
+
+To create database and tables:
+> In the browser, navigate to
+>
+> http://localhost/Camagru/config/setup.php  
+
+![Database_Configuration](./misc/images/MAMP/CamagruSetup.png)
 
 # Samples | Screenshots
 ## Landing | Home page  
