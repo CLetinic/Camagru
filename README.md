@@ -8,7 +8,7 @@ The aim of this project, the first Web project from the 42 / WeThinkCode_ curric
 
 ## Prerequisites
 
-A local server to host on, in this case we will make use of bitnami local server environments
+A local apache server to host on, in this case we will make use of bitnami local server environments
 
    - [Bitnami local server environments](https://bitnami.com/stacks/infrastructure)
    
@@ -20,7 +20,7 @@ A local server to host on, in this case we will make use of bitnami local server
 
  - Install [Bitnami WAMP](https://bitnami.com/stack/wamp)
 
-## Linux
+### Linux
 > NOTE - this project hasn't been tested on a linux based system
 
  - Install [Bitnami LAMP](https://bitnami.com/stack/lamp)
