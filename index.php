@@ -1357,7 +1357,26 @@ include 'config/database.php';
 						</div>
 					</div>
 				</div>
-			</div>			
+			</div>
+			<!-- This is to convert images to base 64 -->
+			<div>
+				<img style="display: none;" id="temp0"/>
+				<img style="display: none;" id="temp1"/>
+				<img style="display: none;" id="temp2"/>
+				<img style="display: none;" id="temp3"/>
+				<img style="display: none;" id="temp4"/>
+				<img style="display: none;" id="temp5"/>
+				<img style="display: none;" id="temp6"/>
+				<img style="display: none;" id="temp7"/>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker0" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker1" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker2" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker3" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker4" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker5" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker6" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+				<canvas width="600" height="450" class="canvasBase64" id="can_sticker7" style="display: none; background-color: rgb(40, 41, 35);"></canvas>
+			</div>				
 		</div>
 		<!--photo_booth_page  -->
 		<script type="text/javascript">
@@ -1612,14 +1631,30 @@ include 'config/database.php';
 
 					const imgUrl = canvas.toDataURL('image/png');
 					//(encodeURIComponent(imgUrl));
-
+					let stickerArray = JSON.stringify(pushStickersToArray());
 					var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
 					xhttp.open('POST', 'php/saveimg.php', true);
 					xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-					xhttp.send('key=' + encodeURIComponent(imgUrl));
-					location.reload();
+					xhttp.send('base=' + encodeURIComponent(imgUrl) + '&stickerArray=' + encodeURIComponent(stickerArray));
+					//xhttp.send('base=' + encodeURIComponent(imgUrl));
+					//location.reload();
 				}
 			});
+
+			function pushStickersToArray()
+			{	
+				let imageArray = new Array(0);
+				var canvases = document.getElementsByClassName("canvasBase64")
+
+				for (let index = 0; index < canvases.length; index++) {
+					const element = canvases[index];
+					
+					const imgUrl = element.toDataURL('image/png');
+					imageArray.push(imgUrl);
+				}
+
+				return imageArray;
+			}
 		</script>
 		<?php endif;?>
 		<!-- GALLERY -->

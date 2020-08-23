@@ -11,7 +11,7 @@ include '../config/database.php';
 		
 		if (isset($_SESSION['loggedin']) === true)
 		{
-			if (isset($_POST['key']))
+			if (isset($_POST['base']) && isset($_POST['stickerArray']))
 			{
 				$user_name	= $_SESSION['username'];
 
@@ -27,19 +27,49 @@ include '../config/database.php';
 					die("username does not exist");
 
 				$user_id	= $usernames['user_id'];				
-				$imageurl	= $_POST['key'];
+				$imageurl	= $_POST['base'];
 				$img		= preg_replace('#^data:image/\w+;base64,#i', '',$imageurl);				
 				$arr = array();
-				
 				$index = 0;
-				for ($x = 0; $x <= 7; $x++) 
+
+				$file = 'people.txt';
+				// Open the file to get existing content
+				$current = file_get_contents($file);
+				// Append a new person to the file
+				$current .= $_POST['base'];
+				// Write the contents back to the file
+				file_put_contents($file, $current);
+
+
+				$file = 'peopleARRR.txt';
+
+				$stickerArray = json_decode($_POST['stickerArray']);
+				$max = sizeof($stickerArray);
+
+				// Open the file to get existing content
+				$current = file_get_contents($file);
+				// Append a new person to the file
+
+				if (isset($_POST['stickerArray']))
 				{
-					if (isset($_SESSION['num'.$x]))
-					{
-						$arr[$index] = $_SESSION['num'.$x];
-						$index++;
+					for ($i=0; $i < $max; $i++) { 
+					
+						$current .= $max;
+						$current .= "_____";
+						$current .= $i;
+						$current .= "\n______________________________________________\n";
+	
+						// Open the file to get existing content
+						
+						// Append a new person to the file
+						$current .= $stickerArray[$i];
+						// Write the contents back to the file
+						$stickerImg = preg_replace('#^data:image/\w+;base64,#i', '', ($stickerArray[$i]));	
+						$arr[$i] = $stickerImg;
 					}
-				} 
+	
+					file_put_contents($file, $current);
+				}
 								
 				for ($x = 0; $x < sizeof($arr); $x++)
 				{	
@@ -60,7 +90,7 @@ include '../config/database.php';
 					$img = base64_encode($img);
 					$temp = base64_decode($img);					
 
-					//file_put_contents('join'.$x.'.png', $temp);
+					file_put_contents('join'.$x.'.png', $temp);
 				}
 				// $temp = base64_decode($img);
 				// file_put_contents('join.png', $temp);
@@ -72,11 +102,6 @@ include '../config/database.php';
 				$stmt->bindParam(':content', $img);
 				$stmt->execute();
 
-				for ($x = 0; $x < sizeof($arr); $x++)
-				{
-					if (isset($_SESSION['num'.$x]))
-						unset($_SESSION['num'.$x]);
-				}
 				header('Location: ..index.php?activepage=photobooth/');
 			}
 		}
