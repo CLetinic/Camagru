@@ -86,8 +86,54 @@ http://localhost/Camagru/config/setup.php
 # Project Insight
 ## Project Brief
 - [Camagru Project Brief](./misc/documents/camagru.en.pdf)
-## Project Markingsheet
-- [Camagru Project Marking sheet](./misc/documents/camagru.markingsheet.pdf)
-## Project Trello
+
+## Project Trello | Project Breakdown | Project Planning 
 - [Camagru Trello Card](https://trello.com/c/eI0G1Per/29-camagru)
 - [Camagru Trello Board](https://trello.com/b/Zz2Zu2o2)
+
+## Project Markingsheet | Project Testing
+- [Camagru Project Marking sheet](./misc/documents/camagru.markingsheet.pdf)
+  
+## Project Stack / Technologies
+### Front-End
+- HTML
+- CSS
+- Javascript
+
+### Back-End
+- [PHP](https://www.php.net/)
+  
+### Databse
+- [MySQL](https://www.mysql.com/)
+- [phpMyAdmin](https://www.phpmyadmin.net/)
+  
+## References | Attributes  
+- [Stickers and Icons - Freebik](https://www.flaticon.com/authors/freepik)
+  
+## Project File Structure
+```
+Camagru
+├── assets
+│   └── ...                               # Front-End - Images / Assets
+├── config
+│   ├── database.php                      # Database - Configuration
+│   └── setup.php                         # Database - Table Creation
+├── css
+│   └── style.css                         # Front-End - Styling
+├── javascript
+│   └── ...                               # Front-End - Web Componets - e.g modal.js
+├── misc
+│   ├── documents
+│   │   ├── camagru.en.pdf                # Project Brief
+│   │   └── camagru.markingsheet.pdf      # Project Marking Sheet
+│   └── images
+│       ├── MAMP
+│       │   └── ...                       # README - Server Setup
+│       └── ...                           # README - Project Screenshots
+├── php
+│   └── ...                               # Back-end logic
+├── author
+├── index.php                             # Front-end logic and Project core
+└── README.md                             
+```
+

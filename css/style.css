@@ -631,7 +631,7 @@ input:focus {
 #booth_panel1 {
 	grid-area: booth_panel_1;
 
-    display: flex;
+    display: block;
     align-items: center;
 }
 
@@ -641,6 +641,7 @@ input:focus {
 
 #booth_panel3 {
 	grid-area: booth_panel_3;
+	text-align: center;
 }
 
 #booth_panelbottom {
@@ -651,7 +652,8 @@ input:focus {
 }
 
 .booth_grid {
-	background-color: blueviolet;
+	display: block;
+	overflow: auto;
 }
 
 #photobooth {
@@ -674,11 +676,13 @@ input:focus {
 }
 
 #sticker_buttons {
-	display: flex;
+	
+	/* display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: auto; */
     /* overflow: scroll; */
-    height: 450px;
+	/* height: 450px; */
+	display: block;
     width: auto;
 }
 

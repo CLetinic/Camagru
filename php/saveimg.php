@@ -32,38 +32,10 @@ include '../config/database.php';
 				$arr = array();
 				$index = 0;
 
-				$file = 'people.txt';
-				// Open the file to get existing content
-				$current = file_get_contents($file);
-				// Append a new person to the file
-				$current .= $_POST['base'];
-				// Write the contents back to the file
-				file_put_contents($file, $current);
-
-
-				$file = 'peopleARRR.txt';
-
-				$stickerArray = json_decode($_POST['stickerArray']);
-				$max = sizeof($stickerArray);
-
-				// Open the file to get existing content
-				$current = file_get_contents($file);
-				// Append a new person to the file
-
 				if (isset($_POST['stickerArray']))
 				{
-					for ($i=0; $i < $max; $i++) { 
-					
-						$current .= $max;
-						$current .= "_____";
-						$current .= $i;
-						$current .= "\n______________________________________________\n";
-	
-						// Open the file to get existing content
-						
-						// Append a new person to the file
-						$current .= $stickerArray[$i];
-						// Write the contents back to the file
+					for ($i=0; $i < $max; $i++) 
+					{
 						$stickerImg = preg_replace('#^data:image/\w+;base64,#i', '', ($stickerArray[$i]));	
 						$arr[$i] = $stickerImg;
 					}

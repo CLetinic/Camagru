@@ -904,7 +904,48 @@ include 'config/database.php';
 						</div>
 				</div>
 				<div class="booth_grid" id="booth_panel3">
+					<?php
+						try
+						{
+							if (isset($_SESSION['loggedin']) === true)
+							{
+								$user_name	= $_SESSION['username'];
+								$user_id	= $_SESSION['user_id'];
+								if (isset($user_name))
+								{
+									$conn = new PDO("$DB_DNS;dbname=$DB_NAME", $DB_USER, $DB_PASSWORD);
+									$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+									$sql = "USE ".$DB_NAME;
+									$stmt = $conn->prepare("SELECT * FROM users WHERE user_name=:user_name");
+									$stmt->bindValue(':user_name', $user_name);
+									$stmt->execute();
+									$usernames = $stmt->fetch();
+									if (!$usernames)
+										echo ("username does not exist");
+									$user_id	= $usernames['user_id'];
+									
+									$stmt = $conn->prepare("SELECT * FROM images WHERE user_id=:user_id");
+									$stmt->bindValue(':user_id', $user_id);
+									$stmt->execute();
+									$image = $stmt->fetchAll();
+									for ($i = 0; $i < sizeof($image) ; $i++) 
+									{ 
+										$img = $image[$i]['content'];
+										echo '
+										
+											<img src="data:image/png;base64,' . $img . '" style="90%"/>
+										';												
+									}
+								}
+							}
+						}
+						catch(PDOException $e)
+						{
+							echo $stmt . "<br>" . $e->getMessage();
+						}
 
+						$conn = null;												
+					?>	
 				</div>
 				<div class="booth_grid" id="booth_panelbottom">
 					<div >
@@ -1291,12 +1332,12 @@ include 'config/database.php';
 							</label>
 							<input type="file" id="input" style="display:none;" />
 							<!-- Submit Upload-->
-							<a class="booth_options" id="option_summit" style="display: none;"
+							<a class="booth_options" id="option_submit" style="display: none;"
 								onclick="optionHandler(this)">
-								<b style="display: inline-flex; margin-top: 20px;">SUMMIT</b>
+								<b style="display: inline-flex; margin-top: 20px;">SUBMIT</b>
 							</a>
 							<!-- Submit Cam-->
-							<a class="booth_options" id="option_summit_cam" style="display: none;"
+							<a class="booth_options" id="option_submit_cam" style="display: none;"
 								onclick="optionHandler(this)">
 								<b style="display: inline-flex; margin-top: 20px;">SUBMIT</b>
 							</a>
@@ -1406,11 +1447,6 @@ include 'config/database.php';
 				imgTarget.addEventListener("load", function () {
 					ctx.drawImage(imgTarget, 0, 0, 600, 450);
 					window.URL.revokeObjectURL(url);
-					var result = document.getElementById('can_sticker' + num).toDataURL('image/png');
-					var xhttp = new XMLHttpRequest(); //AJAX to communicate js to php
-					xhttp.open('POST', 'php/photo_booth.php', true);
-					xhttp.setRequestHeader('Content-type', 'Application/x-www-form-urlencoded');
-					xhttp.send('num=' + num + '&key=' + encodeURIComponent(result));
 				});
 				imgTarget.addEventListener("error", function (e) {
 					alert(e);
@@ -1506,7 +1542,7 @@ include 'config/database.php';
 
 					document.getElementById('option_back').style.display = 'block';
 					document.getElementById('option_file').style.display = 'block';
-					document.getElementById('option_summit').style.display = 'block';
+					document.getElementById('option_submit').style.display = 'block';
 
 					document.getElementById('sticker_panel').style.display = 'block';
 				}
@@ -1527,7 +1563,7 @@ include 'config/database.php';
 
 					document.getElementById('option_back').style.display = 'block';
 					document.getElementById('capture').style.display = 'block';
-					document.getElementById('option_summit_cam').style.display = 'block';
+					document.getElementById('option_submit_cam').style.display = 'block';
 
 					document.getElementById('sticker_panel').style.display = 'block';
 
@@ -1563,7 +1599,7 @@ include 'config/database.php';
 						document.getElementById('option_upload').style.display = 'block';
 						document.getElementById('option_cam').style.display = 'block';
 					}
-				} else if (d.id == 'option_summit') {
+				} else if (d.id == 'option_submit') {
 					removeButton();
 					if (reader.readyState == 2) {
 						document.getElementById('option_upload').style.display = 'block';
@@ -1574,7 +1610,7 @@ include 'config/database.php';
 					} else
 						location.reload();
 
-				} else if (d.id == 'option_summit_cam') {
+				} else if (d.id == 'option_submit_cam') {
 					removeButton();
 					if (canSave == true) {
 						document.getElementById('option_cam').style.display = 'block';
