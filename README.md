@@ -134,6 +134,6 @@ Camagru
 │   └── ...                               # Back-end logic
 ├── author
 ├── index.php                             # Front-end logic and Project core
-└── README.md                             
+└── README.md
 ```
 

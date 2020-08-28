@@ -76,6 +76,9 @@ include 'config/database.php';
 		<!-- PHOTOBOOTH -->
 		<div id="photo_booth_page" class="page">
 			<div id="photobooth">
+				<div class="booth_grid" id="booth_paneltop">
+					<h2 style="text-align: center;">Photobooth</h2>
+				</div>
 				<div class="booth_grid" id="booth_panel1">
 					<div id="sticker_panel" style="display:none;">
 							<div id="sticker_buttons" class="photo_option">
@@ -933,7 +936,7 @@ include 'config/database.php';
 										$img = $image[$i]['content'];
 										echo '
 										
-											<img src="data:image/png;base64,' . $img . '" style="90%"/>
+											<img src="data:image/png;base64,' . $img . '" style="width: 90%"/>
 										';												
 									}
 								}
@@ -1695,11 +1698,17 @@ include 'config/database.php';
 		<?php endif;?>
 		<!-- GALLERY -->
 		<div id="gallery_page" class="page">
-			<div>
+			<div id="gallerygrid">
+				<!-- <div class="gallery_grid" id="gallery_paneltop">
+					<h2 style="text-align: center;">Photobooth</h2>
+				</div>
+				<div class="gallery_grid" id="gallery_panel1">
+					<h2 style="text-align: center;">Photobooth</h2>
+				</div>
+				<div class="gallery_grid" id="gallery_panelbottom">
+					<h2 style="text-align: center;">Photobooth</h2>
+				</div> -->
 				<?php
-						//ini_set('display_errors', 1); 
-						//ini_set('display_startup_errors', 1);
-						//error_reporting(E_ALL);
 						include './config/database.php';
 						$url = htmlspecialchars($_SERVER['REQUEST_URI']);
 						try
@@ -1771,11 +1780,12 @@ include 'config/database.php';
 								if (isset($username))
 								{
 									if ($user_name == $username)
-										echo '<h2 style="text-align: center;">My Gallery</h2><br>';
+										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">My Gallery</h2></div>';	//echo '<h2 style="text-align: center;">My Gallery</h2><br><div>';
 								}
 								else 
-									echo '<h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2><br>';
+									echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2></div>'; //echo '<h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2><br>';
 								// Images per page
+								echo '<div class="gallery_grid" id="gallery_panel1">';
 								for ($i = 0; $i < sizeof($image) ; $i++) 
 								{ 
 									$img = $image[$i]['content'];
@@ -1791,10 +1801,10 @@ include 'config/database.php';
 									$likes = $stmt->fetchAll();
 									$no_likes = sizeof($likes);
 									echo '
-									<td>
+									<div>
 										<img src="data:image/png;base64,' . $img . '" />';
 										if (!isset($_SESSION['loggedin'])) 
-											echo '<button class="galbut"> Like | '. $no_likes .' </button>';
+											echo '<button class="gallery_buttons"> Like | '. $no_likes .' </button>';
 									if (isset($_SESSION['loggedin']) === true)
 									{
 										if (isset($_SESSION['loggedin']) === true && ($username == $user_name))
@@ -1803,7 +1813,7 @@ include 'config/database.php';
 											<form action="php/delete_image.php" id="delete_imageform'.$img_id.'" method="POST">
 											<input type="hidden" name="image_id" value="' . $img_id . '"> 
 											<input type="hidden" name="image_user" value="' . $img_user . '">
-												<button type="submit">Delete</button>
+												<button class="gallery_buttons" type="submit">Delete</button>
 											</form>';
 										}
 										echo '<div>';
@@ -1812,7 +1822,7 @@ include 'config/database.php';
 											<input type="hidden" name="url" value="' . $url . '"> 
 											<input type="hidden" name="image_id" value="' . $img_id . '"> 
 											<input type="hidden" name="liked_by" value="' . $user_id . '">
-												<button type="submit">Like | '. $no_likes .' </button>
+												<button class="gallery_buttons" type="submit">Like | '. $no_likes .' </button>
 											</form>';
 										echo '</div>';
 										echo '<hr>';
@@ -1821,17 +1831,17 @@ include 'config/database.php';
 												<input type="hidden" name="url" value="' . $url . '"> 
 												<input type="hidden" name="image_id" value="' . $img_id . '"> 
 												<input type="hidden" name="image_user" value="' . $img_user . '">
-												<h4>Comment</h4>
+												<h4>Add A Comment</h4>
 												<textarea style="width: 100%; height: 65px;" name="commet_txt" form="commentform'.$img_id.'"></textarea>
 												<br>
-													<input type="submit">
+												<button class="gallery_buttons" type="submit"> Submit </button>
 											</form>
 											';
 											echo '<hr>';
 									}
 									echo '
 										<br>
-										<button class="galbut"> Comments </button>
+										<h3> Comments </h3>
 										<table id="commentstab">';
 																		
 									for ($j=0; $j < sizeof($comments); $j++) 
@@ -1856,9 +1866,9 @@ include 'config/database.php';
 									}
 									echo '
 										</table>
-										';
+										</div>';
 								}
-								echo "<br>";
+								echo '</div><div class="gallery_grid" id="gallery_panelbottom">';
 								// Pages Links
 								// index.php?activepage=gallery&user_name=
 								// http://127.0.0.1:8080/camagru/activepage=gallery&user_name=nelly&page=2
@@ -1867,7 +1877,7 @@ include 'config/database.php';
 									echo '<a id="page'.$page.'" class="pagenum" href="index.php?activepage=gallery&user_name=' . $user_name .'&page=' . $page . '">' . $page . '</a> ';
 									echo '<script> document.getElementById("page'.$page.'").classList.remove("active_pagenum"); </script>';
 								}
-								echo '<div style="height: 35px;"></div>';
+								echo '</div>';
 							}
 						}
 						catch(PDOException $e)
