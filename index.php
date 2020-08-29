@@ -54,14 +54,14 @@ include 'config/database.php';
 			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">Gallery</a>
 		</div>
 		<div class="nav_div">
-			<form action="index.php?activepage=gallery" method="get" style="display:flex">
-				<a type="submit" onclick="SearchForUsername(document.getElementById('navSearch').value)"><img src="./assets/search.svg" style="height: 40px;padding: 8px;"></a>
+			<form action="index.php?activepage=gallery" method="get" style="display:flex; flex-direction: row-reverse;">
 				<!-- /activepage=gallery&user_name=nelly&page=1 -->
 				<input type="hidden" name="activepage" value="gallery"> 
 				<div class="input-field" id="input-field-search">
 					<input class="underline-effect" id="navSearch" style="background: none;" type="text" placeholder="Search Username" name="user_name" required>
 					<span class="focus-border"></span>				
-				</div>				
+				</div>	
+				<button id="searchbutton" type="submit" onclick="SearchForUsername(document.getElementById('navSearch').value)"><img src="./assets/search.svg" style="height: 40px;padding: 8px;"></button>			
 			</form>
 			<a href="php/logout.php">Sign Out</a>
 			<a onclick="modifyPreferencesSelectModal()">Preferences</a>
@@ -1780,7 +1780,7 @@ include 'config/database.php';
 								$url = htmlspecialchars(strchr($_SERVER['REQUEST_URI'], "index.php?activepage=gallery"));
 								if (isset($username))
 								{
-									if ($user_name == $username)
+									if (strtoupper($user_name) == strtoupper($_SESSION['username']) )
 										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">My Gallery</h2></div>';
 									else
 										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">' .$user_name . '\'s Gallery</h2></div>';

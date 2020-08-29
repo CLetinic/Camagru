@@ -768,4 +768,26 @@ input:focus {
 	flex-direction: unset;
     margin-bottom: 5px;
 }
+
+#searchbutton 
+{
+	color: var(--tertiary);
+    text-align: center;
+    text-decoration: none;
+    height: inherit;
+    margin: 0px 5px;
+    display: flex;
+    align-items: center;
+	transition-duration: 0.4s;
+	outline: none;
+}
+
+#searchbutton:active 
+{
+	outline: none;	
+}
+#searchbutton:focus
+{
+	outline: none;	
+}
 /* ______________________________________________ */
