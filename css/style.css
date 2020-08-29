@@ -756,5 +756,16 @@ input:focus {
 	color: var(--tertiary);
 }
 
+#navSearch {
+	background-color: transparent;
+	color: var(--tertiary)!important;
+	border-bottom: 1px solid var(--tertiary);
+}
 
+#input-field-search {
+	display: flex;
+	position: relative;
+	flex-direction: unset;
+    margin-bottom: 5px;
+}
 /* ______________________________________________ */

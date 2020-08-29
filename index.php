@@ -29,6 +29,7 @@ include 'config/database.php';
 	<link href='https://fonts.googleapis.com/css?family=Atma' rel='stylesheet'>
 	<!-- <script type="text/javascript" src="Scripts/WebComponents/Modal.js"></script> -->
 	<script type="text/javascript" src="./javascript/modal.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -50,15 +51,24 @@ include 'config/database.php';
 		<div class="nav_div">
 			<a class="nav_button active" id="home" href="index.php?activepage=home">Home</a>
 			<a class="nav_button" id="photo_booth" href="index.php?activepage=photobooth">Photo Booth</a>
-			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">My Gallery</a>
+			<a class="nav_button" id="gallery" href="index.php?activepage=gallery">Gallery</a>
 		</div>
 		<div class="nav_div">
-			<!-- <a class="nav_button" id="search" href="index.php?activepage=search">Search</a> -->
+			<form action="index.php?activepage=gallery" method="get" style="display:flex">
+				<a type="submit" onclick="SearchForUsername(document.getElementById('navSearch').value)"><img src="./assets/search.svg" style="height: 40px;padding: 8px;"></a>
+				<!-- /activepage=gallery&user_name=nelly&page=1 -->
+				<input type="hidden" name="activepage" value="gallery"> 
+				<div class="input-field" id="input-field-search">
+					<input class="underline-effect" id="navSearch" style="background: none;" type="text" placeholder="Search Username" name="user_name" required>
+					<span class="focus-border"></span>				
+				</div>				
+			</form>
 			<a href="php/logout.php">Sign Out</a>
 			<a onclick="modifyPreferencesSelectModal()">Preferences</a>
 		</div>
 		<?php endif;?>
 	</nav>
+
 	<!-- PAGES -->
 	<main id="pages">
 	
@@ -1699,15 +1709,6 @@ include 'config/database.php';
 		<!-- GALLERY -->
 		<div id="gallery_page" class="page">
 			<div id="gallerygrid">
-				<!-- <div class="gallery_grid" id="gallery_paneltop">
-					<h2 style="text-align: center;">Photobooth</h2>
-				</div>
-				<div class="gallery_grid" id="gallery_panel1">
-					<h2 style="text-align: center;">Photobooth</h2>
-				</div>
-				<div class="gallery_grid" id="gallery_panelbottom">
-					<h2 style="text-align: center;">Photobooth</h2>
-				</div> -->
 				<?php
 						include './config/database.php';
 						$url = htmlspecialchars($_SERVER['REQUEST_URI']);
@@ -1780,10 +1781,12 @@ include 'config/database.php';
 								if (isset($username))
 								{
 									if ($user_name == $username)
-										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">My Gallery</h2></div>';	//echo '<h2 style="text-align: center;">My Gallery</h2><br><div>';
+										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">My Gallery</h2></div>';
+									else
+										echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">' .$user_name . '\'s Gallery</h2></div>';
 								}
 								else 
-									echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2></div>'; //echo '<h2 style="text-align: center;">' . ucfirst($user_name) . "'s" . ' Gallery</h2><br>';
+									echo '<div class="gallery_grid" id="gallery_paneltop"><h2 style="text-align: center;">Non Existant Gallery</h2></div>';
 								// Images per page
 								echo '<div class="gallery_grid" id="gallery_panel1">';
 								for ($i = 0; $i < sizeof($image) ; $i++) 
@@ -1890,12 +1893,12 @@ include 'config/database.php';
 		</div>
 
 		<!-- SEARCH -->
-		<div id="search_page" class="page">
+		<!-- <div id="search_page" class="page">
 			<form class="seach_box" action="php/search.php" method="POST">
 				<input type="text" placeholder="Search.." name="search_box">
 				<button type="submit">Search</button>
 			</form>
-		</div>
+		</div> -->
 
 		<!-- SCRIPT TO HANDLE NAVIGATION -->
 		<script>
