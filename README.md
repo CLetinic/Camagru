@@ -43,8 +43,13 @@ Locate and run the executable file
 
 ![Server](./misc/images/MAMP/MAMPEXE.png)
 
-Start the server 
+Configure Server port  
+> NOTE - by default the server is set to port 80 we need to change it to 8080  
 
+![Server](./misc/images/MAMP/MAMP4.png)
+![Server](./misc/images/MAMP/MAMP5.png)
+
+Start the server
 ![Server](./misc/images/MAMP/MAMP3.png)
 
 Browse to site location
